@@ -684,14 +684,16 @@ section {
 # Services
 --------------------------------------------------------------*/
 .services .icon-box {
-    padding: 30px;
-    position: relative;
-    overflow: hidden;
-    background: #fff;
-    box-shadow: 0 0 29px 0 rgba(68, 88, 144, 0.12);
-    transition: all 0.3s ease-in-out;
-    border-radius: 8px;
-    z-index: 1;
+  padding: 30px;
+  padding-bottom: 50px;
+  position: static;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 0 29px 0 rgba(68, 88, 144, 0.12);
+  transition: all 0.3s ease-in-out;
+  border-radius: 8px;
+  z-index: 1;
+
 }
 
 .services .icon-box::before {
@@ -1125,6 +1127,7 @@ section {
 }
 
 .team .member .member-info {
+<<<<<<< HEAD
     position: absolute;
     top: 85%;
     left: 20px;
@@ -1136,6 +1139,19 @@ section {
     max-height: 95px;
     overflow: hidden;
     transition: max-height 0.5s ease-in-out;
+=======
+  position: absolute;
+  top: 85%;
+  left: 20px;
+  right: 20px;
+  background: #fff;
+  padding: 20px 0;
+  color: #2f4d5a;
+  box-shadow: 0px 2px 15px rga(0, 0, 0, 0.1);
+  max-height: 95px;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out;
+>>>>>>> 28b802ef00a811f18a4890e49e75be2c364c59a1
 }
 
 .team .member:hover .member-info {
