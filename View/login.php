@@ -15,8 +15,8 @@
 			<div class="login-form">
 				<div class="sign-in-htm">
 					<div class="group">
-						<label for="user" class="label">Username</label>
-						<input id="user" type="text" class="input" placeholder="Type your username here">
+						<label for="user" class="label">Member ID</label>
+						<input id="user" type="text" class="input" placeholder="Type your member id here">
 					</div>
 					<div class="group">
 						<label for="pass" class="label">Password</label>
@@ -36,8 +36,8 @@
 				</div>
 				<div class="sign-up-htm">
 					<div class="group">
-						<label for="user" class="label">Username</label>
-						<input id="user" type="text" class="input" placeholder="Type your username here">
+						<label for="user" class="label">Member ID</label>
+						<input id="user" type="text" class="input" placeholder="12 to 20 characters">
 					</div>
 					<div class="group">
 						<label for="name" class="label">Name</label>
@@ -45,7 +45,7 @@
 					</div>
 					<div class="group">
 						<label for="pass" class="label">Password</label>
-						<input id="pass" type="password" class="input" data-type="password" placeholder="Password">
+						<input id="pass" type="password" class="input" data-type="password" placeholder="8 to 16 characters">
 					</div>
 					<div class="group">
 						<label for="pass" class="label">Email Address</label>
