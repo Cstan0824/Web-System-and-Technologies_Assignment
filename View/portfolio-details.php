@@ -119,7 +119,7 @@
                 <li><strong>Movie Details</strong>Scent of a Woman is a 1992 American drama film produced and directed by Martin Brest that tells the story of a preparatory school student who takes a job as an assistant to an irritable, blind, medically retired Army lieutenant colonel. The film is a remake of Dino Risi's 1974 Italian film Profumo di donna, adapted by Bo Goldman from the novel Il buio e il miele (Italian: Darkness and Honey) by Giovanni Arpino. The film stars Al Pacino and Chris O'Donnell, with James Rebhorn, Philip Seymour Hoffman (credited as Philip S. Hoffman), Gabrielle Anwar, and Bradley Whitford in supporting roles.</li>
               </ul>
             </div>
-            <button class="button-19" role="button"><a class="nav-link scrollto" href="booking-form.html">Booking</a></button>
+            <button class="button-19" role="button"><a class="nav-link scrollto" href="booking-form.php">Booking</a></button>
           </div>
 
         </div>
