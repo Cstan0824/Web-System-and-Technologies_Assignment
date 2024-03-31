@@ -2,45 +2,17 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>Inner Page - Squadfree Bootstrap Template</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-    <link href="../Css/assets/css/profile-style.css" rel="stylesheet" />
-  
+    <meta charset="utf-8">
+    <title>Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="profile-style.css" rel="stylesheet" />
 </head>
 
 <body>
-    <?php 
-    include('link.php');
-    include('other-header.php');
-    ?>
 
-
-  <main id="main">
-
-    <!-- ======= Breadcrumbs Section ======= -->
-    <section class="breadcrumbs">
-      <div class="container">
-
-        <div class="d-flex justify-content-between align-items-center">
-          <h2>Profile</h2>
-          <ol>
-            <li><a href="index.html">Home</a></li>
-            <li>Profile</li>
-          </ol>
-        </div>
-
-      </div>
-    </section><!-- End Breadcrumbs Section -->
-
-    <section class="inner-page">
-      <div class="container">
-        
-
-      <div class="container bootstrap snippets bootdey">
+    <div class="container">
         <div class="row">
             <div class="profile-nav col-md-3">
                 <div class="panel">
@@ -105,22 +77,13 @@
                 </div>
             </div>
         </div>
-
-
-      
-      </div>
-    </section>
-
-  </main><!-- End #main -->
-
- <?php include('footer.php'); ?>
-
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    </div>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
 
-
+    </script>
 </body>
 
 </html>
