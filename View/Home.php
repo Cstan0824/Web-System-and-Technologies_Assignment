@@ -39,7 +39,7 @@
 </head>
 
 <body>
- <?php $addHeaderClass = "header-transparent"; ?>
+<?php $addHeaderClass = "header-transparent"; ?>
 	<?php include('header.php'); ?>
 	<?php include('../Root/link.php'); ?>
 
