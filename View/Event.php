@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Events</title>
     <?php include("../Root/link.php") ?>
     <style>
         body {
@@ -50,244 +50,247 @@
             height: 50px;
         }
 
-        .search table tr td.rate {
-            color: #f39c12;
-            line-height: 50px;
+        td {
+            vertical-align: middle;
+
         }
 
-        .search table tr td.price {
-            font-size: 1.5em;
-            line-height: 50px;
+        input[type="search"]:focus {
+            box-shadow: none;
+            border: 1px solid #DEE2E6;
         }
 
-        .search #price1,
-        .search #price2 {
-            display: inline;
-            font-weight: 600;
+        .searchBox {
+            position: relative;
+            width: 100%;
+        }
+
+        .searchBox .searchResult {
+            position: sticky;
+            top: 0;
+            left: 0;
         }
     </style>
 
 </head>
+<script>
+
+</script>
 
 <body>
+    <?php
+        $display = isset($_GET['display']) ? $_GET['display'] : "table";
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+    $numberOfResults = 12;
+    $pageCount = $numberOfResults / 6;
+    ?>
     <?php include("header.php") ?>
-    <main id="main">
+    <main id="main" class="pt-4">
         <div class="container">
             <div class="row">
-                <!-- BEGIN SEARCH RESULT -->
-                <div class="col-md-12">
+                <!-- BEGIN SEARCH FILTER -->
+                <div class="col-md-3">
                     <div class="grid search">
                         <div class="grid-body">
                             <div class="row">
                                 <!-- BEGIN FILTERS -->
-                                <div class="col-md-3">
+                                <div class="col-md">
                                     <h2 class="grid-title"><i class="fa fa-filter"></i> Filters</h2>
-                                    <hr>
+                                    <hr />
 
                                     <!-- BEGIN FILTER BY CATEGORY -->
-                                    <h4>By category:</h4>
+                                    <h4><strong>Category</strong></h4>
                                     <div class="checkbox">
-                                        <label><input type="checkbox" class="icheck">Famous Actor Meeting</label>
+                                        <label><input type="checkbox" class="icheck" checked> Actor
+                                            Meeting</label>
                                     </div>
                                     <div class="checkbox">
-                                        <label><input type="checkbox" class="icheck">Movie Review Sharing
+                                        <label><input type="checkbox" class="icheck" checked> Sharing
                                             Session</label>
                                     </div>
                                     <div class="checkbox">
-                                        <label><input type="checkbox" class="icheck">Movie Premiere</label>
+                                        <label><input type="checkbox" class="icheck" checked> Movie Premiere</label>
                                     </div>
                                     <!-- END FILTER BY CATEGORY -->
-
-                                    <div class="padding"></div>
-
+                                    <br />
+                                    <br />
                                     <!-- BEGIN FILTER BY DATE -->
-                                    <h4>By date:</h4>
-                                    From
-                                    <div class="input-group date form_date" data-date="2014-06-14T05:25:07Z"
-                                        data-date-format="dd-mm-yyyy" data-link-field="dtp_input1">
-                                        <input type="text" class="form-control">
-                                        <span class="input-group-addon bg-blue"><i class="fa fa-th"></i></span>
+                                    <h4><strong>Date</strong></h4>
+                                    <div class="input-group mt-3">
+                                        <span class="input-group-text">From</span>
+                                        <input type="date" class="form-control">
                                     </div>
-                                    <input type="hidden" id="dtp_input1" value="">
 
-                                    To
-                                    <div class="input-group date form_date" data-date="2014-06-14T05:25:07Z"
-                                        data-date-format="dd-mm-yyyy" data-link-field="dtp_input2">
-                                        <input type="text" class="form-control">
-                                        <span class="input-group-addon bg-blue"><i class="fa fa-th"></i></span>
+                                    <div class="input-group mt-3">
+                                        <span class="input-group-text">To&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                        <input type="date" class="form-control">
                                     </div>
-                                    <input type="hidden" id="dtp_input2" value="">
                                     <!-- END FILTER BY DATE -->
-                                    <div class="padding"></div>
+                                    <br />
+                                    <br />
+                                    <!-- BEGIN FILTER BY OTHERS -->
+                                    <h4><strong>OTHERS</strong></h4>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="radio1" name="optradio"
+                                            value="option1" checked>Most Recent
+                                        <label class="form-check-label" for="radio1"></label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="radio2" name="optradio"
+                                            value="option2">Most Liked
+                                        <label class="form-check-label" for="radio2"></label>
+                                    </div>
+                                    <!-- END FILTER BY OTHERS -->
                                 </div>
                                 <!-- END FILTERS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END SEARCH FILTER -->
+
+                <!-- BEGIN SEARCH RESULT -->
+                <div class="col-md-9">
+                    <div class="grid search">
+                        <div class="grid-body">
+                            <div class="row">
                                 <!-- BEGIN RESULT -->
-                                <div class="col-md-9">
+                                <div class="col-md">
                                     <h2><i class="fa-solid fa-book"></i> Result</h2>
                                     <hr>
                                     <!-- BEGIN SEARCH INPUT -->
-                                    <div class="input-group">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-lg btn-primary" type="button"><i
-                                                    class="fa fa-search"></i>
-                                            </button>
-                                        </span>
-                                        <input type="search" class="form-control input-lg" value="web development">
-                                    </div>
+                                    <form action="" method="post" class="searchBox">
+                                        <div class="input-group">
+
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-lg"
+                                                    style="border:1px solid #DEE2E6; border-right:none; border-bottom:none; border-top-right-radius:0px; border-bottom-left-radius:0px;  border-bottom-right-radius:0px; height: 100%;"
+                                                    type="submit"><i class="fa fa-search"></i></button>
+                                            </span>
+                                            <input type="search" class="form-control input-lg"
+                                                style="border-left:none; border-bottom:none; border-bottom-right-radius:0px;"
+                                                data-bs-toggle="dropdown" placeholder="Search Here..." minlength="1"
+                                                maxlength="100">
+                                        </div>
+                                        <div class="search-result">
+                                            <ul class="list-group w-100"
+                                                style="border:1px solid #DEE2E6; border-top:none; border-top-right-radius:0px; border-top-left-radius:0px;">
+                                                <li class="list-group-item" style="border:none;">First item</li>
+                                                <li class="list-group-item" style="border:none;">Second item</li>
+                                                <li class="list-group-item" style="border:none;">Third item</li>
+                                            </ul>
+                                        </div>
+                                    </form>
                                     <!-- END SEARCH INPUT -->
-                                    <p>Showing all results matching "web development"</p>
-
-                                    <div class="padding"></div>
-
+                                    <p style="text-align:right;">Showing all results matching
+                                        "<?php echo "web development"; ?>"
+                                    </p>
+                                    <!-- BEGIN DISPLAY MODE -->
                                     <div class="row">
-                                        <!-- BEGIN ORDER RESULT -->
-                                        <div class="col-sm-6">
+                                        <div class="col-md text-left">
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-default dropdown-toggle"
-                                                    data-toggle="dropdown">
-                                                    Order by <span class="caret"></span>
-                                                </button>
-                                                <ul class="dropdown-menu" role="menu">
-                                                    <li><a href="#">Name</a></li>
-                                                    <li><a href="#">Date</a></li>
-                                                    <li><a href="#">View</a></li>
-                                                    <li><a href="#">Rating</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <!-- END ORDER RESULT -->
-
-                                        <div class="col-md-6 text-right">
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-default active"><i
-                                                        class="fa fa-list"></i></button>
-                                                <button type="button" class="btn btn-default"><i
-                                                        class="fa fa-th"></i></button>
+                                                <a id="tableMode"
+                                                    href="?display=table&page=<?php echo $page ?>"
+                                                    class="btn btn-outline-info display-mode"><i
+                                                        class="fa fa-list"></i></a>
+                                                <a id="cardMode"
+                                                    href="?display=card&page=<?php echo $page ?>"
+                                                    class="btn btn-outline-info display-mode"><i
+                                                        class="fa fa-th"></i></a>
                                             </div>
                                         </div>
                                     </div>
-
+                                    <!--END DISPLAY MODE -->
+                                    <br />
+                                    <?php if($display == "table"): ?>
                                     <!-- BEGIN TABLE RESULT -->
-                                    <div class="table-responsive">
+                                    <div class="table-responsive" data-aos="fade-up">
                                         <table class="table table-hover">
                                             <tbody>
-                                                <tr>
-                                                    <td class="number text-center">1</td>
+                                                <?php for($i = 1;$i <= 6;$i++): ?>
+                                                <tr title="Click for more!" data-bs-toggle="popover"
+                                                    data-bs-trigger="hover"
+                                                    data-bs-content="This is the event description."
+                                                    data-bs-placement="top">
+                                                    <td class="number text-center">
+                                                        <?php echo $i ?>
+                                                    </td>
                                                     <td class="image"><img
                                                             src="https://www.bootdey.com/image/400x300/FF8C00" alt="">
                                                     </td>
-                                                    <td class="event"><strong>Event</strong><br>This is the
-                                                        event description.</td>
+                                                    <td class="event"><strong>Event</strong><br></td>
                                                     <td class="rate text-right">
                                                         <span><i class="fa fa-star"></i><i class="fa fa-star"></i><i
                                                                 class="fa fa-star"></i><i class="fa fa-star"></i><i
                                                                 class="fa fa-star-half-o"></i></span>
                                                     </td>
-                                                    <td><strong>Category</strong><br />Movie Premiere</td>
-                                                    <td><strong>Location</strong><br />Kuala Lumpur, Setapak, TARUMT
-                                                    </td>
-                                                    <td><strong>Date</strong><br /><?php echo date("Y/m/d"); ?>
+                                                    <td>Movie Premiere</td>
+                                                    <td><?php echo date("Y/m/d"); ?>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="number text-center">2</td>
-                                                    <td class="image"><img
-                                                            src="https://www.bootdey.com/image/400x300/FF8C00" alt="">
-                                                    </td>
-                                                    <td class="event"><strong>Event</strong><br>This is the
-                                                        event description.</td>
-                                                    <td class="rate text-right"><span><i class="fa fa-star"></i><i
-                                                                class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                                class="fa fa-star"></i><i
-                                                                class="fa fa-star-half-o"></i></span></td>
-                                                    <td><strong>Category</strong><br />Movie Premiere</td>
-                                                    <td><strong>Location</strong><br />Kuala Lumpur, Setapak, TARUMT
-                                                    </td>
-                                                    <td><strong>Date</strong><br /><?php echo date("Y/m/d"); ?>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="number text-center">3</td>
-                                                    <td class="image"><img
-                                                            src="https://www.bootdey.com/image/400x300/FF8C00" alt="">
-                                                    </td>
-                                                    <td class="event"><strong>Event</strong><br>This is the
-                                                        event description.</td>
-                                                    <td class="rate text-right"><span><i class="fa fa-star"></i><i
-                                                                class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                                class="fa fa-star"></i><i
-                                                                class="fa fa-star-half-o"></i></span></td>
-                                                    <td><strong>Category</strong><br />Movie Premiere</td>
-                                                    <td><strong>Location</strong><br />Kuala Lumpur, Setapak, TARUMT
-                                                    </td>
-                                                    <td><strong>Date</strong><br /><?php echo date("Y/m/d"); ?>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="number text-center">4</td>
-                                                    <td class="image"><img
-                                                            src="https://www.bootdey.com/image/400x300/FF8C00" alt="">
-                                                    </td>
-                                                    <td class="event"><strong>Event</strong><br>This is the
-                                                        event description.</td>
-                                                    <td class="rate text-right"><span><i class="fa fa-star"></i><i
-                                                                class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                                class="fa fa-star"></i><i
-                                                                class="fa fa-star-half-o"></i></span></td>
-                                                    <td><strong>Category</strong><br />Movie Premiere</td>
-                                                    <td><strong>Location</strong><br />Kuala Lumpur, Setapak, TARUMT
-                                                    </td>
-                                                    <td><strong>Date</strong><br /><?php echo date("Y/m/d"); ?>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="number text-center">5</td>
-                                                    <td class="image"><img
-                                                            src="https://www.bootdey.com/image/400x300/FF8C00" alt="">
-                                                    </td>
-                                                    <td class="event"><strong>Event</strong><br>This is the
-                                                        event description.</td>
-                                                    <td class="rate text-right"><span><i class="fa fa-star"></i><i
-                                                                class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                                class="fa fa-star"></i><i
-                                                                class="fa fa-star-half-o"></i></span></td>
-                                                    <td><strong>Category</strong><br />Movie Premiere</td>
-                                                    <td><strong>Location</strong><br />Kuala Lumpur, Setapak, TARUMT
-                                                    </td>
-                                                    <td><strong>Date</strong><br /><?php echo date("Y/m/d"); ?>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="number text-center">6</td>
-                                                    <td class="image"><img
-                                                            src="https://www.bootdey.com/image/400x300/FF8C00" alt="">
-                                                    </td>
-                                                    <td class="event"><strong>Event</strong><br>This is the
-                                                        event description.</td>
-                                                    <td class="rate text-right"><span><i class="fa fa-star"></i><i
-                                                                class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                                class="fa fa-star"></i><i
-                                                                class="fa fa-star-half-o"></i></span>
-                                                    </td>
-                                                    <td><strong>Category</strong><br />Movie Premiere</td>
-                                                    <td><strong>Location</strong><br />Kuala Lumpur, Setapak, TARUMT
-                                                    </td>
-                                                    <td><strong>Date</strong><br /><?php echo date("Y/m/d"); ?>
-                                                    </td>
-                                                </tr>
+                                                <?php endfor ?>
                                             </tbody>
+                                            <thead>
+                                                <tr>
+                                                    <th class="number text-center"></th>
+                                                    <th class="image"></th>
+                                                    <th class="event"><a href="?OrderBy=event">Event</a></th>
+                                                    <th class="rate text-right"><a href="?OrderBy=rating">Rating</a>
+                                                    </th>
+                                                    <th><a href="?orderBy=category">Category</a></th>
+                                                    <th><a href="?orderBy=date">Date</a></th>
+                                                </tr>
+                                            </thead>
                                         </table>
                                     </div>
                                     <!-- END TABLE RESULT -->
-
+                                    <?php else: ?>
+                                    <!-- BEGIN PORTFOLIO RESULT -->
+                                    <div class="row portfolio" data-aos="fade-up">
+                                        <?php for($i = 1;$i <= 6;$i++): ?>
+                                        <div class="col-sm-6 portfolio-item filter-web mb-3">
+                                            <div class="portfolio-wrap">
+                                                <img src="../Css/assets/img/portfolio/portfolio-2.jpg" class="img-fluid"
+                                                    alt="">
+                                                <div class="portfolio-links">
+                                                    <a href="../Css/assets/img/portfolio/portfolio-2.jpg"
+                                                        data-gallery="portfolioGallery" class="portfolio-lightbox"
+                                                        title="Scent OF A Woman"><i class="bx bx-plus"></i></a>
+                                                    <a href="event_details.php" title="More Details"><i
+                                                            class="bx bx-link"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php endfor ?>
+                                    </div>
+                                    <!-- END PORTFOLIO RESULT -->
+                                    <?php endif ?>
                                     <!-- BEGIN PAGINATION -->
                                     <ul class="pagination">
-                                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                        <li class="page-item">
+                                            <a id="prevPage" class="page-link"
+                                                <?php echo "href='?display=$display&page=" . (($page - 1) > 0 ? ($page - 1) : 1) . "'" ?>>
+                                                Previous
+                                            </a>
+                                        </li>
+
+                                        <?php for ($i = 1; $i <= $pageCount; $i++): ?>
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                                <?php echo "href='?display=$display&page=$i'" ?>>
+                                                <?php echo $i ?>
+                                            </a>
+                                        </li>
+                                        <?php endfor ?>
+
+                                        <li class="page-item">
+                                            <a id="nextPage" class="page-link"
+                                                <?php echo "href='?display=$display&page=" . (($page + 1) <= $pageCount ? ($page + 1) : $pageCount) . "'" ?>>
+                                                Next
+                                            </a>
+                                        </li>
                                     </ul>
+
                                     <!-- END PAGINATION -->
                                 </div>
                                 <!-- END RESULT -->
@@ -299,6 +302,54 @@
             </div>
         </div>
     </main>
+    <script defer>
+        document.addEventListener("DOMContentLoaded", function() {
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
+                return new bootstrap.Popover(popoverTriggerEl);
+            });
+
+            var tableMode = document.getElementById("tableMode");
+            var cardMode = document.getElementById("cardMode");
+            var urlParams = new URLSearchParams(window.location.search);
+            var displayMode = urlParams.get('display');
+
+            tableMode.classList.remove("active");
+            cardMode.classList.remove("active");
+            switch (displayMode) {
+                case "card":
+                    cardMode.classList.add("active");
+                    break;
+                case "table":
+                default:
+                    tableMode.classList.add("active");
+                    break;
+
+            }
+
+
+            var prevPage = document.getElementById("prevPage");
+            var nextPage = document.getElementById("nextPage");
+            var urlParams = new URLSearchParams(window.location.search);
+            var page = urlParams.get('page');
+
+            prevPage.classList.remove("disabled");
+            nextPage.classList.remove("disabled");
+
+            switch (page) {
+                case page == <?php echo $pageCount ?> :
+
+                    nextPage.classList.add("disabled");
+                    break;
+                case page == 1:
+
+                    prevPage.classList.add("disabled");
+                    break;
+                default:
+                    break;
+            }
+        });
+    </script>
 </body>
 
 </html>
