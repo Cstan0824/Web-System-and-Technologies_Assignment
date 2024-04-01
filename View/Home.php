@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-<<<<<<< Updated upstream
 	<meta charset="utf-8">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 
@@ -59,23 +58,9 @@
   <!-- Template Main CSS File -->
   <link href="../Css/assets/css/style.css" rel="stylesheet">
 
-  <!-- =======================================================
->>>>>>> Stashed changes
-  * Template Name: Squadfree
-  * Updated: Jan 29 2024 with Bootstrap v5.3.2
-  * Template URL: https://bootstrapmade.com/squadfree-free-bootstrap-template-creative/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body>
-<<<<<<< HEAD
-<?php $addHeaderClass = "header-transparent"; ?>
-=======
-<<<<<<< Updated upstream
- <?php $addHeaderClass = "header-transparent"; ?>
->>>>>>> 88c530ba285e0902bba689bbfe1c5667a8cd0179
 	<?php include('header.php'); ?>
 	<?php include('../Root/link.php'); ?>
 
