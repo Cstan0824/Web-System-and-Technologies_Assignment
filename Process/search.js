@@ -4,13 +4,9 @@ function ShowResult(str) {
         document.getElementById("events").innerHTML = this.responseText;
     };
     xmlhttp.onreadystatechange = () => {
-        document.getElementById("events").innerHTML = this.responseText;
-    };
-    xmlhttp.onreadystatechange = () => {
-        document.getElementById("events").innerHTML =
-            xmlhttp.readyState === 4 && xmlhttp.status === 200
-                ? this.responseText
-                : this.statusText;
+        if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+             document.getElementById("events").innerHTML = this.responseText;
+        }
     };
     xmlhttp.open(
         "POST",

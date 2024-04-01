@@ -1,5 +1,5 @@
 <?php
-include("../config.php");
+include("../connect-db.php");
 if($_POST["RTSearch_verify"] && !empty($_POST["RealTimeSearch"])) {
     $RTSearch = strtolower($_POST["RealTimeSearch"]);
     $sql = "SELECT  LOWER(*) FROM Movie_Event_Table WHERE Event_keyword_name LIKE %$RTSearch% OR Event_name='$RTSearch'";
