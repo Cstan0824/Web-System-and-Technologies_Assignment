@@ -1,16 +1,16 @@
 function ShowResult(str) {
     const xmlhttp = new XMLHttpRequest();
-    xmlhttp.onload = () => {
-        document.getElementById("events").innerHTML = this.responseText;
-    };
     xmlhttp.onreadystatechange = () => {
         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-             document.getElementById("events").innerHTML = this.responseText;
+            document.getElementById("events").innerHTML = this.responseText;
+            console.log(this.responseText);
         }
     };
     xmlhttp.open(
-        "POST",
-        "search_Process.php?RealTimeSearch=" + str + "&RTSearch_verify=true",
+        "GET",
+        "../Process/search_Process.php?RealTimeSearch=" +
+            str +
+            "&RTSearch_verify=true",
         true
     );
     xmlhttp.send();

@@ -1,5 +1,5 @@
 <!-- ======= Header ======= -->
-<header id="header" class="fixed-top <?php echo isset($addHeaderClass) ? $addHeaderClass : ''; ?>">
+<header id="header" class="fixed-top <?php echo (strpos($_SERVER["REQUEST_URI"], "home.php")) ? "header-transparent" : "";?>">
     <div class="container d-flex align-items-center justify-content-between position-relative">
 
       <div class="logo">
@@ -22,3 +22,4 @@
 
     </div>
   </header><!-- End Header -->
+
