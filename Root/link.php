@@ -36,3 +36,5 @@
   <!-- Template Main JS File -->
   <script src="../Css/assets/js/main.js" defer></script>
 
+  <!-- Font awesome -->
+  <script src="https://kit.fontawesome.com/1749d1b496.js" crossorigin="anonymous"></script>
