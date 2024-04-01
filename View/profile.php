@@ -14,8 +14,8 @@
 
 <body>
     <?php 
-    include('link.php');
-    include('other-header.php');
+    include('../Root/link.php');
+    include('header.php');
     ?>
 
 

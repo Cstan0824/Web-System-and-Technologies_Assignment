@@ -28,8 +28,8 @@
 						<input id="pass" name="pass" type="password" class="input" data-type="password" placeholder="Password" required>
 					</div>
 					<div class="group">
-						<input id="check" type="checkbox" class="check" checked>
-						<label for="check"><span class="icon"></span> Keep me Signed in</label>
+						<input id="check" name="signedin" type="checkbox" class="check" checked>
+						<label for="check" name="signedin"><span class="icon"></span> Keep me Signed in</label>
 					</div>
 					<div class="group">
 						<input type="submit" class="button" value="Sign In">
