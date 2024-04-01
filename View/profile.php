@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Inner Page - Squadfree Bootstrap Template</title>
+  <title>Profile</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
     <link href="../Css/assets/css/profile-style.css" rel="stylesheet" />
@@ -40,18 +40,20 @@
       <div class="container">
         
 
-      <div class="container bootstrap snippets bootdey">
+      <div class="container">
         <div class="row">
             <div class="profile-nav col-md-3">
-                <div class="panel">
+                <div class="panel panel-default">
                     <div class="user-heading round">
                         <h1>Tan Choon Shen</h1>
                     </div>
-                    <ul class="nav nav-pills nav-stacked">
-                        <li class="active"><a href="#"> <i class="fa fa-user"></i> Profile</a></li>
-                        <li><a href="booking-history.php"> <i class="fa fa-calendar"></i> Booking History</a></li>
-                        <li><a href="edit-profile.php"> <i class="fa fa-edit"></i> Edit Profile</a></li>
-                    </ul>
+                    <div class="panel-body">
+                        <ul class="profilenav" style="list-style-type: none; padding-left: 0px;">
+                            <li><a href="#"><i class="fa fa-ticket"></i>Booking History</a></li>
+                            <li><a href="#"><i class="fa fa-edit"></i>Edit Profile</a></li>
+                            <li><a href="#"><i class="fa fa-sign-out"></i>Sign Out</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
@@ -62,12 +64,12 @@
                     </div>
                     <div class="panel-body bio-graph-info">
                         <h1>Member Profile</h1>
-                        <div class="row">
+                        <div class="">
                             <div class="bio-row">
-                                <p><span>Member ID </span>: Tan Choon Shen</p>
+                                <p><span>Member ID </span>: Cstan_0000</p>
                             </div>
                             <div class="bio-row">
-                                <p><span>Name </span>: Australia</p>
+                                <p><span>Name </span>: Tan Choon Shen</p>
                             </div>
                             <div class="bio-row">
                                 <p><span>Email</span>: example@mail.com</p>
@@ -79,17 +81,17 @@
                     </div>
                 </div>
                 <div>
+                    <br>
                     <h4>Upcoming Events</h4>
-                        
+                     <br>
+                   
+                
                     <div class="col-md-6">
                             <div class="panel">
                                 <div class="panel-body">
                                     <div class="bio-chart">
-                                        <div style="display:inline;width:100px;height:100px;"><canvas width="100"
-                                                height="100px"></canvas><input class="knob" data-width="100"
-                                                data-height="100" data-displayprevious="true" data-thickness=".2"
-                                                value="50" data-fgcolor="#cba4db" data-bgcolor="#e8e8e8"
-                                                style="width: 54px; height: 33px; position: absolute; vertical-align: middle; margin-top: 33px; margin-left: -77px; border: 0px; font-weight: bold; font-style: normal; font-variant: normal; font-stretch: normal; font-size: 20px; line-height: normal; font-family: Arial; text-align: center; color: rgb(203, 164, 219); padding: 0px; appearance: none; background: none;">
+                                        <div style="display:inline;width:100px;height:100px;">
+                                        <img class="upcoming-event-img" src="../Image/AI Aware.jpg" alt="pic">
                                         </div>
                                     </div>
                                     <div class="bio-desk">

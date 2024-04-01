@@ -152,7 +152,7 @@ body {
     width: 50%;
     float: left;
     margin-bottom: 10px;
-    padding:0 15px;
+    padding:0px;
 }
 
 .bio-row p span {
@@ -166,6 +166,11 @@ body {
 
 .bio-chart {
     width: 40%;
+}
+
+img.upcoming-event-img {
+    width: 100px;
+    height: 100px;
 }
 
 .bio-desk {
@@ -206,6 +211,10 @@ body {
 
 .summary-head p {
     color: rgba(255,255,255,0.6);
+}
+
+ul.profilenav{
+    border: 1px solid rgba(100, 100, 100, 0.342);
 }
 
 ul.summary-list {
