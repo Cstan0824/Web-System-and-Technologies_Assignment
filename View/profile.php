@@ -51,7 +51,7 @@
                                     <ul class="profilenav list-group" style="list-style-type: none; padding-left: 0px;">
                                         <a href="record.php" class="list-group-item list-group-item-action"><i
                                                 class="fa fa-ticket" style="color:#898B9B;"></i>&nbsp;&nbsp;Booking History</a>
-                                        <a href="#" class="list-group-item list-group-item-action"><i class="fa fa-edit"
+                                        <a href="edit_profile.php" class="list-group-item list-group-item-action"><i class="fa fa-edit"
                                                 style="color:#898B9B;"></i>&nbsp;&nbsp;Edit Profile</a>
 
                                     </ul>
