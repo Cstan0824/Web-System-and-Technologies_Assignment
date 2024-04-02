@@ -46,7 +46,8 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <h2>Edit Event</h2>
                     <ol>
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="Home.php">Home</a></li>
+                        <li><a href="Event.php">Event</a></li>
                         <li>Edit Event</li>
                     </ol>
                 </div>

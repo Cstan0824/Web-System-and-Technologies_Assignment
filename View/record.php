@@ -69,7 +69,7 @@
                             </div>
                             <div>
                                 <br>
-                                <h4>Upcoming Events</h4>
+                                <h4>Joined Event</h4>
                                 <br>
 
 
