@@ -13,11 +13,11 @@
                 <strong>Email:</strong> tarumtmoviesociety@gmail.com<br>
               </p>
               <div class="social-links mt-3">
-                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-                <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-                <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-                <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                <a href="https://twitter.com" target="_blank" class="twitter"><i class="bx bxl-twitter"></i></a>
+                <a href="https://www.facebook.com" target="_blank" class="facebook"><i class="bx bxl-facebook"></i></a>
+                <a href="https://www.instagram.com" target="_blank" class="instagram"><i class="bx bxl-instagram"></i></a>
+                <a href="https://www.skype.com" target="_blank" class="google-plus"><i class="bx bxl-skype"></i></a>
+                <a href="https://www.linkedin.com" target="_blank" class="linkedin"><i class="bx bxl-linkedin"></i></a>
               </div>
             </div>
           </div>
@@ -25,20 +25,20 @@
           <div class="col-lg-2 col-md-6 footer-links">
             <h4>Useful Links</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Activities</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Ticket</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="Event.php">Event</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="Home.php#services">Ticket</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="Home.php#portfolio">Join Us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="Home.php#team">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="Home.php#contact">Contact</a></li>
             </ul>
           </div>
 
           <div class="col-lg-2 col-md-6 footer-links">
             <h4>Our Activities</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Famous Actor Meeting</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Movie Review Sharing Session</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Movie Premiere</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="Home.php#services">Famous Actor Meeting</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="Home.php#services">Movie Review Sharing Session</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="Home.php#services">Movie Premiere</a></li>
             </ul>
           </div>
 

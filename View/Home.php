@@ -82,9 +82,8 @@
 
 				<div class="row" data-aos="fade-in">
 					<div class="col-lg-12 d-flex justify-content-center">
-						<ul id="portfolio-flters">
-							<li data-filter="*" class="filter-active" href="portfolio-details.html">All</li>
-						</ul>
+						<a href="Event.php" class="btn mb-3 px-4 py-2"
+							style="color: #2f4d5a;background-color: #67b0d1;">All</a>
 					</div>
 				</div>
 
