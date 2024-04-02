@@ -169,6 +169,7 @@ h6 {
 .navbar .active:focus,
 .navbar li:hover > a {
     background: rgba(255, 255, 255, 0.2);
+    
 }
 
 .navbar .dropdown ul {
@@ -182,7 +183,7 @@ h6 {
     opacity: 0;
     visibility: hidden;
     background: #fff;
-    box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+    box-shadow: 0px 0px 30px rgba(161, 127, 130, 0.25);
     transition: 0.3s;
 }
 
@@ -205,7 +206,7 @@ h6 {
 .navbar .dropdown ul a:hover,
 .navbar .dropdown ul .active:hover,
 .navbar .dropdown ul li:hover > a {
-    color: #67b0d1;
+    color: #163340;
 }
 
 .navbar .dropdown:hover > ul {
