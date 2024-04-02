@@ -46,7 +46,7 @@ if (isset($_POST['user']) && isset($_POST['name']) && isset($_POST['pass']) && i
         if (mysqli_query($connect_db, $sql)) {
             // Redirect to success page or display success message
             $_SESSION['success'] = "Registration successful";
-            header("Location: ../View/Home.php");
+            header("Location: ../View/login-signup.php");
             exit();
         } else {
             $_SESSION['error'] = "Error: " . $sql . "<br>" . mysqli_error($conn);

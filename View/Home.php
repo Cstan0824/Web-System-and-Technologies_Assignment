@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php $addHeaderClass = "header-transparent"; ?>
 
 <head>
 	<meta charset="utf-8">
@@ -9,7 +10,7 @@
 	<meta content="" name="description">
 	<meta content="" name="keywords">
 	<?php include('../Root/link.php');
-	?>
+?>
 </head>
 
 <body>
