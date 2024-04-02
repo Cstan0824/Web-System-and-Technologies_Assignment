@@ -54,12 +54,15 @@
 							<div class="portfolio-info rounded-sm">
 								<h3>Movie information</h3>
 								<ul>
-									<li><strong>Movie Name</strong>: Scent OF A Woman</li>
-									<li><strong>Starring</strong>: Al Pacino, Chris O'Donnell</li>
-									<li><strong>Release date</strong>: December 23, 1992</li>
-									<li><strong>Language</strong>: English</li>
+									<li><strong>Event Name</strong>: Scent OF A Woman</li>
+									<li><strong>Event Type</strong>: Movie Premeire</li>
+									<li><strong>Event date</strong>: December 23, 2024</li>
+									<li><strong>Hoster</strong>: Orang Utan</li>
 									<li><strong>Location</strong>: West Campus . DK4</li>
-									<li><strong>Movie Details</strong>Scent of a Woman is a 1992 American drama film
+									<li><strong>Start Time</strong>: 15:00</li>
+									<li><strong>End Time</strong>: 17:00</li>
+									<li><strong>Movie Details</strong>: <br />Scent of a Woman is a 1992 American drama
+										film
 										produced and directed by Martin Brest that tells the story of a preparatory
 										school student who takes a job as an assistant to an irritable, blind, medically
 										retired Army lieutenant colonel. The film is a remake of Dino Risi's 1974

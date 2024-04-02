@@ -11,27 +11,6 @@
         width: 80%;
         height: 90%;
     }
-
-    .form-control.event-name,
-    .form-control.event-type,
-    .form-control.event-date,
-    .form-control.event-location,
-    .form-control.event-host {
-        height: 50px;
-        width: 300px;
-    }
-
-    .form-control.event-desc {
-        height: 250px;
-        width: 450px;
-    }
-
-    .form-control.start-time,
-    .form-control.end-time,
-    .form-control.max-user {
-        height: 50px;
-        width: 150px;
-    }
 </style>
 
 <body>
@@ -53,108 +32,125 @@
                 </div>
             </div>
         </section><!-- End Breadcrumbs Section -->
-
-
-        <section class="inner-page">
+        <!-- ======= Portfolio Details Section ======= -->
+        <section id="portfolio-details" class="portfolio-details">
             <div class="container">
-                <div class="row">
-                    <!-- left column -->
-                    <div class="col-md-3">
-                        <div class="text-center">
-                            <img src="../Image/images.jpg" class="avatar img-circle" alt="avatar">
-                            <h6><br>Change photo?</h6>
-                            <input type="file" class="form-control">
+                <form action="../Process/edit-event-process.php" method="POST" class="form-horizontal" role="form">
+
+                    <div class="row gy-4">
+                        <div class="col-lg-8">
+                            <div class="portfolio-details-slider swiper">
+                                <div class="swiper-wrapper align-items-center">
+
+                                    <div class="swiper-slide">
+                                        <img class="rounded" src="../Css/assets/img/portfolio/test1.png" alt="">
+                                    </div>
+
+                                </div>
+                                <div class="swiper-pagination"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+
+                            <div class="portfolio-info rounded-sm">
+                                <h3>Event Details</h3>
+
+                                <!-- Name -->
+                                <div class="input-group my-4">
+                                    <span class="input-group-text">Name</span>
+                                    <input type="text" class="form-control" placeholder="Event Name" name="Event_name"
+                                        type="text">
+                                </div>
+                                <!-- Category -->
+                                <div class="input-group my-4">
+
+
+                                    <select id="user_time_zone" name="Event_type" class="form-select">
+                                        <option value="actor-meeting">Actor Meeting</option>
+                                        <option value="sharing-session">Sharing Session</option>
+                                        <option value="movie-premiere">Movie Premiere</option>
+                                    </select>
+
+                                </div>
+                                <!-- Date -->
+                                <div class="input-group my-4">
+                                    <span class="input-group-text">Date</span>
+                                    <input class="form-control" name="Event_date" type="date" />
+                                </div>
+                                <!-- Location -->
+                                <div class="input-group my-4">
+
+                                    <select name="Event_location_id" class="form-select">
+                                        <option value="1">DK Z, TARUMT</option>
+                                        <option value="2">DK X, TARUMT</option>
+                                        <option value="3">DTAR, TARUMT</option>
+                                    </select>
+
+                                </div>
+                                <!-- Hoster -->
+                                <div class="input-group my-4">
+                                    <span class="input-group-text">Hoster</span>
+                                    <input class="form-control" name="Event_hoster" type="text">
+                                </div>
+
+                                <!-- Start Time -->
+                                <div class="input-group my-4">
+                                    <span class="input-group-text">Start Time</span>
+                                    <input class="form-control" name="Start_time" type="time" />
+                                </div>
+
+                                <!-- End Time -->
+                                <div class="input-group my-4">
+                                    <span class="input-group-text">End Time</span>
+                                    <input class="form-control" name="End_time" type="time" />
+                                </div>
+
+                                <!-- Max User -->
+                                <div class="input-group my-4">
+                                    <span class="input-group-text">Max User</span>
+                                    <input class="form-control" type="number" name="Max_user" />
+                                </div>
+                                <div class="input-group my-4">
+                                    <span class="input-group-text">Photo</span>
+                                    <input type="file" class="form-control">
+                                </div>
+
+                            </div>
                         </div>
                     </div>
-                    <!-- edit form column -->
-                    <div class="col-md-9 personal-info">
-                        <h3>Event Details</h3>
-                        <form action="../Process/edit-event-process.php" method="POST" class="form-horizontal" role="form">
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" name="Event_name">Event name:</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control event-name" name="Event_name" type="text"
-                                        value="The Dark Knight">
+                    <div class="row my-4">
+                        <!-- Desc -->
+                        <div class="col-sm-12">
+                            <div class="portfolio-info rounded-sm">
+
+                                <div class="form-group my-2">
+                                    <label class="col-lg-12 control-label" name="Event_desc">Event Description</label>
+                                    <div class="col-lg-12">
+                                        <textarea style="resize:none;" class="form-control event-desc" name="Event_desc"
+                                            rows="5">Directed by Christopher Nolan, "The Dark Knight" is the second installment in Nolan's Batman trilogy. It portrays the iconic DC Comics character, Batman, facing off against his arch-nemesis, the Joker, played by Heath Ledger in an Oscar-winning performance. Set in the gritty streets of Gotham City, the film delves into themes of chaos, morality, and the thin line between heroism and vigilantism.</textarea>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" name="Event_type">Event Type:</label>
-                                <div class="col-lg-8">
-                                    <div class="ui-select">
-                                        <select id="user_time_zone" name="Event_type" class="form-control event-type">
-                                            <option value="actor-meeting">Actor Meeting</option>
-                                            <option value="sharing-session">Sharing Session</option>
-                                            <option value="movie-premiere">Movie Premiere</option>
-                                        </select>
+                                <!-- Save -->
+                                <div class="form-group my-2">
+                                    <label class="col-md-3 control-label"></label>
+                                    <div class="col-md-8">
+                                        <input type="button" class="btn btn-primary" value="Save Changes">
+                                        <span></span>
+                                        <input type="reset" class="btn btn-danger" value="Cancel">
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" name="Event_date">Event Date:</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control event-date" name="Event_date" type="date"
-                                        value="2024-04-02">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" name="Event_location_id">Event Location:</label>
-                                <div class="col-lg-8">
-                                    <div class="ui-select">
-                                        <select name="Event_location_id" class="form-control event-location">
-                                            <option value="1">DK Z, TARUMT</option>
-                                            <option value="2">DK X, TARUMT</option>
-                                            <option value="3">DTAR, TARUMT</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" name="Event_desc">Event Description</label>
-                                <div class="col-lg-8">
-                                    <textarea class="form-control event-desc" name="Event_desc"
-                                        rows="5">Directed by Christopher Nolan, "The Dark Knight" is the second installment in Nolan's Batman trilogy. It portrays the iconic DC Comics character, Batman, facing off against his arch-nemesis, the Joker, played by Heath Ledger in an Oscar-winning performance. Set in the gritty streets of Gotham City, the film delves into themes of chaos, morality, and the thin line between heroism and vigilantism.</textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" name="Event_hoster">Event Host:</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control event-host" name="Event_hoster" type="text"
-                                        value="Jeremy">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label" name="Start_time">Start Time:</label>
-                                <div class="col-md-8">
-                                    <input class="form-control start-time" name="Start_time" type="time" value="15:00">
-                                </div>
-                                <label class="col-md-3 control-label" name="End_time">End Time:</label>
-                                <div class="col-md-8">
-                                    <input class="form-control end-time" name="End_time" type="time" value="17:00">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label" name="Max_user">Max User:</label>
-                                <div class="col-md-8">
-                                    <input class="form-control max-user" type="number" name="Max_user" value="32">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label"></label>
-                                <div class="col-md-8">
-                                    <input type="button" class="btn btn-primary" value="Save Changes">
-                                    <span></span>
-                                    <input type="reset" class="btn btn-danger" value="Cancel">
-                                </div>
-                            </div>
-                        </form>
+                        </div>
+                        <div class="col-lg-4"></div>
                     </div>
-                    </div>
+                </form>
             </div>
-            <hr>
         </section>
+        <!-- End Portfolio Details Section -->
     </main>
 
-<?php include ('footer.php'); ?>
+    <?php include('footer.php'); ?>
 </body>
 
 </html>
