@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Events</title>
     <?php include("../Root/link.php") ?>
+    <script scr="../Process/event.js" defer></script>
     <style>
         body {
             margin-top: 20px;
@@ -170,10 +171,10 @@
                                             <input type="search" class="form-control input-lg"
                                                 style="border-left:none; border-bottom:none; border-bottom-right-radius:0px;"
                                                 data-bs-toggle="dropdown" placeholder="Search Here..." minlength="1"
-                                                maxlength="100">
+                                                maxlength="100"  oninput="FilterSearch()">
                                         </div>
-                                        <div class="search-result">
-                                            <ul class="list-group w-100"
+                                        <div id="search-result" class="search-result">
+                                            <ul id="search-list" class="list-group w-100"
                                                 style="border:1px solid #DEE2E6; border-top:none; border-top-right-radius:0px; border-top-left-radius:0px;">
                                                 <li class="list-group-item" style="border:none;">First item</li>
                                                 <li class="list-group-item" style="border:none;">Second item</li>

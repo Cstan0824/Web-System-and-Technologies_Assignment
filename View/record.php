@@ -1,5 +1,4 @@
 <?php
-include("../config.php");
 $sql = "SELECT * FROM user_record;";
 $result = $conn->query($sql);
 
