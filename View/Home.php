@@ -29,8 +29,8 @@
 
 	<main id="main">
 
-		<!-- ======= Services Section ======= -->
-		<section id="services" class="services">
+		<!-- ======= activities Section ======= -->
+		<section id="activities" class="services">
 			<div class="container">
 
 				<div class="section-title" data-aos="fade-in" data-aos-delay="100">
@@ -69,7 +69,7 @@
 				</div>
 
 			</div>
-		</section><!-- End Services Section -->
+		</section><!-- End activities Section -->
 
 
 		<!-- ======= Portfolio Section ======= -->
@@ -83,9 +83,9 @@
 
 				<div class="row" data-aos="fade-in">
 					<div class="col-lg-12 text-center my-3">
-					<a class="btn button-18" role="button" href="Event.php">See More</a>
+						<a class="btn button-18" role="button" href="Event.php">See More</a>
 					</div>
-	
+
 				</div>
 
 				<div class="row portfolio-container" data-aos="fade-up">

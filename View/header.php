@@ -12,10 +12,18 @@
     <nav id="navbar" class="navbar">
       <ul>
         <li class="nav-item"><a class="nav-link scrollto" href="Event.php">Event</a></li>
-        <li class="nav-item"><a class="nav-link scrollto" href="Home.php#services">Ticket</a></li>
+        <li class="nav-item"><a class="nav-link scrollto" href="Home.php#activities">Activities</a></li>
         <li class="nav-item"><a class="nav-link scrollto" href="Home.php#portfolio">Join Us</a></li>
         <li class="nav-item"><a class="nav-link scrollto" href="Home.php#team">About Us</a></li>
         <li class="nav-item"><a class="nav-link scrollto" href="Home.php#contact">Contact</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-text scrollto dropdown-toggle" href="#" data-bs-trigger="click" data-bs-toggle="dropdown">Notice</a>
+          <ul class="dropdown-menu dropdown-menu-end ">
+             <li><span class="dropdown-item-text">Notice 1</span></li>
+            <li><span class="dropdown-item-text">Notice 2</span></li>
+          </ul>
+        </li>
+        
         <li class="nav-item dropdown">
           <a class="nav-text scrollto dropdown-toggle" href="#" data-bs-toggle="dropdown">Profiles</a>
           <ul class="dropdown-menu dropdown-menu-end ">
