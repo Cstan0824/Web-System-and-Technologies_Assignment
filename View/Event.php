@@ -98,7 +98,23 @@
 	$pageCount = $numberOfResults / 6;
 	?>
 	<?php include("header.php") ?>
-	<main id="main" class="pt-4">
+	<main id="main">
+        <!-- ======= Breadcrumbs Section ======= -->
+        <section class="breadcrumbs">
+            <div class="container">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>Profile</h2>
+                    <ol>
+                        <li><a href="Home.php">Home</a></li>
+                        <li>Profile</li>
+                    </ol>
+                </div>
+
+            </div>
+        </section><!-- End Breadcrumbs Section -->
+
+        <section class="inner-page">
 		<div class="container">
 			<div class="row">
 				<!-- BEGIN SEARCH FILTER -->
@@ -263,8 +279,8 @@
 													</th>
 													<th><a href="?orderBy=category">Category</a></th>
 													<th><a href="?orderBy=date">Date</a></th>
-                                                    <th class="number"><i class=" fa-regular fa-pen-to-square" style="color: #007aff;"></i></th>
-                                                    <th class="number"><i class="fa-regular fa-trash-can" style="color: #007aff;"></i></th>
+                                                    <th class="number"></th>
+                                                    <th class="number"></th>
 												</tr>
 											</thead>
 										</table>
@@ -327,6 +343,7 @@
 				<!-- END SEARCH RESULT -->
 			</div>
 		</div>
+        </section>
 	</main>
 	<script defer>
 		document.addEventListener("DOMContentLoaded", function() {

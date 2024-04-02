@@ -24,19 +24,19 @@ if (isset($_POST['user']) && isset($_POST['name']) && isset($_POST['pass']) && i
     // Validate form data
     if (empty($member_id)) {
         $_SESSION['error'] = "Member ID is required";
-        header("Location: ../View/login-signup.php");
+        header("Location: ../View/login_signup.php");
         exit();
     } elseif (empty($name)) {
         $_SESSION['error'] = "Name is required";
-        header("Location: ../View/login-signup.php");
+        header("Location: ../View/login_signup.php");
         exit();
     } elseif (empty($password)) {
         $_SESSION['error'] = "Password is required";
-        header("Location: ../View/login-signup.php");
+        header("Location: ../View/login_signup.php");
         exit();
     } elseif (empty($email)) {
         $_SESSION['error'] = "Email is required";
-        header("Location: ../View/login-signup.php");
+        header("Location: ../View/login_signup.php");
         exit();
     } else {
         // Insert data into the database
@@ -46,17 +46,17 @@ if (isset($_POST['user']) && isset($_POST['name']) && isset($_POST['pass']) && i
         if (mysqli_query($connect_db, $sql)) {
             // Redirect to success page or display success message
             $_SESSION['success'] = "Registration successful";
-            header("Location: ../View/login-signup.php");
+            header("Location: ../View/login_signup.php");
             exit();
         } else {
             $_SESSION['error'] = "Error: " . $sql . "<br>" . mysqli_error($conn);
-            header("Location: ../View/login-signup.php");
+            header("Location: ../View/login_signup.php");
             exit();
         }
     }
 } else {
     // If the form is not submitted, redirect back to the sign-up page
-    header("Location: ../View/login-signup.php");
+    header("Location: ../View/login_signup.php");
     exit();
 }
 

@@ -16,11 +16,11 @@ if (isset($_POST['user']) && isset($_POST['pass'])) {
 
     if (empty($memberid)) {
         $_SESSION['error'] = "Member ID is required";
-        header("Location: ../View/login-signup.php");
+        header("Location: ../View/login_signup.php");
         exit();
     } elseif (empty($password)) {
         $_SESSION['error'] = "Password is required";
-        header("Location: ../View/login-signup.php");
+        header("Location: ../View/login_signup.php");
         exit();
     } else {
         // Check in t_member table
@@ -62,11 +62,11 @@ if (isset($_POST['user']) && isset($_POST['pass'])) {
         }
     }
 
-    header("Location: ../View/login-signup.php");
+    header("Location: ../View/login_signup.php");
     exit();
 
 } else {
-    header("Location: ../View/login-signup.php");
+    header("Location: ../View/login_signup.php");
     exit();
 }
 
