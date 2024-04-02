@@ -1,12 +1,3 @@
-function FilterSearch() {
-    var searchResult = document.getElementById("search-Result");
-    var list = searchResult.document.getElementById("search-list");
-    const dataset = ["Event_name1", "Event_name2", "The Dark Knight", "Interstellar"];
-    foreach(data in dataset)
-    {
-        list.innerHTML += `<li class='list-group-item' style='border:none;'>${data}</li>`;
-    }
-}
 
 // let stations;
 // function generateTable(e, t = null) {
@@ -86,4 +77,3 @@ function FilterSearch() {
 //     document
 //         .querySelector("#paginationlist")
 //         .addEventListener("change", () => generateTable(1));
-

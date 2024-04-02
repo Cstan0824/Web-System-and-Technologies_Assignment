@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Events</title>
     <?php include("../Root/link.php") ?>
-    <script scr="../Process/event.js" defer></script>
+    <!-- <script scr="../Process/event.js" defer></script> -->
     <style>
         body {
             margin-top: 20px;
@@ -80,7 +80,7 @@
 
 <body>
     <?php
-        $display = isset($_GET['display']) ? $_GET['display'] : "table";
+    $display = isset($_GET['display']) ? $_GET['display'] : "table";
     $page = isset($_GET['page']) ? $_GET['page'] : 1;
     $numberOfResults = 12;
     $pageCount = $numberOfResults / 6;
@@ -170,39 +170,41 @@
                                             </span>
                                             <input type="search" class="form-control input-lg"
                                                 style="border-left:none; border-bottom:none; border-bottom-right-radius:0px;"
-                                                data-bs-toggle="dropdown" placeholder="Search Here..." minlength="1"
-                                                maxlength="100"  oninput="FilterSearch()">
+                                                placeholder="Search Here..." minlength="1" maxlength="100"
+                                                id="FilterSearch">
                                         </div>
                                         <div id="search-result" class="search-result">
                                             <ul id="search-list" class="list-group w-100"
                                                 style="border:1px solid #DEE2E6; border-top:none; border-top-right-radius:0px; border-top-left-radius:0px;">
-                                                <li class="list-group-item" style="border:none;">First item</li>
-                                                <li class="list-group-item" style="border:none;">Second item</li>
-                                                <li class="list-group-item" style="border:none;">Third item</li>
                                             </ul>
                                         </div>
                                     </form>
+
                                     <!-- END SEARCH INPUT -->
-                                    <p style="text-align:right;">Showing all results matching
-                                        "<?php echo "web development"; ?>"
+
+                                    <p style="text-align:right;" id="searchContent">
+                                        Showing <span id="searchCount">0</span> result > <span id="searchInput"></span>
                                     </p>
+
                                     <!-- BEGIN DISPLAY MODE -->
                                     <div class="row">
                                         <div class="col-md text-left">
                                             <div class="btn-group">
                                                 <a id="tableMode"
                                                     href="?display=table&page=<?php echo $page ?>"
-                                                    class="btn btn-outline-info display-mode"><i
+                                                    class="btn btn-outline-info display-mode active"><i
                                                         class="fa fa-list"></i></a>
                                                 <a id="cardMode"
                                                     href="?display=card&page=<?php echo $page ?>"
-                                                    class="btn btn-outline-info display-mode"><i
+                                                    class="btn btn-outline-info display-mode active"><i
                                                         class="fa fa-th"></i></a>
                                             </div>
                                         </div>
                                     </div>
                                     <!--END DISPLAY MODE -->
+
                                     <br />
+
                                     <?php if($display == "table"): ?>
                                     <!-- BEGIN TABLE RESULT -->
                                     <div class="table-responsive" data-aos="fade-up">
@@ -266,10 +268,11 @@
                                     </div>
                                     <!-- END PORTFOLIO RESULT -->
                                     <?php endif ?>
+
                                     <!-- BEGIN PAGINATION -->
                                     <ul class="pagination">
                                         <li class="page-item">
-                                            <a id="prevPage" class="page-link"
+                                            <a id="prevPage" class="page-link disabled"
                                                 <?php echo "href='?display=$display&page=" . (($page - 1) > 0 ? ($page - 1) : 1) . "'" ?>>
                                                 Previous
                                             </a>
@@ -285,13 +288,12 @@
                                         <?php endfor ?>
 
                                         <li class="page-item">
-                                            <a id="nextPage" class="page-link"
+                                            <a id="nextPage" class="page-link disabled"
                                                 <?php echo "href='?display=$display&page=" . (($page + 1) <= $pageCount ? ($page + 1) : $pageCount) . "'" ?>>
                                                 Next
                                             </a>
                                         </li>
                                     </ul>
-
                                     <!-- END PAGINATION -->
                                 </div>
                                 <!-- END RESULT -->
@@ -317,6 +319,7 @@
 
             tableMode.classList.remove("active");
             cardMode.classList.remove("active");
+
             switch (displayMode) {
                 case "card":
                     cardMode.classList.add("active");
@@ -332,24 +335,66 @@
             var prevPage = document.getElementById("prevPage");
             var nextPage = document.getElementById("nextPage");
             var urlParams = new URLSearchParams(window.location.search);
-            var page = urlParams.get('page');
+            var page = parseInt(urlParams.get('page')) ?? 1;
+            var totalPage = <?php echo $pageCount; ?> ;
+
 
             prevPage.classList.remove("disabled");
             nextPage.classList.remove("disabled");
 
             switch (page) {
-                case page == <?php echo $pageCount ?> :
-
+                case totalPage:
                     nextPage.classList.add("disabled");
                     break;
-                case page == 1:
-
+                case 1:
                     prevPage.classList.add("disabled");
                     break;
                 default:
                     break;
             }
         });
+
+        document.getElementById("FilterSearch").addEventListener("input", (element) => {
+            var list = document.getElementById("search-list");
+            const dataset = [
+                "Event_name1",
+                "Event_name2",
+                "The Dark Knight",
+                "Interstellar"
+            ];
+            list.innerHTML = "";
+            dataset.forEach(data => {
+                console.log(data);
+                if (data.toLowerCase().indexOf(element.target.value.toLowerCase()) != -1 && document
+                    .getElementById("FilterSearch").value != "") {
+                    list.innerHTML += `<li class='list-group-item' style='border:none;'>${data}</li>`;
+                }
+            });
+            displayInput();
+            displayCount();
+        });
+
+        function displayInput() {
+            var searchInput = document.getElementById("searchInput");
+            searchInput.innerText = `${document.getElementById("FilterSearch").value}`;
+        }
+
+        function displayCount() {
+            var searchCount = document.getElementById("searchCount");
+            searchCount.innerText = document.getElementById("search-list").children.length;
+        }
+
+        // Path: Process/event_process.js
+        function Req_SearchResult(path) {
+            fetch(path)
+                .then((res) => {
+                    return res.json();
+                })
+                .then((data) => {
+                    console.log(data);
+                    return data;
+                });
+        }
     </script>
 </body>
 
