@@ -22,7 +22,7 @@
 		<div class="hero-container" data-aos="fade-up">
 			<h1>Welcome to TARUMT Movie Society</h1>
 			<h2>We are movie society from TARUMT</h2>
-			<a href="#about" class="btn-get-started scrollto"><i class="bx bx-chevrons-down"></i></a>
+			<a href="#services" class="btn-get-started scrollto"><i class="bx bx-chevrons-down"></i></a>
 		</div>
 	</section><!-- End Hero -->
 
@@ -81,10 +81,10 @@
 				</div>
 
 				<div class="row" data-aos="fade-in">
-					<div class="col-lg-12 d-flex justify-content-center">
-						<a href="Event.php" class="btn mb-3 px-4 py-2"
-							style="color: #2f4d5a;background-color: #67b0d1;">All</a>
+					<div class="col-lg-12 text-center my-3">
+					<a class="btn button-18" role="button" href="Event.php">See More</a>
 					</div>
+	
 				</div>
 
 				<div class="row portfolio-container" data-aos="fade-up">
