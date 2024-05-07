@@ -21,7 +21,7 @@
           <a class="nav-text scrollto dropdown-toggle" href="#" data-bs-toggle="dropdown">Profiles</a>
           <ul class="dropdown-menu dropdown-menu-end ">
             <li><a class="dropdown-item" href="profile.php">Account</a></li>
-            <li><a class="dropdown-item" href="login_signup.php">Sign Out</a></li>
+            <li><a class="dropdown-item" href="..\Process\signOut.php">Sign Out</a></li>
           </ul>
         </li>
       </ul>

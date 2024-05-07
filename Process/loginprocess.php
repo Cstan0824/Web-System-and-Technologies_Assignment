@@ -32,12 +32,14 @@ if (isset($_POST['user']) && isset($_POST['pass'])) {
         $result_staff = mysqli_query($connect_db, $sql_staff);
 
         if (mysqli_num_rows($result_member) === 1) {
+            $role = "Member";
             $row_member = mysqli_fetch_assoc($result_member);
             if ($row_member['Member_id'] === $memberid && $row_member['Member_password'] === $password) {
+                $_SESSION['role'] = $role;
                 $_SESSION['Member_id'] = $row_member['Member_id'];
                 if (!empty($_POST['signedin'])) {
                     // Set cookie for "keep me signed in"
-                    setcookie('signedin', $row_member['Member_id'], time() + (7 * 24 * 60 * 60), '/');
+                    setcookie('signedinAs'. $role. '', $row_member['Member_id'], time() + (7 * 24 * 60 * 60), '/');
                 }
                 header("Location: ../View/Home.php");
                 exit();
@@ -45,12 +47,14 @@ if (isset($_POST['user']) && isset($_POST['pass'])) {
                 $_SESSION['error'] = "Incorrect username or password";
             }
         } elseif (mysqli_num_rows($result_staff) === 1) {
+            $role = "Staff";
             $row_staff = mysqli_fetch_assoc($result_staff);
             if ($row_staff['Staff_id'] === $memberid && $row_staff['Staff_password'] === $password) {
+                $_SESSION['role'] = $role;
                 $_SESSION['Staff_id'] = $row_staff['Staff_id'];
                 if (!empty($_POST['signedin'])) {
                     // Set cookie for "keep me signed in"
-                    setcookie('signedin', $row_staff['Staff_id'], time() + (7 * 24 * 60 * 60), '/');
+                    setcookie('signedinAs'. $role. '', $row_staff['Staff_id'], time() + (7 * 24 * 60 * 60), '/');
                 }
                 header("Location: ../View/Home.php");
                 exit();

@@ -9,12 +9,14 @@
 	<title>TARUMT Movie Society </title>
 	<meta content="" name="description">
 	<meta content="" name="keywords">
-	<?php include('../Root/link.php');
+	<?php 
+	include('../Root/link.php');
+	include('../Process/save_User_details.php');
 ?>
 </head>
 
 <body>
-	<?php include('header.php'); ?>
+	<?php include('header.php');?>
 
 
 
