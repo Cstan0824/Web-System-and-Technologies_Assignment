@@ -6,6 +6,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Events</title>
 	<?php include("../Root/link.php") ?>
+	<?php include("../Root/connect-db.php"); ?>
+
 	<!-- <script scr="../Process/event.js" defer></script> -->
 	<style>
 		body {
@@ -94,10 +96,11 @@
 
 <body>
 	<?php
-        $display = isset($_GET['display']) ? $_GET['display'] : "table";
+            $display = isset($_GET['display']) ? $_GET['display'] : "table";
 	$page = isset($_GET['page']) ? $_GET['page'] : 1;
 	$numberOfResults = 12;
 	$pageCount = $numberOfResults / 6;
+	session_start();
 	?>
 	<?php include("header.php") ?>
 	<main id="main">
@@ -191,7 +194,9 @@
 										<h2><i class="fa-solid fa-book"></i> Result</h2>
 										<hr>
 										<!-- BEGIN SEARCH INPUT -->
-										<form action="" method="post" class="searchBox">
+										<form
+											action="<?php echo $_SERVER["PHP_SELF"]; ?>"
+											method="POST" class="searchBox">
 											<div class="input-group">
 												<span class="input-group-btn">
 													<button class="btn btn-lg"
@@ -201,12 +206,13 @@
 												<input type="search" class="form-control input-lg"
 													style="border-left:none; border-bottom:none; border-bottom-right-radius:0px;"
 													placeholder="Search Here..." minlength="1" maxlength="100"
-													id="FilterSearch">
+													id="FilterSearch" name="FilterSearch">
 											</div>
 											<div id="search-result" class="search-result">
-												<ul id="search-list" class="list-group w-100"
+												<div id="search-list" class="list-group w-100"
 													style="border:1px solid #DEE2E6; border-top:none; border-top-right-radius:0px; border-top-left-radius:0px;">
-												</ul>
+
+												</div>
 											</div>
 										</form>
 										<!-- END SEARCH INPUT -->
@@ -237,6 +243,7 @@
 
 										<?php if($display == "table"): ?>
 										<!-- BEGIN TABLE RESULT -->
+
 										<div class="table-responsive" data-aos="fade-up">
 											<table class="table table-hover">
 												<tbody>
@@ -262,16 +269,16 @@
 														<td>Movie Premiere</td>
 														<td><?php echo date("Y/m/d"); ?>
 														</td>
-														<td>
-															<a class="edit-button" href="edit-event.php"><i
-																	class=" fa-regular fa-pen-to-square"></i></a>
-														</td>
-														<td><a class="delete-button"
-																href="../Process/delete-event.php"><i
-																	class="fa-regular fa-trash-can"></i></a>
-														</td>
-
-
+														<?php
+	                                                        if(isset($_SESSION['role']) && $_SESSION['role'] == "Staff") {
+	                                                            echo "<td>";
+	                                                            echo "<a class='edit-button' href='edit-event.php'><i class=' fa-regular fa-pen-to-square'></i></a>";
+	                                                            echo "</td>";
+	                                                            echo "<td>";
+	                                                            echo "<a class='delete-button' href='../Process/delete-event.php'><i class='fa-regular fa-trash-can'></i></a>";
+	                                                            echo "</td>";
+	                                                        }
+													    ?>
 													</tr>
 													<?php endfor ?>
 												</tbody>
@@ -284,8 +291,11 @@
 														</th>
 														<th class="text-info">Category</th>
 														<th class="text-info">Date</th>
-														<th class="number"></th>
-														<th class="number"></th>
+														<?php if(isset($_SESSION['role']) && $_SESSION['role'] == "Staff") {
+														    echo "<th class='number'></th>";
+														    echo "<th class='number'></th>";
+														} ?>
+
 													</tr>
 												</thead>
 											</table>
@@ -397,42 +407,43 @@
 					break;
 			}
 		});
+
 		//search filter
 		//get from database
-
-		var data = Req_SearchResult("../Process/event_process.php", "searchBarList=1");
-		// Path: Process/event_process.php
-		function Req_SearchResult(path, content) {
-			return fetch(path, {
-					method: "POST",
-					body: content,
-				})
-				.then((res) => {
-					return res.json();
-				})
-				.then((data) => {
-					console.log(data);
-					return data;
-				});
-		}
-
-		document.getElementById("FilterSearch").addEventListener("input", (element) => {
-			var list = document.getElementById("search-list");
-
-			list.innerHTML = "";
-			Req_SearchResult("../Process/event_process.php", "searchBarList=1")
-				.then((dataset) => {
-					dataset.forEach(data => {
-						if (data.toLowerCase().indexOf(element.target.value.toLowerCase()) != -1 &&
-							document.getElementById("FilterSearch").value != "") {
-							list.innerHTML +=
-								`<li class='list-group-item' style='border:none;' value=${data}>${data}</li>`;
-						}
+		var list = document.getElementById("search-list");
+		Req_SearchResult("../Process/event_process.php?searchBarList=1")
+			.then(dataset => {
+				document.getElementById("FilterSearch")
+					.addEventListener("input", (element) => {
+						list.innerHTML = "";
+						dataset
+							.forEach(listData => {
+								if (listData.toLowerCase().includes(element.target.value.toLowerCase()) &&
+									element.target.value.length >= 2) {
+									var listItem = document.createElement("a");
+									listItem.href = "#";
+									listItem.classList.add("list-group-item", "list-group-item-action",
+										"dataList");
+									listItem.style.border = "none";
+									listItem.value = listData;
+									listItem.innerText = listData;
+									list.appendChild(listItem);
+								}
+							});
+						displayInput();
+						displayCount();
+						Array.from(document.getElementsByClassName("dataList")).forEach(child => {
+							child.addEventListener("click", () => {
+								document.getElementById("FilterSearch").value = child.textContent;
+								displayInput();
+								displayCount();
+								list.innerHTML = "";
+							});
+						});
 					});
-					displayInput();
-					displayCount();
-				});
-		});
+			});
+
+
 
 		function displayInput() {
 			var searchInput = document.getElementById("searchInput");
@@ -443,4 +454,66 @@
 			var searchCount = document.getElementById("searchCount");
 			searchCount.innerText = document.getElementById("search-list").children.length;
 		}
+
+		// Path: Process/event_process.js
+		function Req_SearchResult(path) {
+			return fetch(path)
+				.then((res) => {
+					return res.json();
+				})
+				.then((data) => {
+					console.log(data);
+					return data;
+				});
+		}
 	</script>
+	<?php
+    if($_SERVER["REQUEST_METHOD"] === "POST") {
+
+
+        $FilterSearch = $_POST["FilterSearch"] ?? "";
+        echo "<script>console.log('$FilterSearch');</script>";
+        $sql = "SELECT COUNT(*) NumOfMember FROM T_Member;";
+        $result = $connect_db->query($sql);
+        $numOfMember = 0;
+        if($row = $result->fetch_assoc()) {
+            $numOfMember = $row["NumOfMember"];
+        }
+
+        $sql =
+        "SELECT E.Event_id,E.Event_name,E.Event_desc,E.Event_date,ET.Event_Type 
+    	FROM T_Event E
+   		JOIN T_Event_Type ET ON E.Event_type_id = ET.Event_type_id
+    	WHERE Event_name  LIKE '%$FilterSearch%';";
+
+        $result = $connect_db->query($sql);
+        if($result->num_rows <= 0) {
+            die();
+        }
+
+
+
+        $data = array();
+        $event_id = array();
+        $numOfBooking = 0;
+        while($row = $result->fetch_assoc()) {
+            $event_id[] = $row["Event_id"];
+            $sqlForReview = "SELECT COUNT(*) NumOfBooking FROM T_Booking WHERE Event_id = '".$row["Event_id"]."';";
+            $resultForReview = $connect_db->query($sqlForReview);
+            if($rowForReview = $resultForReview->fetch_assoc()) {
+                $numOfBooking = $rowForReview["NumOfBooking"];
+            }
+            $data[] = array(
+                "Event_id" => $row["Event_id"],
+                "Event_name" => $row["Event_name"],
+                "Event_desc" => $row["Event_desc"],
+                "Event_date" => $row["Event_date"],
+                "Event_Type" => $row["Event_Type"],
+                "Reviews" => $numOfBooking / $numOfMember
+            );
+        }
+        $json_response = json_encode($data);
+
+        echo $json_response;
+    }
+	?>
