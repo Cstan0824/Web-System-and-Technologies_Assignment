@@ -18,18 +18,10 @@
         <li class="nav-item"><a class="nav-link scrollto" href="Home.php#contact">Contact</a></li>
         <li class="nav-item"><a class="nav-link scrollto" href="Event.php">Events</a></li>
         <li class="nav-item dropdown">
-          <a class="nav-text scrollto dropdown-toggle" href="#" data-bs-trigger="click" data-bs-toggle="dropdown">Notice</a>
-          <ul class="dropdown-menu dropdown-menu-end ">
-             <li><span class="dropdown-item-text">Notice 1</span></li>
-            <li><span class="dropdown-item-text">Notice 2</span></li>
-          </ul>
-        </li>
-        
-        <li class="nav-item dropdown">
           <a class="nav-text scrollto dropdown-toggle" href="#" data-bs-toggle="dropdown">Profiles</a>
           <ul class="dropdown-menu dropdown-menu-end ">
             <li><a class="dropdown-item" href="profile.php">Account</a></li>
-            <li><a class="dropdown-item" href="login-signup.php">Sign Out</a></li>
+            <li><a class="dropdown-item" href="login_signup.php">Sign Out</a></li>
           </ul>
         </li>
       </ul>

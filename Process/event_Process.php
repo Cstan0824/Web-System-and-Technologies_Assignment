@@ -4,6 +4,7 @@ include("../Root/connect-db.php");
 
 echo "Hello";
 
+//Search Button
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     if(!empty(trim($_POST["search"]))) {
 
@@ -32,8 +33,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-
-if($_POST["RTSearch_verify"] && !empty($_POST["RealTimeSearch"])) {
+// Real Time Search Bar
+if($_POST["RTSearch_verify"] && !empty($_POST["searchBar"])) {
     $RTSearch = $_POST["RealTimeSearch"];
     $sql = "SELECT Event_name FROM T_Event WHERE LOWER(Event_name) LIKE %$RTSearch%;";
 
@@ -43,7 +44,7 @@ if($_POST["RTSearch_verify"] && !empty($_POST["RealTimeSearch"])) {
     }
 
     while($row = $result->fetch_assoc()) {
-        echo "<option value='".$row["Event_name"]."'>".$row["Event_name"]."</option>";
+        echo "<li value='".$row["Event_name"]."'>".$row["Event_name"]."</li>";
     }
 }
 
