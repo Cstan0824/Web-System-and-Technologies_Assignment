@@ -91,9 +91,10 @@
 
 </script>
 
+
 <body>
 	<?php
-    $display = isset($_GET['display']) ? $_GET['display'] : "table";
+        $display = isset($_GET['display']) ? $_GET['display'] : "table";
 	$page = isset($_GET['page']) ? $_GET['page'] : 1;
 	$numberOfResults = 12;
 	$pageCount = $numberOfResults / 6;
@@ -398,28 +399,39 @@
 		});
 		//search filter
 		//get from database
-		const dataset = [
-			"Event_name1",
-			"Event_name2",
-			"The Dark Knight",
-			"Interstellar"
-		];
+
+		var data = Req_SearchResult("../Process/event_process.php", "searchBarList=1");
+		// Path: Process/event_process.php
+		function Req_SearchResult(path, content) {
+			return fetch(path, {
+					method: "POST",
+					body: content,
+				})
+				.then((res) => {
+					return res.json();
+				})
+				.then((data) => {
+					console.log(data);
+					return data;
+				});
+		}
 
 		document.getElementById("FilterSearch").addEventListener("input", (element) => {
 			var list = document.getElementById("search-list");
 
 			list.innerHTML = "";
-			dataset.forEach(data => {
-				console.log(data);
-				if (data.toLowerCase().indexOf(element.target.value.toLowerCase()) != -1 && document
-					.getElementById("FilterSearch").value != "") 
-					{
-					list.innerHTML +=
-						`<li class='list-group-item' style='border:none;' value=${data}>${data}</li>`;
-				}
-			});
-			displayInput();
-			displayCount();
+			Req_SearchResult("../Process/event_process.php", "searchBarList=1")
+				.then((dataset) => {
+					dataset.forEach(data => {
+						if (data.toLowerCase().indexOf(element.target.value.toLowerCase()) != -1 &&
+							document.getElementById("FilterSearch").value != "") {
+							list.innerHTML +=
+								`<li class='list-group-item' style='border:none;' value=${data}>${data}</li>`;
+						}
+					});
+					displayInput();
+					displayCount();
+				});
 		});
 
 		function displayInput() {
@@ -430,17 +442,5 @@
 		function displayCount() {
 			var searchCount = document.getElementById("searchCount");
 			searchCount.innerText = document.getElementById("search-list").children.length;
-		}
-
-		// Path: Process/event_process.js
-		function Req_SearchResult(path) {
-			fetch(path)
-				.then((res) => {
-					return res.json();
-				})
-				.then((data) => {
-					console.log(data);
-					return data;
-				});
 		}
 	</script>
