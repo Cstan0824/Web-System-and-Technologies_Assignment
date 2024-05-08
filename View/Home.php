@@ -94,8 +94,7 @@
 						<div class="portfolio-wrap">
 							<img src="../Css/assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="">
 							<div class="portfolio-links">
-								<a href="../Css/assets/img/portfolio/portfolio-1.jpg" data-gallery="portfolioGallery"
-									class="portfolio-lightbox" title="App 1"><i class="bx bx-plus"></i></a>
+								<a href="../Css/assets/img/portfolio/portfolio-1.jpg" data-gallery="portfolioGallery"></a>
 								<a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
 							</div>
 						</div>
