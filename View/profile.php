@@ -62,8 +62,8 @@
                             <form>
                                 <textarea placeholder="Whats in your mind today?" rows="2" class="form-control input-lg p-text-area"></textarea>
                             </form>
-                            <footer class="panel-footer">
-                                <button class="btn btn-warning pull-right">Post</button>
+                            <footer class="panel-footer" style="text-align: right;">
+                                    <button class="btn btn-info">Post</button>
                             </footer>
                                 </div>
                                 <div class="panel-body bio-graph-info">

@@ -11,6 +11,11 @@
 
 	<?php include("../Root/link.php") ?>
 	<?php include("../Root/connect-db.php") ?>
+	if (!isset($_SESSION['role']) ||$_SESSION['role'] == NULL || $_SESSION['role'] != "Member" && $_SESSION['role'] != "Staff"){
+		session_destroy();
+                header("Location: login_signup.php");
+	}
+
 
 </head>
 
