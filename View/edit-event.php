@@ -5,6 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Event</title>
+    <?php 
+    session_start();
+    if (!isset($_SESSION['role']) ||$_SESSION['role'] == NULL || $_SESSION['role'] != "Staff"){
+        session_destroy();
+        header("Location: login_signup.php");
+    }
+    ?>
 </head>
 <style>
     img {

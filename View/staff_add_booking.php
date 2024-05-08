@@ -2,49 +2,35 @@
 <html lang="en">
 
 <head>
-	<meta charset="utf-8">
-	<meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-	<title>Event Details</title>
-	<meta content="" name="description">
-	<meta content="" name="keywords">
-	<style>
-		#add-booking,
-		#delete-booking {
-			background-color: transparent;
-			border: none;
-			font-size: 20px;
-		}
-
-		#add-booking:hover {
-			color: rgba(0, 255, 0);
-		}
-
-		#delete-booking:hover {
-			color: red;
-		}
-
-		#event-pic {
-			width: 80%;
-			height: 90%
-		}
-
-		#movie-info {
-			font-size: 20px !important;
-		}
-	</style>
-
-	<?php include("../Root/link.php") ?>
-	<?php include("../Root/connect-db.php") ?>
-
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Add Booking</title>
+	<?php
+    session_start();
+	date_default_timezone_set('Asia/Kuala_Lumpur');
+	if (!isset($_SESSION['role']) || $_SESSION['role'] == null || $_SESSION['role'] != "Staff") {
+	    session_destroy();
+	    header("Location: login_signup.php");
+	}
+	include("../Root/link.php");
+	include("../Root/connect-db.php");
+	?>
 </head>
+<style>
+	#event-pic {
+		width: 80%;
+		height: 90%
+	}
+
+	#movie-info {
+		font-size: 20px !important;
+	}
+</style>
 
 <body>
 	<?php
-    session_start();
 	include("header.php");
-	date_default_timezone_set('Asia/Kuala_Lumpur');
-	$eventID = $_GET['event_id'];
+	$eventID = 1;
 
 	$sql_event = "SELECT * FROM t_event WHERE Event_id='$eventID'";
 	$result_event = mysqli_query($connect_db, $sql_event);
@@ -134,7 +120,8 @@
 					<ol>
 						<li><a href="Home.php">Home</a></li>
 						<li><a href="Event.php">Event</a></li>
-						<li>Event Details</li>
+						<li><?php echo $event_name; ?></li>
+						<li>Add Booking</li>
 					</ol>
 				</div>
 
@@ -192,78 +179,77 @@
 										<br /><?php echo $movie_details;?>
 									</li>
 								</ul>
-								<?php if($_SESSION['role'] == 'Member') {
-								    echo '
-									<form id="memberAddBooking" action="../Process/add_booking_process.php" method="post">
-									<button id="member-booking" name="member-booking" type="submit" onclick="confirmBooking();" class="button-19" value="'.$eventID.'">Book Ticket</button>
-									</form>
-									';
-								}
-	?>
 							</div>
 
 						</div>
 
 					</div>
 			</section><!-- End Portfolio Details Section -->
-			<?php if(isset($_SESSION['role']) && $_SESSION['role'] == 'Staff') { ?>
-			<!-- ======= Booking Details Section ======= -->
-			<section id="booking-details" class="booking-details">
-				<div class="container">
-					<div class="table-responsive" data-aos="fade-up">
-						<?php
 
-	                        $sql_booking = "SELECT M.Member_id, M.Member_name, M.Member_email, B.Booking_date, B.Booking_id 
-							FROM t_booking B 
-							JOIN t_member M ON M.Member_id = B.Member_id
-							LEFT JOIN t_booking_cancellation BC ON BC.Booking_id = B.Booking_id
-							WHERE B.Event_id='$eventID' AND BC.Booking_id IS NULL
-							ORDER BY B.Booking_date ASC;";
 
-			    $result_booking = mysqli_query($connect_db, $sql_booking);
+			</div>
+		</section>
 
-			    if (mysqli_num_rows($result_booking) > 0) {
-			        echo "
+		<!-- ======= Add Booking Section ======= -->
+		<section id="add-booking" class="add-booking">
+			<div class="container">
+				<form id="addBooking" class="needs-validation" action="../Process/add_booking_process.php" method="post">
+					<div class="row g-3">
+
+						<!-- ======= select member ======= -->
+						<div class="col-md-5">
+							<?php
 							
-									<table class='table table-hover'>
-									<thead>
-									<form action='../View/staff_add_booking.php' method='POST'>
-									<tr>
-									<th class='text-info'>No.</th>
-									<th class='text-info'>Member ID</th>
-									<th class='text-info'>Member Name</th>
-									<th class='text-info'>Member Email</th>
-									<th class='text-info'>Booking Date</th>
-									<th class='text-info'><button id='add-booking' type='submit' name='add' value='".$eventID."'<i class='fa-solid fa-user-plus'></i></button</th>
-									</tr>
-									</thead>
-									</form>
-									<form id='deleteBooking' action='../Process/staff_delete_booking.php' method='POST'>
-									<tbody>
-								";
-			        for ($i = 1; $row_booking = mysqli_fetch_assoc($result_booking); $i++) {
-			            echo"
-										
-										<tr data-bs-trigger='hover'>
-										<td>".$i."</td>
-										<td>".$row_booking['Member_id']."</td>
-										<td id='member'>".$row_booking['Member_name']."</td>
-										<td>".$row_booking['Member_email']."</td>
-										<td>".$row_booking['Booking_date']."</td>
-										<td><button id='delete-booking' type='submit' name='delete' value='".$row_booking['Booking_id']."'<i class='fa-regular fa-trash-can'></i></button></td>
-										</tr>
-										";
-			        }
-			        echo "</tbody></form></table>";
-			    }
-			}?>
+							//get member id and name from db
+	                        $sql_member = "SELECT * FROM t_member";
+							$result_member = mysqli_query($connect_db, $sql_member);
+							if (mysqli_num_rows($result_member) > 0) {
+							    $member_ID = array("");
+							    $member_name = array("");
+							    for($i = 1; $row_member = mysqli_fetch_assoc($result_member); $i++) {
+							        $member_ID[$i] = $row_member['Member_id'];
+							        $member_name[$i] = $row_member['Member_name'];
+							    }
 
+							}?>
 
+							
+							<label for="member" class="form-label">Member</label>
+							<div class="input-group has-validation">
+								<select class="form-select" id="member" name="member" required>
+									<option value="">--Select One--</option>
+									<?php
+									for ($i = 1; $i < count($member_ID); $i++) {
+									    echo "<option value='".$member_ID[$i]."'>".$member_name[$i]."</option>";
+									}
+									?>
+								</select>
+							
+							</div>
+						</div>
+						
+						<!-- ======= display current date ======= -->
+						<div class="col-md-4">
+							<label for="date" class="form-label">Booking Date</label>
+							<div class="input-group has-validation">
+								<input type="date" class="form-control" id="date" name="date"
+									<?php echo 'value="' . date('Y-m-d') . '"'; ?>
+								readonly>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<label for="addBooking" class="form-label"></label>
+							<button class="w-100 btn btn-primary btn-lg"  value='<?php echo $eventID; ?>' name="addBooking" type="submit" onclick="confirmBooking();">Add Booking</button>
+						</div>
 					</div>
-			</section>
-			<!-- ======= End Booking Details Section ======= -->
+				</form>
+			</div>
+			<?php  echo date('Y-m-d'); ?>
+		</section>
 
 
+		<!-- ======= End Add Booking Section ======= -->
 	</main><!-- End #main -->
 
 	<!-- ======= Footer ======= -->
@@ -276,25 +262,20 @@
 	<!-- Template Main JS File -->
 	<script src="../Css/assets/js/main.js"></script>
 	<script>
-		function myFunction() {
-			var txt;
-			if (confirm("You have successfully booked the ticket.")) {
-				//eprint("You pressed OK!");
-			}
-		}
+		 function confirmBooking() {
+            // Get the selected member's name
+            var memberName = document.getElementById("member").options[document.getElementById("member").selectedIndex].text;
 
-		function confirmBooking() {
             // Display a confirmation dialog with the member's name
-            var result = confirm("Are you sure you want to book for this event?");
+            var result = confirm("Are you sure you want to add booking for " + memberName + "?");
             
             // If user confirms, submit the form
             if (result == 1) {
-                document.getElementById("memberAddBooking").submit();
+                document.getElementById("addBooking").submit();
             }else{
 				event.preventDefault();
 			}
         }
-	
 	</script>
 
 </body>

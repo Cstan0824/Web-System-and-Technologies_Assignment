@@ -54,7 +54,7 @@ if (isset($_POST['user']) && isset($_POST['pass'])) {
                 $_SESSION['Staff_id'] = $row_staff['Staff_id'];
                 if (!empty($_POST['signedin'])) {
                     // Set cookie for "keep me signed in"
-                    setcookie('signedinAs'. $role. '', $row_staff['Staff_id'], time() + (7 * 24 * 60 * 60), '/');
+                    setcookie('signedinAs'. $role. '', $_SESSION['Staff_id'], time() + (7 * 24 * 60 * 60), '/');
                 }
                 header("Location: ../View/Home.php");
                 exit();
