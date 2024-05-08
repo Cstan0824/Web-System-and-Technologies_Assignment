@@ -1,22 +1,39 @@
 <?php
 
-include("../config.php");
-$date = date("Y/m/d");
+//references: https://www.youtube.com/watch?v=9tD8lA9foxw
 
-$catchData = file_get_contents("php://input");
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-if(!$catchData) {
-    die("No Data Found");
+// Load PHPMailer classes
+require 'PhpMailSender/src/Exception.php';
+require 'PhpMailSender/src/PHPMailer.php';
+require 'PhpMailSender/src/SMTP.php';
+
+// Create a new PHPMailer instance
+$mail = new PHPMailer(true);
+
+try {
+    // SMTP configuration
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'tancs8803@gmail.com';
+    $mail->Password = 'your_smtp_password';
+    $mail->SMTPSecure = 'ssl'; // Enable TLS encryption, `ssl` also accepted
+    $mail->Port = 465; // TCP port to connect to
+
+    // Email sender and recipient
+    $mail->setFrom('tancs8803@gmail.com', 'Tan Choon Shen'); // my email
+    $mail->addAddress('chinjunchen@gmail.com', 'Jeremy Chin'); // recipient email
+
+    // Email subject and message
+    $mail->Subject = 'Test Email using PHPMailer'; // subject
+    $mail->Body = 'This is a test email sent using PHPMailer.'; // body message
+
+    // Send email
+    $mail->send();
+    echo 'Email sent successfully.';
+} catch (Exception $e) {
+    echo "Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }
-
-$metadata = json_decode($catchData, true);
-
-$event_name_sql = "SELECT Event_name FROM Event_table WHERE Event_name = ".$metadata['Event'];
-$event_timestamp_sql = "SELECT Event_timestamp FROM Event_table WHERE Event_name = ".$metadata['Event'];
-
-$sql = "INSERT INTO notification_table('Event_name','Event_timestamp','notify_timestamp') 
-        VALUES('(".$event_name_sql.")','(".$event_timestamp_sql.")','".$metadata['Gen_timestamp']."');";
-        
-//DOUBLE QUERY TO SELECT THE AUTHOR FROM EVENT WHERE EVENT_NAME = Event_name
-
-        

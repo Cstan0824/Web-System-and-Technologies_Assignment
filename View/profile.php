@@ -9,7 +9,7 @@
     <meta content="" name="description">
     <meta content="" name="keywords">
     <link href="../Css/assets/css/profile-style.css" rel="stylesheet" />
-
+<?php session_start(); ?>
 </head>
 
 <body>
@@ -38,14 +38,12 @@
 
         <section class="inner-page">
             <div class="container">
-
-
                 <div class="container">
                     <div class="row">
                         <div class="profile-nav col-md-3">
                             <div class="panel panel-default">
                                 <div class="user-heading round">
-                                    <h1>Tan Choon Shen</h1>
+                                    <h1><?php echo $_SESSION['user_name'];?></h1>
                                 </div>
                                 <div class="panel-body">
                                     <ul class="profilenav list-group" style="list-style-type: none; padding-left: 0px;">
@@ -68,16 +66,16 @@
                                     <h1>Member Profile</h1>
                                     <div class="">
                                         <div class="bio-row">
-                                            <p><i class="fas fa-id-card"></i> Cstan_0000</p>
+                                            <p><i class="fas fa-id-card"></i> <?php echo $_SESSION[''.$_SESSION['role'].'_id'];?></p>
                                         </div>
                                         <div class="bio-row">
-                                            <p><i class="fas fa-signature"></i> Tan Choon Shen</p>
+                                            <p><i class="fas fa-signature"></i> <?php echo $_SESSION['user_name'];?></p>
                                         </div>
                                         <div class="bio-row">
-                                            <p><i class="fas fa-inbox"></i> example@mail.com</p>
+                                            <p><i class="fas fa-inbox"></i> <?php echo $_SESSION['user_email'];?></p>
                                         </div>
                                         <div class="bio-row">
-                                            <p><i class="fas fa-calendar-check"></i> 01/01/2024</p>
+                                            <p><i class="fas fa-calendar-check"></i> <?php echo $_SESSION['user_date'];?></p>
                                         </div>
                                     </div>
                                 </div>

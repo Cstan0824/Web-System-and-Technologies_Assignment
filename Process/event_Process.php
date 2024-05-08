@@ -2,50 +2,30 @@
 
 include("../Root/connect-db.php");
 
-echo "Hello";
+// Set the JSON header
+header('Content-Type: application/json');
+
 
 //Search Button
-if($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(!empty(trim($_POST["search"]))) {
 
-        $search = $_POST["search"];
-        $sql = "SELECT Event_name FROM T_Event WHERE Event_name LIKE %$RTSearch%;";
 
-        $result = $conn->query($sql);
-        if($result->num_rows <= 0) {
-            die("Row Not found");
-        }
-        echo "<thead>
-                <tr>
-                    <th>Event name</th>
-                    <th>Event Location</th>
-                </tr>
-            </thead>";
+if(isset($_GET['searchBarList']) && $_GET['searchBarList'] == 1) {
+    //Search Bar
+    $sql = "SELECT Event_name FROM T_Event;";
 
-        echo "<tbody>";
-        while($row = $result->fetch_assoc()) {
-            echo "<tr>
-                    <td>".$row['Event_name']."</td>
-                    <td>".$row['Event_location']."</td>".
-                "</tr>";
-        }
-        echo "</tbody>";
-    }
-}
-
-// Real Time Search Bar
-if($_POST["RTSearch_verify"] && !empty($_POST["searchBar"])) {
-    $RTSearch = $_POST["RealTimeSearch"];
-    $sql = "SELECT Event_name FROM T_Event WHERE LOWER(Event_name) LIKE %$RTSearch%;";
-
-    $result = $conn->query($sql);
+    $result = $connect_db->query($sql);
     if($result->num_rows <= 0) {
-        die("Row Not found");
+        die();
     }
 
+    $data = array();
     while($row = $result->fetch_assoc()) {
-        echo "<li value='".$row["Event_name"]."'>".$row["Event_name"]."</li>";
+        $data[] = $row["Event_name"];
     }
+    $json_response = json_encode($data);
+
+    echo $json_response;
 }
 
-$conn->close();
+
+$connect_db->close();

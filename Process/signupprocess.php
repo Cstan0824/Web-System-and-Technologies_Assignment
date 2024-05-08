@@ -46,16 +46,19 @@ if (isset($_POST['user']) && isset($_POST['name']) && isset($_POST['pass']) && i
         if (mysqli_query($connect_db, $sql)) {
             // Redirect to success page or display success message
             $_SESSION['success'] = "Registration successful";
+            session_destroy();
             header("Location: ../View/login_signup.php");
             exit();
         } else {
             $_SESSION['error'] = "Error: " . $sql . "<br>" . mysqli_error($conn);
+            session_destroy();
             header("Location: ../View/login_signup.php");
             exit();
         }
     }
 } else {
     // If the form is not submitted, redirect back to the sign-up page
+    session_destroy();
     header("Location: ../View/login_signup.php");
     exit();
 }
