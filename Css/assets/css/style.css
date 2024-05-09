@@ -169,7 +169,6 @@ h6 {
 .navbar .active:focus,
 .navbar li:hover > a {
     background: rgba(255, 255, 255, 0.2);
-    
 }
 
 .navbar .dropdown ul {
@@ -907,7 +906,7 @@ section {
     text-align: center;
     background: rgba(103, 176, 209, 0.75);
     transition: 0.3s;
-    width: 50%;
+    width: 100%;
 }
 
 .portfolio .portfolio-wrap .portfolio-links a:hover {
@@ -933,14 +932,17 @@ section {
 
 .button-18 {
     align-items: center;
-    background-color: #8EC4DD;
+    background-color: #8ec4dd;
     border: 0;
     border-radius: 100px;
     box-sizing: border-box;
     color: #ffffff;
     cursor: pointer;
     display: inline-flex;
-    font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Lucida Grande", Helvetica, Arial, sans-serif;
+    font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto,
+        "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell,
+        "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Lucida Grande", Helvetica, Arial, sans-serif;
     font-size: 16px;
     font-weight: 600;
     justify-content: center;
@@ -954,28 +956,30 @@ section {
     padding-right: 20px;
     text-align: center;
     touch-action: manipulation;
-    transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+    transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+        box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+        color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
     user-select: none;
     -webkit-user-select: none;
     vertical-align: middle;
-  }
-  
-  .button-18:hover,
-  .button-18:focus { 
-    background-color: #16437E;
+}
+
+.button-18:hover,
+.button-18:focus {
+    background-color: #16437e;
     color: #ffffff;
-  }
-  
-  .button-18:active {
+}
+
+.button-18:active {
     background: #09223b;
-    color: rgb(255, 255, 255, .7);
-  }
-  
-  .button-18:disabled { 
+    color: rgb(255, 255, 255, 0.7);
+}
+
+.button-18:disabled {
     cursor: not-allowed;
-    background: rgba(0, 0, 0, .08);
-    color: rgba(0, 0, 0, .3);
-  }
+    background: rgba(0, 0, 0, 0.08);
+    color: rgba(0, 0, 0, 0.3);
+}
 /*--------------------------------------------------------------
 # Portfolio Details
 --------------------------------------------------------------*/
