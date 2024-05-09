@@ -106,7 +106,7 @@
 	$FilterSearch = $_POST["FilterSearch"] ?? "";
 	$filterByCategory = $_POST["filterByCategory"] ?? "";
 	$filterByDate = $_POST["filterByDate"] ?? "";
-	$filterByOther = $_POST["filterByOther"] ?? "";
+	$filterByOther = $_POST["filterByOther"] ?? "trend";
 
 	echo "<script>console.log('filter: $filterByCategory, filterByOther: $filterByOther,filterByDate: $filterByDate')</script>";
 	$filterWithCategory = "";
@@ -319,7 +319,17 @@
 									<div class="row">
 										<!-- BEGIN RESULT -->
 										<div class="col-md">
-											<h2><i class="fa-solid fa-book"></i> Result</h2>
+											<div class="d-flex justify-content-between align-items-center">
+												<h2><i class="fa-solid fa-book"></i> Result</h2>
+												<a data-bs-trigger="hover" data-bs-content="Click me to add Event"
+													data-bs-placement="top" data-bs-toggle="popover" title="Add Events"
+													href="add_event.php">
+													<i class="fa-solid fa-calendar-plus"
+														style="color: #74C0FC;font-size:2.3em;"></i>
+												</a>
+
+											</div>
+
 											<hr>
 											<!-- BEGIN SEARCH INPUT -->
 											<form
