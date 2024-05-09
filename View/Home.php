@@ -9,9 +9,13 @@
 	<title>TARUMT Movie Society </title>
 	<meta content="" name="description">
 	<meta content="" name="keywords">
-	<?php 
-	include('../Root/link.php');
+	<?php
+    include('../Root/link.php');
 	include('../Process/save_User_details.php');
+	if (!isset($_SESSION['role']) ||$_SESSION['role'] == NULL || $_SESSION['role'] != "Member" && $_SESSION['role'] != "Staff"){
+		session_destroy();	
+		header("Location: login_signup.php");
+	}
 ?>
 </head>
 
