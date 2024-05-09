@@ -425,7 +425,7 @@
 															<?php
 														        if(isset($_SESSION['role']) && $_SESSION['role'] == "Staff") {
 														            echo "<td>";
-														            echo "<a class='edit-button' href='edit-event.php'><i class=' fa-regular fa-pen-to-square'></i></a>";
+														            echo "<a class='edit-button' href='edit-event.php?event_id=" . $data[$i]["Event_id"] . "'><i class=' fa-regular fa-pen-to-square'></i></a>";
 														            echo "</td>";
 														            echo "<td>";
 														            echo "<a class='delete-button' href='../Process/delete-event.php'><i class='fa-regular fa-trash-can'></i></a>";

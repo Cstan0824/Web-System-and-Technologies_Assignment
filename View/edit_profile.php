@@ -9,10 +9,11 @@
     <meta content="" name="description">
     <meta content="" name="keywords">
     <link href="../Css/assets/css/profile-style.css" rel="stylesheet" />
-    <?php if (!isset($_SESSION['role']) ||$_SESSION['role'] == NULL || $_SESSION['role'] != "Member" &&   $_SESSION['role'] != "Staff"){
+    <?php 
+    if (!isset($_SESSION['role']) ||$_SESSION['role'] == NULL || $_SESSION['role'] != "Member" &&   $_SESSION['role'] != "Staff"){
         session_destroy();
         header("Location: login_signup.php");
-}
+    }
 ?>
 </head>
 

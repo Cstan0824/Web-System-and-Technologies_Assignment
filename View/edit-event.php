@@ -56,7 +56,7 @@
 								<div class="swiper-slide">
 									<img class="rounded" id="event-pic"
 										src="<?php echo $event_upl_path; ?>"
-										alt="">
+										alt="photo">
 									<!-- Add an empty <img> tag to display the uploaded image preview -->
 									<img class="rounded" id="imagePreview" src="#" alt="Uploaded Image"
 										style="display: none;">
@@ -153,11 +153,11 @@
 									<span class="input-group-text">Photo</span>
 									<input type="file" name="eventPic" id="eventPic" onchange="previewImage(event)"
 										class="form-control">
-									<input type="hidden" name="eventUplFileName"
+								</div>
+								<input type="hidden" name="eventUplFileName"
 										value="<?php echo $event_upl_file_name; ?>">
 									<input type="hidden" name="eventUplPath"
 										value="<?php echo $event_upl_path; ?>">
-								</div>
 						</div>
 					</div>
 				</div>
@@ -202,26 +202,28 @@
 <script>
 	function previewImage(event) {
 		// Get references to old and new image elements
-		const oldImage = document.getElementById(' event-pic');
-		const
-			newImagePreview = document.getElementById('imagePreview'); // Hide the old
-		image oldImage.style.display = 'none';
+		const oldImage = document.getElementById('event-pic');
+		const newImagePreview = document.getElementById('imagePreview'); 
+		// Hide the old image 
+		oldImage.style.display = 'none';
 		const input = event.target;
-		const
-			reader = new FileReader();
-		reader.onload = function() { // Set the src attribute
-			of the new image preview newImagePreview.src = reader.result; // Display the
-			new image preview newImagePreview.style.display = 'block';
+		const reader = new FileReader();
+		reader.onload = function() { 
+			// Set the src attribute of the new image preview 
+			newImagePreview.src = reader.result; 
+			// Display the new image preview 
+			newImagePreview.style.display = 'block';
 		};
 		reader.readAsDataURL(input.files[0]);
 	}
 
-	function confirmEdit() { // Get the
-		selected member 's name var
-		eventName = document.getElementById(" eventName").options[document.getElementById("eventName").selectedIndex]
-			.text; // Display a confirmation dialog with the member's name var
-		result = confirm("Are you sure you want to add booking for " + eventName + " ?
-			"); // If user confirms, submit the form if (result==1) {
+	function confirmEdit() { 
+		// Get the selected member 's name 
+		var eventName = document.getElementById(" eventName").options[document.getElementById("eventName").selectedIndex].text; 
+		// Display a confirmation dialog with the member's name 
+		var result = confirm("Are you sure you want to add booking for " + eventName + "?");
+			// If user confirms, submit the form 
+			if (result==1) {
 			document.getElementById("editEvent").submit();
 		}
 		else {

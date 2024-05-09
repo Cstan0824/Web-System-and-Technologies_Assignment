@@ -58,7 +58,7 @@
 					<ol>
 						<li><a href="Home.php">Home</a></li>
 						<li><a href="Event.php">Event</a></li>
-						<li>Event Details</li>
+						<li><?php echo $event_name; ?></li>
 					</ol>
 				</div>
 

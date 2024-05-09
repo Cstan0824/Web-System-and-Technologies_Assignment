@@ -245,7 +245,6 @@
 					</div>
 				</form>
 			</div>
-			<?php  echo date('Y-m-d'); ?>
 		</section>
 
 
