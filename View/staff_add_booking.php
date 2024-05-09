@@ -30,7 +30,7 @@
 <body>
 	<?php
 	include("header.php");
-	$eventID = 1;
+	$eventID = $_POST['addBooking'];
 
 	$sql_event = "SELECT * FROM t_event WHERE Event_id='$eventID'";
 	$result_event = mysqli_query($connect_db, $sql_event);

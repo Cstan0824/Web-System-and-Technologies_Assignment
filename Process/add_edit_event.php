@@ -49,6 +49,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 if ($dataValidated) {
+    if ($_POST['actionType'] == "editEvent"){
     $sql_update_event =
     "UPDATE t_event 
     SET Event_name='$eventName',
@@ -61,6 +62,7 @@ if ($dataValidated) {
         Event_upl_file_name='$event_upl_file_name',
         Event_upl_path='$event_upl_path', 
         Max_user='$eventMaxUser' 
+        Event_hoster='$eventHoster'
     WHERE Event_id='$eventID'";
 
     // Execute the SQL update query
@@ -68,5 +70,16 @@ if ($dataValidated) {
 
     // Redirect to event details page
     header("Location: ../View/event_details.php?event_id=$eventID");
+    }
+    else if ($_POST['actionType'] == "addEvent") {
+        $sql_add_event = 
+        "INSERT INTO t_event (Event_name, Staff_id, Event_type_id, Event_date, Event_location_id, Event_desc, Start_time, End_time, Event_upl_file_name, Event_upl_path, Max_user, Event_hoster) 
+        VALUES ('$eventName','".$_SESSION['Staff_id']."', '$eventType', '$eventDate', '$eventLocation', '$eventDescription', '$eventStartTime', '$eventEndTime', '$event_upl_file_name', '$event_upl_path', '$eventMaxUser', '$eventHoster')";
 
+        // Execute the SQL insert query
+        $execute_add_event = mysqli_query($connect_db, $sql_add_event);
+
+        // Redirect to event details page
+        header("Location: ../View/event_details.php?event_id=".mysqli_insert_id($connect_db));
+    }
 }

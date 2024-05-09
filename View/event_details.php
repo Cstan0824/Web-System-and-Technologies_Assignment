@@ -208,6 +208,12 @@
 									';
 								}
 	?>
+								<?php if(isset($_SESSION['role']) && $_SESSION['role'] == 'Staff') { ?>
+									<a href="../View/edit-event.php?event_id=<?php echo $eventID; ?>"><button id="edit-event" class="button-19 my-3" name="editEvent">Edit Event</button></a>
+
+								<form id="addEvent" action="../View/staff_add_booking.php" method="POST">
+									<button id="edit-event" class="button-19" type="submit" name="addBooking" value="<?php echo $eventID; ?>">Add Member Booking</button></form>
+								<?php }?>
 							</div>
 
 						</div>
@@ -242,7 +248,7 @@
 									<th class='text-info'>Member Name</th>
 									<th class='text-info'>Member Email</th>
 									<th class='text-info'>Booking Date</th>
-									<th class='text-info'><button id='add-booking' type='submit' name='add' value='".$eventID."'<i class='fa-solid fa-user-plus'></i></button</th>
+									<th class='text-info'><button id='add-booking' type='submit' name='addBooking' value='".$eventID."'<i class='fa-solid fa-user-plus'></i></button</th>
 									</tr>
 									</thead>
 									</form>
@@ -290,8 +296,6 @@
             //eprint("You pressed OK!");
         }
     }
-
-    
         const showTicketBtn = document.getElementById("member-booking");
         const ticketPopup = document.getElementById("ticketPopup");
         const closeTicketBtn = document.getElementById("closeTicketBtn");

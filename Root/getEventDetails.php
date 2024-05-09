@@ -13,7 +13,6 @@
 	    for($i = 1; $row_event_type = mysqli_fetch_assoc($result_event_type); $i++) {
 	        $event_type_ID[$i] = $row_event_type['Event_type_id'];
 	        $event_type_db[$i] = $row_event_type['Event_type'];
-
 	    }
 
 	}

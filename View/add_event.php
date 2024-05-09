@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Edit Event</title>
+	<title>Add Event</title>
 	<?php
     session_start();
 	if (!isset($_SESSION['role']) || $_SESSION['role'] == null || $_SESSION['role'] != "Staff") {
@@ -24,9 +24,35 @@
 <body>
 	<?php include("../Root/link.php");
 	include("../Root/connect-db.php");
-	include("../Root/getEventDetails.php");
 	include("header.php");
 	date_default_timezone_set('Asia/Kuala_Lumpur');
+
+	$sql_event_type = "SELECT * FROM t_event_type";
+	$result_event_type = mysqli_query($connect_db, $sql_event_type);
+	if (mysqli_num_rows($result_event_type) > 0) {
+	    $event_type_ID = array("");
+	    $event_type_db = array("");
+	    for($i = 1; $row_event_type = mysqli_fetch_assoc($result_event_type); $i++) {
+	        $event_type_ID[$i] = $row_event_type['Event_type_id'];
+	        $event_type_db[$i] = $row_event_type['Event_type'];
+	    }
+
+	}
+
+	$sql_event_location = "SELECT * FROM t_event_location";
+	$result_event_location = mysqli_query($connect_db, $sql_event_location);
+	if (mysqli_num_rows($result_event_location) > 0) {
+	    $event_location_ID = array("");
+	    $address = array("");
+	    $OI = array("");
+	    for($i = 1; $row_event_location = mysqli_fetch_assoc($result_event_location); $i++) {
+	        $event_location_ID[$i] = $row_event_location['Event_location_id'];
+	        $address_db[$i] = $row_event_location['Address'];
+	        $OI[$i] = $row_event_location['Location'];
+	    }
+
+	}
+
 	?>
 	<main id="main">
 
@@ -35,11 +61,11 @@
 			<div class="container">
 
 				<div class="d-flex justify-content-between align-items-center">
-					<h2>Edit Event</h2>
+					<h2>Add Event</h2>
 					<ol>
 						<li><a href="Home.php">Home</a></li>
 						<li><a href="Event.php">Event</a></li>
-						<li>Edit Event</li>
+						<li>Add Event</li>
 					</ol>
 				</div>
 			</div>
@@ -55,8 +81,7 @@
 
 								<div class="swiper-slide">
 									<img class="rounded" id="event-pic"
-										src="<?php echo $event_upl_path; ?>"
-										alt="photo">
+										src="..\Image\HD-wallpaper-film-making-film-making.jpg" alt="photo">
 									<!-- Add an empty <img> tag to display the uploaded image preview -->
 									<img class="rounded" id="imagePreview" src="#" alt="Uploaded Image"
 										style="display: none;">
@@ -70,32 +95,25 @@
 					<div class="col-lg-4">
 
 						<div class="portfolio-info rounded-sm">
-							<h3>Event Details</h3>
+							<h3>New Event Details</h3>
 							<form id="editEvent" action="../Process/add_edit_event.php" method="POST"
 								class="form-horizontal" role="form" enctype="multipart/form-data">
 								<!-- Name -->
 								<div class="input-group my-4">
 									<span class="input-group-text">Name</span>
 									<input type="text" id="eventName" class="form-control" placeholder="Event Name"
-										name="eventName"
-										value="<?php echo $event_name; ?>"
-										type="text">
+										name="eventName" value="" type="text">
 								</div>
 								<!-- Category -->
 								<div class="input-group my-4">
 
 									<span class="input-group-text">Event Type</span>
 									<select class="form-select" id="eventType" name="eventType" required>
-										<option value="" disabled selected>Select Event Type</option>
+										<option value="" selected disabled>Select Event Type</option>
 										<?php
 	                                    for ($i = 1; $i < count($event_type_ID); $i++) {
-	                                        if ($event_type_ID[$i] == $eventID) {
-	                                            echo "<option value='".$event_type_ID[$i]."' selected>".$event_type_db[$i]."</option>";
-	                                        } else {
-	                                            echo "<option value='".$event_type_ID[$i]."'>".$event_type_db[$i]."</option>";
-	                                        }
-	                                    }
-	?>
+	                                        echo "<option value='".$event_type_ID[$i]."'>".$event_type_db[$i]."</option>";
+	                                    }?>
 									</select>
 
 								</div>
@@ -103,22 +121,18 @@
 								<div class="input-group my-4">
 									<span class="input-group-text">Date</span>
 									<input class="form-control" name="eventDate" type="date"
-										value="<?php echo $event_date;?>" />
+										value="<?php echo date('Y-m-d'); ?>" />
 								</div>
 								<!-- Location -->
 								<div class="input-group my-4">
+
 									<span class="input-group-text">Location</span>
 									<select class="form-select" id="location" name="location" required>
-										<option value="" disabled selected>Select Location</option>
+										<option value="" selected disabled>Select Location</option>
 										<?php
-	                                        for ($i = 1; $i < count($event_location_ID); $i++) {
-	                                            if ($event_location_ID[$i] == $event_location_ID_cmp) {
-	                                                echo "<option value='".$event_location_ID[$i]."' selected>".$address_db[$i]." (".$OI[$i].") </option>";
-	                                            } else {
-	                                                echo "<option value='".$event_location_ID[$i]."'>".$address_db[$i]." (".$OI[$i].") </option>";
-	                                            }
-	                                        }
-	?>
+											for ($i = 1; $i < count($event_location_ID); $i++){
+	                                        	echo "<option value='".$event_location_ID[$i]."'>".$address_db[$i]." (".$OI[$i].") </option>";
+											}	?>
 									</select>
 
 								</div>
@@ -126,29 +140,26 @@
 								<div class="input-group my-4">
 									<span class="input-group-text">Hoster</span>
 									<input type="text" class="form-control" placeholder="Hoster" name="eventHoster"
-										value="<?php echo $event_hoster; ?>"
 										type="text">
 								</div>
 
 								<!-- Start Time -->
 								<div class="input-group my-4">
 									<span class="input-group-text">Start Time</span>
-									<input class="form-control" name="startTime" type="time"
-										value="<?php echo $start_time;?>" />
+									<input class="form-control" name="startTime" type="time"/>
 								</div>
 
 								<!-- End Time -->
 								<div class="input-group my-4">
 									<span class="input-group-text">End Time &nbsp;</span>
-									<input class="form-control" name="endTime" type="time"
-										value="<?php echo $end_time;?>" />
+									<input class="form-control" name="endTime" type="time"/>
 								</div>
 
 								<!-- Max User -->
 								<div class="input-group my-4">
 									<span class="input-group-text">Max User</span>
 									<input class="form-control" type="number" name="maxUser"
-										value="<?php echo $max_user;?>" />
+										value="30" />
 								</div>
 								<div class="input-group my-4">
 									<span class="input-group-text">Photo</span>
@@ -156,10 +167,11 @@
 										class="form-control">
 								</div>
 								<input type="hidden" name="eventUplFileName"
-									value="<?php echo $event_upl_file_name; ?>">
+									value="HD-wallpaper-film-making-film-making.jpg">
+									<!-- default image -->
 								<input type="hidden" name="eventUplPath"
-									value="<?php echo $event_upl_path; ?>">
-								<input type="hidden" name="actionType" value="editEvent">
+									value="../Image/HD-wallpaper-film-making-film-making.jpg">
+								<input type="hidden" name="actionType" value="addEvent">
 						</div>
 					</div>
 				</div>
@@ -172,7 +184,7 @@
 								<label class="col-lg-12 control-label" for="eventDesc">Event Description</label>
 								<div class="col-lg-12">
 									<textarea style="resize:none;" class="form-control" name="eventDesc" id="eventDesc"
-										rows="5"><?php echo $event_desc; ?></textarea>
+										rows="5" placeholder="Write event description here"></textarea>
 								</div>
 							</div>
 							<!-- Save -->
@@ -181,8 +193,7 @@
 								<div class="col-md-8">
 									<button class="btn btn-primary" name="editEvent" type="submit"
 										value="<?php echo $eventID; ?>"
-										onclick="confirmEdit();">Save
-										Changes</button>
+										onclick="confirmAdd();">Add Event</button>
 									</form>
 									<span></span>
 									<a
@@ -219,15 +230,15 @@
 		reader.readAsDataURL(input.files[0]);
 	}
 
-	function confirmEdit() {
+	function confirmAdd() {
 		// Get the selected member 's name 
-		var eventName = document.getElementById(" eventName").options[document.getElementById("eventName").selectedIndex]
+		var eventName = document.getElementById("eventName").options[document.getElementById("eventName").selectedIndex]
 			.text;
 		// Display a confirmation dialog with the member's name 
-		var result = confirm("Are you sure you want to add booking for " + eventName + "?");
+		var result = confirm("Are you sure you want to add " + eventName + "as new event?");
 		// If user confirms, submit the form 
 		if (result == 1) {
-			document.getElementById("editEvent").submit();
+			document.getElementById("addEvent").submit();
 		} else {
 			event.preventDefault();
 		}
