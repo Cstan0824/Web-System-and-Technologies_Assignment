@@ -531,6 +531,8 @@
 			</section>
 		</form>
 	</main>
+	<?php include("footer.php") ?>
+</body>
 	<script defer>
 		document.addEventListener("DOMContentLoaded", function() {
 			var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
@@ -666,3 +668,5 @@
 
 		//filter
 	</script>
+
+</html>

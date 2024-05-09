@@ -26,10 +26,10 @@
             <h4>Useful Links</h4>
             <ul>
               <li><i class="bx bx-chevron-right"></i> <a href="Event.php">Event</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="Home.php#services">Ticket</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="Home.php#activities">Activities</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="Home.php#portfolio">Join Us</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="Home.php#team">About us</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="Home.php#contact">Contact</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="Home.php#team">About Us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="Home.php#contact">Contact Us</a></li>
             </ul>
           </div>
 
@@ -37,7 +37,7 @@
             <h4>Our Activities</h4>
             <ul>
               <li><i class="bx bx-chevron-right"></i> <a href="Home.php#services">Famous Actor Meeting</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="Home.php#services">Movie Review Sharing Session</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="Home.php#services">Movie Sharing Session</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="Home.php#services">Movie Premiere</a></li>
             </ul>
           </div>

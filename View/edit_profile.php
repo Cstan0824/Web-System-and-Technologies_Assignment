@@ -35,7 +35,7 @@
                     <h2>Profile</h2>
                     <ol>
                         <li><a href="Home.php">Home</a></li>
-                        <li>Profile</li>
+                        <li><a href="profile.php">Profile</a></li>
                         <li>Edit Profile</li>
                     </ol>
                 </div>
