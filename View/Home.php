@@ -20,7 +20,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] == null || $_SESSION['role'] 
     header("Location: login_signup.php");
 }
 
-
+//Get Event Details
 $sql = "SELECT Event_id, Event_upl_path, Event_upl_file_name
 			FROM T_Event E
 			WHERE Event_id < 7";
@@ -32,12 +32,26 @@ while($row = $result->fetch_assoc()) {
     $data[] = array(
         "Event_id" => $row["Event_id"],
         "Event_upl_path" => $row["Event_upl_path"],
-        "Event_upl_file_name" => $row["Event_upl_file_name"],
+        "Event_upl_file_name" => $row["Event_upl_file_name"]
     );
-    $count++;
 }
+
+//Get Member Details
+$sql = "SELECT Member_name, Member_comment,Member_upl_path, Member_upl_file_name
+			FROM T_Member M
+			WHERE Member_id < 6";
+$memberData = array();
+$result = $connect_db->query($sql);
+while($row = $result->fetch_assoc()) {
+    $memberData[] = array(
+        "Member_name" => $row["Member_name"],
+        "Member_comment" => $row["Member_comment"],
+        "Member_upl_path" => $row["Member_upl_path"],
+        "Member_upl_file_name" => $row["Member_upl_file_name"]
+    );
+}
+//close connection
 $connect_db->close();
-echo "<script>console.log('Debug Objects: " . $count . "' );</script>";
 ?>
 	<style>
 		.image-adjustment {
@@ -129,7 +143,7 @@ echo "<script>console.log('Debug Objects: " . $count . "' );</script>";
 
 				<div class="row portfolio-container" data-aos="fade-up">
 
-					<?php for($i = 0; $i < count($data); $i++): ?>
+					<?php for($i = 0; $i < count($memberData); $i++): ?>
 					<?php
                         $imgPath =  $data[$i]["Event_upl_path"] ?? "../Css/assets/img/portfolio/portfolio-1.jpg";
 					    $imgName = $data[$i]["Event_upl_file_name"] ?? "default";
@@ -162,92 +176,26 @@ echo "<script>console.log('Debug Objects: " . $count . "' );</script>";
 
 				<div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
 					<div class="swiper-wrapper">
-
+						<?php for($i = 0; $i < 5 && $i < count($data); $i++): ?>
+						<?php
+					            $imgPath =  $memberData[$i]["Member_upl_path"] ?? "../Css/assets/img/testimonials/testimonials-1.jpg";
+						    $imgName = $memberData[$i]["Member_upl_file_name"] ?? "default";
+						    ?>
 						<div class="swiper-slide">
 							<div class="testimonial-item">
 								<p>
 									<i class="bx bxs-quote-alt-left quote-icon-left"></i>
-									The curation of films is impeccable. From classic masterpieces to contemporary gems,
-									each screening is a carefully chosen cinematic adventure. Whether you're into
-									thought-provoking dramas, pulse-pounding thrillers, or laugh-out-loud comedies,
-									there's something for every taste. <i
-										class="bx bxs-quote-alt-right quote-icon-right"></i>
-								</p>
-								<img src="../Css/assets/img/testimonials/testimonials-1.jpg" class="testimonial-img"
-									alt="">
-								<h3>Saul Goodman</h3>
-								<h4></h4>
-							</div>
-						</div><!-- End testimonial item -->
-
-						<div class="swiper-slide">
-							<div class="testimonial-item">
-								<p>
-									<i class="bx bxs-quote-alt-left quote-icon-left"></i>
-									Joining the Movie Society isn't just about entertainment; it's also an opportunity
-									for personal growth and learning. Through post-screening discussions, guest speaker
-									events, and workshops, members gain valuable insights into film theory, production
-									techniques, and the cultural significance of cinema. <i
-										class="bx bxs-quote-alt-right quote-icon-right"></i>
-								</p>
-								<img src="../Css/assets/img/testimonials/testimonials-2.jpg" class="testimonial-img"
-									alt="">
-								<h3>Sara Wilsson</h3>
-								<h4></h4>
-							</div>
-						</div><!-- End testimonial item -->
-
-						<div class="swiper-slide">
-							<div class="testimonial-item">
-								<p>
-									<i class="bx bxs-quote-alt-left quote-icon-left"></i>
-									The atmosphere within the Movie Society is electric. Every screening feels like a
-									celebration of the art form, with passionate discussions that linger long after the
-									credits roll. The sense of camaraderie among members creates a welcoming environment
-									where everyone's opinion is valued. <i
-										class="bx bxs-quote-alt-right quote-icon-right"></i>
-								</p>
-								<img src="../Css/assets/img/testimonials/testimonials-3.jpg" class="testimonial-img"
-									alt="">
-								<h3>Jena Karlis</h3>
-							</div>
-						</div><!-- End testimonial item -->
-
-						<div class="swiper-slide">
-							<div class="testimonial-item">
-								<p>
-									<i class="bx bxs-quote-alt-left quote-icon-left"></i>
-									Being part of the Movie Society has broadened my horizons in ways I never imagined.
-									I've discovered hidden gems from around the world, challenged my preconceptions, and
-									forged lasting friendships with fellow film enthusiasts. It's not just a club; it's
-									a community that enriches your life in ways you never expected. <i
-										class="bx bxs-quote-alt-right quote-icon-right"></i>
-								</p>
-								<img src="../Css/assets/img/testimonials/testimonials-4.jpg" class="testimonial-img"
-									alt="">
-								<h3>Matt Brandon</h3>
-								<h4></h4>
-							</div>
-						</div><!-- End testimonial item -->
-
-						<div class="swiper-slide">
-							<div class="testimonial-item">
-								<p>
-									<i class="bx bxs-quote-alt-left quote-icon-left"></i>
-									Joining the Movie Society has been one of the best decisions I've ever made. It's
-									more than just a hobby; it's a passion that brings people together, fosters
-									creativity, and celebrates the magic of cinema. If you're looking for a place to
-									connect with others who share your love of film, look no further than the Movie
-									Society. You won't regret it.
+									<?php echo $memberData[$i]["Member_comment"] ?? "what an excellent Society!!"; ?>
 									<i class="bx bxs-quote-alt-right quote-icon-right"></i>
 								</p>
-								<img src="../Css/assets/img/testimonials/testimonials-5.jpg" class="testimonial-img"
-									alt="">
-								<h3>John Larson</h3>
+								<?php
+						            echo "<img src='$imgPath' class='testimonial-img' alt='$imgName' />";
+						    echo "<h3>".$memberData[$i]["Member_name"]."</h3>";
+						    ?>
 								<h4></h4>
 							</div>
 						</div><!-- End testimonial item -->
-
+						<?php endfor ?>
 					</div>
 					<div class="swiper-pagination"></div>
 				</div>
