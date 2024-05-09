@@ -143,7 +143,7 @@ $connect_db->close();
 
 				<div class="row portfolio-container" data-aos="fade-up">
 
-					<?php for($i = 0; $i < count($memberData); $i++): ?>
+					<?php for($i = 0; $i < 6 && $i < count($memberData); $i++): ?>
 					<?php
                         $imgPath =  $data[$i]["Event_upl_path"] ?? "../Css/assets/img/portfolio/portfolio-1.jpg";
 					    $imgName = $data[$i]["Event_upl_file_name"] ?? "default";
