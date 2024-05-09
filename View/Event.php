@@ -86,6 +86,11 @@
 		.edit-button:hover {
 			color: rgba(18, 237, 0, 1);
 		}
+
+		.image-adjustment {
+			width: 100%;
+			height: 330px;
+		}
 	</style>
 
 </head>
@@ -457,10 +462,11 @@
 												    ?>
 												<div class="col-sm-6 portfolio-item filter-web mb-3">
 													<div class="portfolio-wrap">
-														<?php echo "<img class='img-fluid' src='$imgPath' alt='$imgName' />"; ?>
+														<?php echo "<img class='img-fluid image-adjustment' src='$imgPath' alt='$imgName' />"; ?>
 														<div class="portfolio-links">
 															<a href="event_details.php?event_id=<?php echo $data[$i]["Event_id"]; ?>"
-																title="More Details"><i class="bx bx-link"></i></a>
+																title="More Details" class="d-block"><i
+																	class="bx bx-link"></i></a>
 														</div>
 													</div>
 												</div>

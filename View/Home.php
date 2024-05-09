@@ -11,12 +11,40 @@
 	<meta content="" name="keywords">
 	<?php
     include('../Root/link.php');
-	include('../Process/save_User_details.php');
-	if (!isset($_SESSION['role']) ||$_SESSION['role'] == NULL || $_SESSION['role'] != "Member" && $_SESSION['role'] != "Staff"){
-		session_destroy();	
-		header("Location: login_signup.php");
-	}
+
+include("../Root/connect-db.php");
+
+include('../Process/save_User_details.php');
+if (!isset($_SESSION['role']) || $_SESSION['role'] == null || $_SESSION['role'] != "Member" && $_SESSION['role'] != "Staff") {
+    session_destroy();
+    header("Location: login_signup.php");
+}
+
+
+$sql = "SELECT Event_id, Event_upl_path, Event_upl_file_name
+			FROM T_Event E
+			WHERE Event_id < 7";
+
+$result = $connect_db->query($sql);
+$data = array();
+$count  = 0;
+while($row = $result->fetch_assoc()) {
+    $data[] = array(
+        "Event_id" => $row["Event_id"],
+        "Event_upl_path" => $row["Event_upl_path"],
+        "Event_upl_file_name" => $row["Event_upl_file_name"],
+    );
+    $count++;
+}
+$connect_db->close();
+echo "<script>console.log('Debug Objects: " . $count . "' );</script>";
 ?>
+	<style>
+		.image-adjustment {
+			width: 100%;
+			height: 400px;
+		}
+	</style>
 </head>
 
 <body>
@@ -29,7 +57,7 @@
 		<div class="hero-container" data-aos="fade-up">
 			<h1>Welcome to TARUMT Movie Society</h1>
 			<h2>We are movie society from TARUMT</h2>
-			<a href="#services" class="btn-get-started scrollto"><i class="bx bx-chevrons-down"></i></a>
+			<a href="#activities" class="btn-get-started scrollto"><i class="bx bx-chevrons-down"></i></a>
 		</div>
 	</section><!-- End Hero -->
 
@@ -76,7 +104,13 @@
 
 			</div>
 		</section><!-- End activities Section -->
+		<?php
 
+
+
+
+
+?>
 
 		<!-- ======= Portfolio Section ======= -->
 		<section id="portfolio" class="portfolio">
@@ -91,76 +125,27 @@
 					<div class="col-lg-12 text-center my-3">
 						<a class="btn button-18" role="button" href="Event.php">See More</a>
 					</div>
-
 				</div>
 
 				<div class="row portfolio-container" data-aos="fade-up">
 
+					<?php for($i = 0; $i < count($data); $i++): ?>
+					<?php
+                        $imgPath =  $data[$i]["Event_upl_path"] ?? "../Css/assets/img/portfolio/portfolio-1.jpg";
+					    $imgName = $data[$i]["Event_upl_file_name"] ?? "default";
+					    ?>
 					<div class="col-lg-4 col-md-6 portfolio-item filter-app">
 						<div class="portfolio-wrap">
-							<img src="../Css/assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="">
+							<img src="<?php echo $imgPath; ?>"
+								class="img-fluid image-adjustment"
+								alt="<?php echo $imgName; ?>">
 							<div class="portfolio-links">
-								<a href="../Css/assets/img/portfolio/portfolio-1.jpg" data-gallery="portfolioGallery"
-									class="portfolio-lightbox" title="App 1"><i class="bx bx-plus"></i></a>
-								<a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
+								<a href="event_details.php?event_id=<?php echo $data[$i]["Event_id"]?>"
+									title="More Details" class="d-block"><i class="bx bx-link"></i></a>
 							</div>
 						</div>
 					</div>
-
-					<div class="col-lg-4 col-md-6 portfolio-item filter-web">
-						<div class="portfolio-wrap">
-							<img src="../Css/assets/img/portfolio/portfolio-2.jpg" class="img-fluid" alt="">
-							<div class="portfolio-links">
-								<a href="../Css/assets/img/portfolio/portfolio-2.jpg" data-gallery="portfolioGallery"
-									class="portfolio-lightbox" title="Scent OF A Woman"><i class="bx bx-plus"></i></a>
-								<a href="event_details.php" title="More Details"><i class="bx bx-link"></i></a>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-4 col-md-6 portfolio-item filter-app">
-						<div class="portfolio-wrap">
-							<img src="../Css/assets/img/portfolio/portfolio-3.jpg" class="img-fluid" alt="">
-							<div class="portfolio-links">
-								<a href="../Css/assets/img/portfolio/portfolio-3.jpg" data-gallery="portfolioGallery"
-									class="portfolio-lightbox" title="App 2"><i class="bx bx-plus"></i></a>
-								<a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-4 col-md-6 portfolio-item filter-card">
-						<div class="portfolio-wrap">
-							<img src="../Css/assets/img/portfolio/portfolio-4.jpg" class="img-fluid" alt="">
-							<div class="portfolio-links">
-								<a href="../Css/assets/img/portfolio/portfolio-4.jpg" data-gallery="portfolioGallery"
-									class="portfolio-lightbox" title="Card 2"><i class="bx bx-plus"></i></a>
-								<a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-4 col-md-6 portfolio-item filter-web">
-						<div class="portfolio-wrap">
-							<img src="../Css/assets/img/portfolio/portfolio-5.jpg" class="img-fluid" alt="">
-							<div class="portfolio-links">
-								<a href="../Css/assets/img/portfolio/portfolio-5.jpg" data-gallery="portfolioGallery"
-									class="portfolio-lightbox" title="Web 2"><i class="bx bx-plus"></i></a>
-								<a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-4 col-md-6 portfolio-item filter-app">
-						<div class="portfolio-wrap">
-							<img src="../Css/assets/img/portfolio/portfolio-6.jpg" class="img-fluid" alt="">
-							<div class="portfolio-links">
-								<a href="../Css/assets/img/portfolio/portfolio-6.jpg" data-gallery="portfolioGallery"
-									class="portfolio-lightbox" title="App 3"><i class="bx bx-plus"></i></a>
-								<a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-							</div>
-						</div>
-					</div>
+					<?php endfor ?>
 				</div>
 
 			</div>
