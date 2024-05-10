@@ -289,36 +289,36 @@
 
 	<!-- Template Main JS File -->
 	<script src="../Css/assets/js/main.js"></script>
-<script>
-    function myFunction() {
-        var txt;
-        if (confirm("You have successfully booked the ticket.")) {
-            //eprint("You pressed OK!");
-        }
-    }
-        const showTicketBtn = document.getElementById("member-booking");
-        const ticketPopup = document.getElementById("ticketPopup");
-        const closeTicketBtn = document.getElementById("closeTicketBtn");
+	<script>
+		function myFunction() {
+			var txt;
+			if (confirm("You have successfully booked the ticket.")) {
+				//eprint("You pressed OK!");
+			}
+		}
+			const showTicketBtn = document.getElementById("member-booking");
+			const ticketPopup = document.getElementById("ticketPopup");
+			const closeTicketBtn = document.getElementById("closeTicketBtn");
 
-        closeTicketBtn.addEventListener("click", function () {
-            ticketPopup.style.display = "none";
-			document.getElementById("memberAddBooking").submit();
+			closeTicketBtn.addEventListener("click", function () {
+				ticketPopup.style.display = "none";
+				document.getElementById("memberAddBooking").submit();
 
-        });
+			});
 
-    function confirmBooking() {
-        // Display a confirmation dialog with the member's name
-        var result = confirm("Are you sure you want to book for this event?");
-        const ticketPopup = document.getElementById("ticketPopup"); // Define ticketPopup here
+		function confirmBooking() {
+			// Display a confirmation dialog with the member's name
+			var result = confirm("Are you sure you want to book for this event?");
+			const ticketPopup = document.getElementById("ticketPopup"); // Define ticketPopup here
 
-        // If user confirms, submit the form
-        if (result == true) {
-            ticketPopup.style.display = "block";
-        } else {
-            event.preventDefault(); // Prevent form submission if user cancels
-        }
-    }
-</script>
+			// If user confirms, submit the form
+			if (result == true) {
+				ticketPopup.style.display = "block";
+			} else {
+				event.preventDefault(); // Prevent form submission if user cancels
+			}
+		}
+	</script>
 
 
 </body>

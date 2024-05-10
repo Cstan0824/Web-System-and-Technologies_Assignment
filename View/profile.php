@@ -124,8 +124,8 @@
                                         class="form-control input-lg p-text-area"
                                         style="resize:none;height:115px;"></textarea>
                                 </form>
-                                <footer class="panel-footer" style="text-align: right;">
-                                    <button class="btn btn-info">Post</button>
+                                <footer class="panel-footer" style="display: flex; justify-content: flex-end; align-items: center; color: white; height: 60px;">                                  
+                                    <button class="btn btn-info" style="background: rgba(103, 207, 255, 0.9); color: white; margin-right: 30px;">Post</button>
                                 </footer>
                             </div>
                             <div class="panel bg-light">
@@ -352,6 +352,7 @@
                 console.error(error);
             });
     }
+
 </script>
 
 </html>
