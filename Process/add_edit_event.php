@@ -22,7 +22,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         if(isset($_FILES["eventPic"]) && $_FILES["eventPic"]["error"] === UPLOAD_ERR_OK){
             
             $fileType = array("png","jpeg","gif","jpg");
-            $target_dir = "../Image/";
+            $target_dir = "../Image/event_picture/";
             $file = $_FILES["eventPic"]["name"];
             $fileExtension = explode(".", $file);
             $filePath = strtolower(end($fileExtension));

@@ -252,7 +252,7 @@
 								</tr>
 								</thead>
 								</form>
-								<form id='deleteBooking' action='../Process/staff_delete_booking.php' method='POST'>
+								<form id='deleteBooking' action='../Process/delete_booking.php' method='POST'>
 								<tbody>";
 								
 								for ($i = 1; $row_booking = mysqli_fetch_assoc($result_booking); $i++) {

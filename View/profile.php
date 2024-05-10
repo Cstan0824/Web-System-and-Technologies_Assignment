@@ -88,7 +88,7 @@
 						<div class="profile-nav col-md-3">
 							<div class="panel panel-default">
 								<div class="user-heading round">
-									<a href="#" class="position-relative" onclick="openImageUploader()"
+									<a href="#" class="position-relative" onclick="openImageUploader();"
 										data-bs-content="Click to Upload Profile picture." title="Profile Picture"
 										data-bs-placement="right" data-bs-toggle="popover" data-bs-trigger="hover">
 										<img src="<?php echo $_SESSION['user_pic_path'] ?? "../Css/assets/img/team/team-1.jpg" ?>"
@@ -169,7 +169,7 @@
 								<h4>
 									<?php
 	                                    if($_SESSION['role'] == "Member") {
-	                                        $submitPath = "../Process/staff_delete_booking.php";
+	                                        $submitPath = "../Process/delete_booking.php";
 	                                        echo "Upcoming Events";
 	                                    } elseif($_SESSION['role'] == "Staff") {
 	                                        $submitPath = "../Process/delete-event.php";
@@ -345,7 +345,7 @@
 				method: 'POST',
 				body: formData
 			})
-			.then(response => response.json())
+			.then(response => response.text())
 			.then(data => {
 				console.log(data);
 			})
