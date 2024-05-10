@@ -33,8 +33,6 @@
 		#movie-info {
 			font-size: 20px !important;
 		}
-			
-		
 	</style>
 
 	<?php include("../Root/link.php") ?>
@@ -123,18 +121,20 @@
 								    echo '
 									<form id="memberAddBooking" action="../Process/add_booking_process.php" method="post">
 									<button id="member-booking" name="member-booking" type="submit" onclick="confirmBooking();" class="button-19" value="'.$eventID.'">Book Ticket</button>
-									
-										</div>
-									</div>
 									</form>
 									';
 								}
 	?>
 								<?php if(isset($_SESSION['role']) && $_SESSION['role'] == 'Staff') { ?>
-									<a href="../View/edit-event.php?event_id=<?php echo $eventID; ?>"><button id="edit-event" class="button-19 my-3" name="editEvent">Edit Event</button></a>
+								<a
+									href="../View/edit-event.php?event_id=<?php echo $eventID; ?>"><button
+										id="edit-event" class="button-19 my-3" name="editEvent">Edit Event</button></a>
 
 								<form id="addEvent" action="../View/staff_add_booking.php" method="POST">
-									<button id="edit-event" class="button-19" type="submit" name="addBooking" value="<?php echo $eventID; ?>">Add Member Booking</button></form>
+									<button id="edit-event" class="button-19" type="submit" name="addBooking"
+										value="<?php echo $eventID; ?>">Add
+										Member Booking</button>
+								</form>
 								<?php }?>
 							</div>
 
@@ -156,10 +156,10 @@
 							WHERE B.Event_id='$eventID' AND BC.Booking_id IS NULL
 							ORDER BY B.Booking_date ASC;";
 
-			    			$result_booking = mysqli_query($connect_db, $sql_booking);
+			    $result_booking = mysqli_query($connect_db, $sql_booking);
 
-							if (mysqli_num_rows($result_booking) > 0) {
-								echo "
+			    if (mysqli_num_rows($result_booking) > 0) {
+			        echo "
 						
 								<table class='table table-hover'>
 								<thead>
@@ -176,9 +176,9 @@
 								</form>
 								<form id='deleteBooking' action='../Process/delete_booking.php' method='POST'>
 								<tbody>";
-								
-								for ($i = 1; $row_booking = mysqli_fetch_assoc($result_booking); $i++) {
-									echo"
+
+			        for ($i = 1; $row_booking = mysqli_fetch_assoc($result_booking); $i++) {
+			            echo"
 											<tr data-bs-trigger='hover'>
 											<td>".$i."</td>
 											<td>".$row_booking['Member_id']."</td>
@@ -188,10 +188,10 @@
 											<td><button id='delete-booking' type='submit' name='delete' value='".$row_booking['Booking_id']."'<i class='fa-regular fa-trash-can'></i></button></td>
 											</tr>
 											";
-								}
-								echo "</tbody></form></table>";
-			    			}
-						}?>
+			        }
+			        echo "</tbody></form></table>";
+			    }
+			}?>
 					</div>
 			</section>
 			<!-- ======= End Booking Details Section ======= -->
@@ -209,32 +209,12 @@
 	<!-- Template Main JS File -->
 	<script src="../Css/assets/js/main.js"></script>
 	<script>
-		function myFunction() {
-			var txt;
-			if (confirm("You have successfully booked the ticket.")) {
-				//eprint("You pressed OK!");
-			}
-		}
-			const showTicketBtn = document.getElementById("member-booking");
-			const ticketPopup = document.getElementById("ticketPopup");
-			const closeTicketBtn = document.getElementById("closeTicketBtn");
-
-			closeTicketBtn.addEventListener("click", function () {
-				ticketPopup.style.display = "none";
-				document.getElementById("memberAddBooking").submit();
-
-			});
-
 		function confirmBooking() {
 			// Display a confirmation dialog with the member's name
 			var result = confirm("Are you sure you want to book for this event?");
-			const ticketPopup = document.getElementById("ticketPopup"); // Define ticketPopup here
 
-			// If user confirms, submit the form
-			if (result == true) {
-				ticketPopup.style.display = "block";
-			} else {
-				event.preventDefault(); // Prevent form submission if user cancels
+			if (result == false) {
+				event.preventDefault(); 
 			}
 		}
 	</script>
