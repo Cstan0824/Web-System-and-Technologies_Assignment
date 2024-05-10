@@ -234,45 +234,42 @@
 							WHERE B.Event_id='$eventID' AND BC.Booking_id IS NULL
 							ORDER BY B.Booking_date ASC;";
 
-			    $result_booking = mysqli_query($connect_db, $sql_booking);
+			    			$result_booking = mysqli_query($connect_db, $sql_booking);
 
-			    if (mysqli_num_rows($result_booking) > 0) {
-			        echo "
-							
-									<table class='table table-hover'>
-									<thead>
-									<form action='../View/staff_add_booking.php' method='POST'>
-									<tr>
-									<th class='text-info'>No.</th>
-									<th class='text-info'>Member ID</th>
-									<th class='text-info'>Member Name</th>
-									<th class='text-info'>Member Email</th>
-									<th class='text-info'>Booking Date</th>
-									<th class='text-info'><button id='add-booking' type='submit' name='addBooking' value='".$eventID."'<i class='fa-solid fa-user-plus'></i></button</th>
-									</tr>
-									</thead>
-									</form>
-									<form id='deleteBooking' action='../Process/staff_delete_booking.php' method='POST'>
-									<tbody>
-								";
-			        for ($i = 1; $row_booking = mysqli_fetch_assoc($result_booking); $i++) {
-			            echo"
-										
-										<tr data-bs-trigger='hover'>
-										<td>".$i."</td>
-										<td>".$row_booking['Member_id']."</td>
-										<td id='member'>".$row_booking['Member_name']."</td>
-										<td>".$row_booking['Member_email']."</td>
-										<td>".$row_booking['Booking_date']."</td>
-										<td><button id='delete-booking' type='submit' name='delete' value='".$row_booking['Booking_id']."'<i class='fa-regular fa-trash-can'></i></button></td>
-										</tr>
-										";
-			        }
-			        echo "</tbody></form></table>";
-			    }
-			}?>
-
-
+							if (mysqli_num_rows($result_booking) > 0) {
+								echo "
+						
+								<table class='table table-hover'>
+								<thead>
+								<form action='../View/staff_add_booking.php' method='POST'>
+								<tr>
+								<th class='text-info'>No.</th>
+								<th class='text-info'>Member ID</th>
+								<th class='text-info'>Member Name</th>
+								<th class='text-info'>Member Email</th>
+								<th class='text-info'>Booking Date</th>
+								<th class='text-info'><button id='add-booking' type='submit' name='addBooking' value='".$eventID."'<i class='fa-solid fa-user-plus'></i></button</th>
+								</tr>
+								</thead>
+								</form>
+								<form id='deleteBooking' action='../Process/staff_delete_booking.php' method='POST'>
+								<tbody>";
+								
+								for ($i = 1; $row_booking = mysqli_fetch_assoc($result_booking); $i++) {
+									echo"
+											<tr data-bs-trigger='hover'>
+											<td>".$i."</td>
+											<td>".$row_booking['Member_id']."</td>
+											<td id='member'>".$row_booking['Member_name']."</td>
+											<td>".$row_booking['Member_email']."</td>
+											<td>".$row_booking['Booking_date']."</td>
+											<td><button id='delete-booking' type='submit' name='delete' value='".$row_booking['Booking_id']."'<i class='fa-regular fa-trash-can'></i></button></td>
+											</tr>
+											";
+								}
+								echo "</tbody></form></table>";
+			    			}
+						}?>
 					</div>
 			</section>
 			<!-- ======= End Booking Details Section ======= -->

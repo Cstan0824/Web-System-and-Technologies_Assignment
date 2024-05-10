@@ -24,6 +24,7 @@ if (mysqli_num_rows($result_member) === 1) {
     $_SESSION['user_date'] = $row_member['Member_regisdate'];
     $_SESSION['user_pic_filename']  = $row_member['Member_upl_file_name'];
     $_SESSION['user_pic_path']  = $row_member['Member_upl_path'];
+    $_SESSION['user_comment'] = $row_member['Member_comment'];
 };
 
 if (mysqli_num_rows($result_staff) === 1) {
