@@ -3,7 +3,7 @@
 
 if (isset($_POST['profile_picture'])) {
     $fileType = array("png","jpeg","gif","jpg");
-    $target_dir = "../Image/";
+    $target_dir = "../Image/profile_picture/";
     $file = $_FILES["profile_picture"]["name"];
     $fileExtension = explode(".", $file);
     $filePath = strtolower(end($fileExtension));
