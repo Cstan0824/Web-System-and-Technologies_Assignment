@@ -28,14 +28,16 @@ try {
 
     // Email sender and recipient
     $mail->setFrom('tarumtmoviesociety@gmail.com', 'TARUMT Movie Society');// sender
-    $mail->addAddress('tancs8803@gmail.com', 'Tan Choon Shen'); // recipient
+    $mail->addAddress($email, $name); // recipient
 
     //Content
     $mail->isHTML(true);
+
     $mail->Subject = 'Member Account Registration';
-    $mail->Body = "<h2>Dear Users,<br/> Thank you for registering with us. 
+    $mail->Body = "<h2>Dear $name, <br/> Thank you for registering with us. 
      <br/>Your OTP No. is <span style='color:red;'>$otp</span> for <strong>Movie Society</strong> and will expire in 5 minutes.</h2>
     <br/> <b>REMARK: DO NOT SHARE THIS PASSWORD TO ANYONE.</b>";
+
     $mail->send();
 } catch (Exception $e) {
     echo "Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
