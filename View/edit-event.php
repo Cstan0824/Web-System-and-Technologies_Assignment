@@ -86,7 +86,6 @@
 
 									<span class="input-group-text">Event Type</span>
 									<select class="form-select" id="eventType" name="eventType" required>
-										<option value="" disabled selected>Select Event Type</option>
 										<?php
 	                                    for ($i = 1; $i < count($event_type_ID); $i++) {
 	                                        if ($event_type_ID[$i] == $eventID) {
@@ -180,13 +179,10 @@
 								<label class="col-md-3 control-label"></label>
 								<div class="col-md-8">
 									<button class="btn btn-primary" name="editEvent" type="submit"
-										value="<?php echo $eventID; ?>"
-										onclick="confirmEdit();">Save
-										Changes</button>
+										value="<?php echo $eventID; ?>" onclick="confirmEdit();">Save Changes</button>
 									</form>
 									<span></span>
-									<a
-										href="event_details.php?event_id=<?php echo $eventID; ?>">
+									<a href="event_details.php?event_id=<?php echo $eventID; ?>">
 										<button class="btn btn-danger" name="back">Cancel</button></a>
 								</div>
 							</div>
@@ -201,7 +197,7 @@
 
 	<?php include('footer.php'); ?>
 </body>
-<script>
+<script defer>
 	function previewImage(event) {
 		// Get references to old and new image elements
 		const oldImage = document.getElementById('event-pic');
@@ -220,11 +216,9 @@
 	}
 
 	function confirmEdit() {
-		// Get the selected member 's name 
-		var eventName = document.getElementById(" eventName").options[document.getElementById("eventName").selectedIndex]
-			.text;
+		var eventName = document.getElementById("eventName").options[document.getElementById("eventName").selectedIndex].text;
 		// Display a confirmation dialog with the member's name 
-		var result = confirm("Are you sure you want to add booking for " + eventName + "?");
+		var result = confirm("Are you sure the entered details for" + eventName + "are correct?");
 		// If user confirms, submit the form 
 		if (result == 1) {
 			document.getElementById("editEvent").submit();

@@ -34,9 +34,10 @@ try {
     $mail->isHTML(true);
 
     $mail->Subject = 'Member Account Registration';
-    $mail->Body = "<h2>Dear $name, <br/> Thank you for registering with us. 
+    $mail->Body = "<h2>Dear $name, <br/><br/> Thank you for registering with us. 
      <br/>Your OTP No. is <span style='color:red;'>$otp</span> for <strong>Movie Society</strong> and will expire in 5 minutes.</h2>
-    <br/> <b>REMARK: DO NOT SHARE THIS PASSWORD TO ANYONE.</b>";
+    <br/> <b>REMARK: DO NOT SHARE THIS OTP TO ANYONE.</b> <br/> <br/> 
+    Best Regards, <br/> <b>TARUMT Movie Society</b> <br/>";
 
     $mail->send();
 } catch (Exception $e) {

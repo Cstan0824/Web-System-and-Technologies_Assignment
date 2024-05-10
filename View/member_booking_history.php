@@ -10,29 +10,33 @@
 	<meta content="" name="keywords">
 	<link href="../Css/assets/css/profile-style.css" rel="stylesheet" />
 
-    <?php session_start();?>
+	<?php session_start();
+	if (!isset($_SESSION['role']) || $_SESSION['role'] == null || $_SESSION['role'] != "Member" &&   $_SESSION['role'] != "Staff") {
+	    session_destroy();
+	    header("Location: login_signup.php");
+	}?>
 
 </head>
 
 <body>
 	<?php
-    include('../Root/link.php');
+	include('../Root/link.php');
 	include('header.php');
-    include('../Root/connect-db.php');
+	include('../Root/connect-db.php');
 	?>
 
 	<?php
 
-    $sql = "";
+	$sql = "";
 
-    $sql = "SELECT B.Booking_id, E.Event_id, E.Event_name, E.Event_desc, E.Event_date, E.Start_time, E.Event_upl_path, E.Event_upl_file_name
+	$sql = "SELECT B.Booking_id, E.Event_id, E.Event_name, E.Event_desc, E.Event_date, E.Start_time, E.Event_upl_path, E.Event_upl_file_name
     FROM T_EVENT E  
     JOIN T_BOOKING B ON E.Event_id = B.Event_id 
     LEFT JOIN T_BOOKING_CANCELLATION BC ON B.Booking_id = BC.Booking_id 
     WHERE B.Member_id = '".$_SESSION['Member_id']."' AND BC.Booking_id IS NULL AND E.Event_date < CURDATE()
     ORDER BY Event_date DESC;";
-    
-    $upcoming_event = array();
+
+	$upcoming_event = array();
 	$result = $connect_db->query($sql);
 	while($row = $result->fetch_assoc()) {
 	    $upcoming_event[] = array(
@@ -73,40 +77,49 @@
 
 		<section class="inner-page">
 			<div class="container">
-
-
 				<div class="container">
 					<div class="row">
 						<div class="profile-nav col-md-3">
 							<div class="panel panel-default">
 								<div class="user-heading round">
-									<h1>Tan Choon Shen</h1>
+									<a href="#" class="position-relative" onclick="openImageUploader();"
+										data-bs-content="Click to change Profile Picture." title="Profile Picture"
+										data-bs-placement="right" data-bs-toggle="popover" data-bs-trigger="hover">
+										<img id="old-profilepic"
+											src="<?php echo $_SESSION['user_pic_path'] ?? "../Css/assets/img/team/team-1.jpg" ?>"
+											alt="<?php echo $_SESSION['user_pic_file_name'] ?? "default"; ?>" />
+									</a>
+
+									<h1><?php echo $_SESSION['user_name'];?>
+									</h1>
+									<p><?php echo $_SESSION['user_email']; ?>
+									</p>
 								</div>
 								<div class="panel-body">
-									<ul class="profilenav list-group" style="list-style-type: none; padding-left: 0px;">
-										<a href="record.php" class="list-group-item list-group-item-action"><i
-												class="fa fa-ticket" style="color:#898B9B;"></i>&nbsp;&nbsp;Booking
-											History</a>
-										<a href="#" class="list-group-item list-group-item-action"><i class="fa fa-edit"
-												style="color:#898B9B;"></i>&nbsp;&nbsp;Edit Profile</a>
-
+									<ul class="profilenav list-group rounded-0"
+										style="list-style-type: none; padding-left: 0px;">
+										<?php
+	                                        if($_SESSION['role'] == "Member") {
+	                                            echo "<a href='profile.php' class='list-group-item
+                                                 list-group-item-action px-2'><i <i class='fa-regular fa-address-card ps-2 pe-3'
+                                            style='color:#898B9B;'></i> Profile</a>";
+	                                        }
+	?>
+										<a href="edit_profile.php"
+											class="list-group-item list-group-item-action px-2"><i
+												class="fa fa-edit ps-2 pe-3" style="color:#898B9B;"></i> Edit
+											Profile</a>
 									</ul>
 								</div>
 							</div>
 						</div>
-
 						<div class="profile-info col-md-9">
-							<div class="panel">
-								<div class="bio-graph-heading">
-									Welcome, Tan Choon Shen.
-								</div>
-							</div>
 							<div>
 								<br>
 								<h4>Past Events</h4>
 								<br>
 
-                                <?php if(count($upcoming_event) != 0){?>
+								<?php if(count($upcoming_event) != 0) {?>
 								<div class="row justify-content-between">
 									<?php for($i = ($page - 1) * 4; $i < $page * 4 && $i < count($upcoming_event);$i++): ?>
 									<?php
@@ -158,44 +171,40 @@
 										</div>
 									</div>
 									<?php endfor; ?>
-                                    <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
-                                        <ul class="pagination">
-                                            <li class="page-item">
-                                                <button id="prevPage" class="page-link disabled" type="submit"
-                                                    <?php echo "name='page' value='" .max($page - 1, 1). "'" ?>>
-                                                    Previous
-                                                </button>
-                                            </li>
-                                            <?php for ($i = 1; $i <= $pageCount; $i++): ?>
-                                            <li class="page-item">
-                                                <button
-                                                    class="page-link <?php echo ($page == $i) ? "disabled bg-muted" : ""; ?>"
-                                                    type="submit"
-                                                    <?php echo "name='page' value='$i'" ?>><?php echo $i ?></button>
-                                            </li>
-                                            <?php endfor ?>
-                                            <li class="page-item">
-                                                <button id="nextPage" class="page-link disabled" type="submit"
-                                                    <?php echo "name='page' value='".min($page + 1, $pageCount). "'" ?>>
-                                                    Next
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </form>
+									<form
+										action="<?php echo $_SERVER["PHP_SELF"]; ?>"
+										method="post">
+										<ul class="pagination">
+											<li class="page-item">
+												<button id="prevPage" class="page-link disabled" type="submit"
+													<?php echo "name='page' value='" .max($page - 1, 1). "'" ?>>
+													Previous
+												</button>
+											</li>
+											<?php for ($i = 1; $i <= $pageCount; $i++): ?>
+											<li class="page-item">
+												<button
+													class="page-link <?php echo ($page == $i) ? "disabled bg-muted" : ""; ?>"
+													type="submit"
+													<?php echo "name='page' value='$i'" ?>><?php echo $i ?></button>
+											</li>
+											<?php endfor ?>
+											<li class="page-item">
+												<button id="nextPage" class="page-link disabled" type="submit"
+													<?php echo "name='page' value='".min($page + 1, $pageCount). "'" ?>>
+													Next
+												</button>
+											</li>
+										</ul>
+									</form>
 								</div>
-                                <?php } 
-                                else {
-                                echo "<h5>No past events found.</h5>";
-                                }
-                                ?>
 							</div>
-						</div>
+							<?php } else {
+							    echo "<h5>No past events found.</h5>";
+							}?>
 					</div>
 				</div>
-                
-
-
-
+			</div>
 			</div>
 		</section>
 
@@ -212,7 +221,7 @@
 
 </body>
 <script defer>
-document.addEventListener("DOMContentLoaded", function() {
+	document.addEventListener("DOMContentLoaded", function() {
 		var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
 		var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
 			return new bootstrap.Popover(popoverTriggerEl);
@@ -244,6 +253,6 @@ document.addEventListener("DOMContentLoaded", function() {
 			}
 			console.log(eventId);
 		}));
-
 </script>
+
 </html>

@@ -18,6 +18,7 @@ $result_staff = mysqli_query($connect_db, $sql_staff);
 
 if (mysqli_num_rows($result_member) === 1) {
     $row_member = mysqli_fetch_assoc($result_member);
+    $_SESSION['user_id'] = $row_member['Member_id'];
     $_SESSION['user_pass'] = $row_member['Member_password'];
     $_SESSION['user_name'] = $row_member['Member_name'];
     $_SESSION['user_email'] = $row_member['Member_email'];
@@ -29,6 +30,7 @@ if (mysqli_num_rows($result_member) === 1) {
 
 if (mysqli_num_rows($result_staff) === 1) {
     $row_staff = mysqli_fetch_assoc($result_staff);
+    $_SESSION['user_id'] = $row_staff['Staff_id'];
     $_SESSION['user_pass'] = $row_staff['Staff_password'];
     $_SESSION['user_name'] = $row_staff['Staff_name'];
     $_SESSION['user_email'] = $row_staff['Staff_email'];

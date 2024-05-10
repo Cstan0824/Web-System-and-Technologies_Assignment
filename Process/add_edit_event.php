@@ -61,7 +61,7 @@ if ($dataValidated) {
         End_time='$eventEndTime', 
         Event_upl_file_name='$event_upl_file_name',
         Event_upl_path='$event_upl_path', 
-        Max_user='$eventMaxUser' 
+        Max_user='$eventMaxUser',
         Event_hoster='$eventHoster'
     WHERE Event_id='$eventID'";
 

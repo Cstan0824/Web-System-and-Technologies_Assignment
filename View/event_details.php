@@ -21,7 +21,7 @@
 			color: rgba(0, 255, 0);
 		}
 
-		#delete-booking:hover {
+		#delete-event:hover, #delete-booking:hover {
 			color: red;
 		}
 
@@ -126,15 +126,19 @@
 								}
 	?>
 								<?php if(isset($_SESSION['role']) && $_SESSION['role'] == 'Staff') { ?>
-								<a
-									href="../View/edit-event.php?event_id=<?php echo $eventID; ?>"><button
-										id="edit-event" class="button-19 my-3" name="editEvent">Edit Event</button></a>
+								<a href="../View/edit-event.php?event_id=<?php echo $eventID; ?>">
+								<button id="edit-event" class="button-19 my-3" name="editEvent">Edit Event</button></a>
 
-								<form id="addEvent" action="../View/staff_add_booking.php" method="POST">
-									<button id="edit-event" class="button-19" type="submit" name="addBooking"
+								<form id="addEvent" action="staff_add_booking.php" method="POST">
+									<button id="add-booking" class="button-19 my-3" type="submit"  name="addBooking"
 										value="<?php echo $eventID; ?>">Add
 										Member Booking</button>
 								</form>
+								<form id="deleteEvent" action="../Process/delete_event.php" method="POST">
+									<button id="delete-event" class="button-19 my-3" type="submit" name="delete"
+										value="<?php echo $eventID; ?>" onclick="deleteEvent();">Delete Event</button>
+								</form>
+
 								<?php }?>
 							</div>
 
@@ -184,10 +188,10 @@
 											<td>".$row_booking['Member_id']."</td>
 											<td id='member'>".$row_booking['Member_name']."</td>
 											<td>".$row_booking['Member_email']."</td>
-											<td>".$row_booking['Booking_date']."</td>
-											<td><button id='delete-booking' type='submit' name='delete' value='".$row_booking['Booking_id']."'<i class='fa-regular fa-trash-can'></i></button></td>
+											<td>".$row_booking['Booking_date']."</td>";?>
+											<td><button id='delete-booking' type='submit' name='delete' value='<?php echo $row_booking['Booking_id'];?>' onclick='deleteBooking();' ><i class='fa-regular fa-trash-can'></i></button></td>
 											</tr>
-											";
+											<?php
 			        }
 			        echo "</tbody></form></table>";
 			    }
@@ -212,11 +216,38 @@
 		function confirmBooking() {
 			// Display a confirmation dialog with the member's name
 			var result = confirm("Are you sure you want to book for this event?");
-
-			if (result == false) {
+			// If user confirms, submit the form
+			if (result == 1) {
+				document.getElementById("memberAddBooking").submit();
+			} else {
 				event.preventDefault(); 
 			}
 		}
+		function deleteEvent() {
+            var result = confirm("Are you sure you want to delete this event?");
+            
+            // If user confirms, submit the form
+            if (result == 1) {
+                document.getElementById("deleteEvent").submit();
+            }else{
+				event.preventDefault();
+			}
+		}
+		function deleteBooking() {
+           	// Get the selected member's name
+		   	var memberName = document.getElementById("member").options[document.getElementById("member").selectedIndex].text;
+
+			// Display a confirmation dialog with the member's name
+			var result = confirm("Are you sure you want to delete booking for " + memberName + "?");
+            
+            // If user confirms, submit the form
+            if (result == 1) {
+                document.getElementById("deleteBooking").submit();
+            }else{
+				event.preventDefault();
+			}
+		}
+
 	</script>
 
 

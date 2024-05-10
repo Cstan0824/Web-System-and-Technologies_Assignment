@@ -27,7 +27,7 @@
     WHERE B.Member_id = '".$_SESSION['Member_id']."' AND BC.Booking_id IS NULL AND E.Event_date >= CURDATE()
     ORDER BY Event_date DESC;";
 
-    } elseif($_SESSION['role'] == "Staff") {
+	} elseif($_SESSION['role'] == "Staff") {
 	    $sql = "SELECT E.Event_id, E.Event_name, E.Event_desc, E.Event_date, E.Start_time, E.Event_upl_path, E.Event_upl_file_name
         FROM T_Event E
         LEFT JOIN T_Event_Cancellation EC ON E.Event_id = EC.Event_id
@@ -89,9 +89,10 @@
 							<div class="panel panel-default">
 								<div class="user-heading round">
 									<a href="#" class="position-relative" onclick="openImageUploader();"
-										data-bs-content="Click to Upload Profile picture." title="Profile Picture"
+										data-bs-content="Click to change Profile Picture." title="Profile Picture"
 										data-bs-placement="right" data-bs-toggle="popover" data-bs-trigger="hover">
-										<img src="<?php echo $_SESSION['user_pic_path'] ?? "../Css/assets/img/team/team-1.jpg" ?>"
+										<img id="old-profilepic"
+											src="<?php echo $_SESSION['user_pic_path'] ?? "../Css/assets/img/team/team-1.jpg" ?>"
 											alt="<?php echo $_SESSION['user_pic_file_name'] ?? "default"; ?>" />
 									</a>
 
@@ -105,7 +106,7 @@
 										style="list-style-type: none; padding-left: 0px;">
 										<?php
 	                                        if($_SESSION['role'] == "Member") {
-	                                            echo "<a href='record.php' class='list-group-item
+	                                            echo "<a href='member_booking_history.php' class='list-group-item
                                                  list-group-item-action px-2'><i class='fa fa-ticket ps-2 pe-3'
                                             style='color:#898B9B;'></i> Booking History</a>";
 	                                        }
@@ -119,6 +120,7 @@
 							</div>
 						</div>
 						<div class="profile-info col-md-9">
+							<?php if ($_SESSION['role'] == "Member") { ?>
 							<div class="panel mb-5">
 								<form>
 									<textarea placeholder="Whats in your mind today?" rows="2"
@@ -135,8 +137,11 @@
 								<div class="bio-graph-heading">
 									<?php echo $_SESSION['user_comment']; ?>
 								</div>
+							</div>
+							<?php } ?>
+							<div class="panel bg-light">
 								<div class="panel-body bio-graph-info row ms-2">
-									<h1 class="mt-2" style="font-weight:bold;">Member Profile</h1>
+									<h1 class="mt-2" style="font-weight:bold;"><?php echo $_SESSION['role'];?> Profile</h1>
 									<div class="ms-3">
 										<div class="bio-row">
 											<p><span>ID </span>:
@@ -178,7 +183,7 @@
 	?>
 								</h4>
 								<br>
-
+								<?php if(count($upcoming_event) != 0) {?>
 								<div class="row justify-content-between">
 									<?php for($i = ($page - 1) * 4; $i < $page * 4 && $i < count($upcoming_event);$i++): ?>
 									<?php
@@ -268,9 +273,11 @@
 										</li>
 									</ul>
 								</form>
-
 							</div>
-						</div>
+							<?php } else {
+							    echo "<h5>No upcoming events found.</h5>";
+							}?>
+						</>
 					</div>
 				</div>
 			</div>
@@ -348,6 +355,7 @@
 			.then(response => response.text())
 			.then(data => {
 				console.log(data);
+				location.reload();
 			})
 			.catch(error => {
 				console.error(error);

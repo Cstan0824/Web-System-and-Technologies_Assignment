@@ -53,10 +53,12 @@ try {
     $mail->isHTML(true);
 
     $mail->Subject = "TARUMT Movie Society: Booking Cancelled";
-    $mail->Body = "<h4>Dear  ".$eventDetails['Member_name'].",<br/>
-    Your Booking for <b>\"".$eventDetails['Event_name']."\"</b> has been cancelled since of "
-    .$eventDetails["Booking_Cancel_Date"]."
-    <br/> Please contact us for further information. Thank you.</h4>";
+    $mail->Body = "<h4>Dear  ".$eventDetails['Member_name'].",<br/><br/>
+    Your Booking for <b>\"".$eventDetails['Event_name']."\"</b> has been cancelled since "
+    .$eventDetails["Booking_Cancel_Date"].".
+    <br/> Please contact us for further information. Thank you.</h4><br/>
+    Best Regards,<br/>
+    <b>TARUMT Movie Society</b><br/>";
 
     // Send email
     $mail->send();
