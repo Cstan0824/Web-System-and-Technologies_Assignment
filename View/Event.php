@@ -74,9 +74,12 @@
 			left: 0;
 		}
 
-		.edit-button,
-		.delete-button {
+		.edit-button, .delete-button{
 			text-decoration: none;
+			background-color: transparent;
+			border: none;
+			font-size: 20px;
+			color: #67b0d1;
 		}
 
 		.delete-button:hover {
@@ -154,7 +157,8 @@
 		FROM T_Event E
 		JOIN T_Event_Type ET ON E.Event_type_id = ET.Event_type_id
 		LEFT JOIN T_Booking B ON E.Event_id = B.Event_id
-		WHERE 1=1 $searchSql $filterWithCategory $filterWithDate
+		LEFT JOIN T_Event_cancellation EC ON E.Event_id = EC.Event_id
+		WHERE 1=1 $searchSql $filterWithCategory $filterWithDate AND EC.Event_id IS NULL
 		GROUP BY E.Event_id
 		$filterWithOrdering;";
 
@@ -403,7 +407,7 @@
 															<td class="image">
 																<?php echo "<img src='$imgPath' alt='$imgName' />"; ?>
 															</td>
-															<td class="event">
+															<td class="event" id="event_name">
 																<strong><?php echo $data[$i]["Event_name"]; ?></strong><br>
 															</td>
 															<td class="rate text-right">
@@ -434,14 +438,19 @@
 															</td>
 															<?php
 														        if(isset($_SESSION['role']) && $_SESSION['role'] == "Staff") {
-														            echo "<td>";
-														            echo "<a class='edit-button' href='edit-event.php?event_id=" . $data[$i]["Event_id"] . "'><i class=' fa-regular fa-pen-to-square'></i></a>";
-														            echo "</td>";
-														            echo "<td>";
-														            echo "<a class='delete-button' href='../Process/delete-event.php'><i class='fa-regular fa-trash-can'></i></a>";
-														            echo "</td>";
-														        }
-														    ?>
+																	?>
+														            <td>
+														            <a class='edit-button' href='edit-event.php?event_id=<?php echo $data[$i]["Event_id"]; ?>'><i class=' fa-regular fa-pen-to-square'></i></a>
+														            </td>
+																	<form id='delete_booking' action='../Process/delete_event.php' method='POST'>
+														            <td>
+																	<button class='delete-button' type='submit' name='delete' value='<?php echo $data[$i]["Event_id"];?>' 
+																	onclick='confirmDelete();'>
+																	<i class='fa-regular fa-trash-can'></i></button>
+														            </td>
+																	</form>
+														        <?php }; ?>
+														    
 														</tr>
 														<?php endfor ?>
 													</tbody>
@@ -533,140 +542,154 @@
 	</main>
 	<?php include("footer.php") ?>
 </body>
-	<script defer>
-		document.addEventListener("DOMContentLoaded", function() {
-			var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
-			var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
-				return new bootstrap.Popover(popoverTriggerEl);
-			});
-
-			//display mode active
-			var tableMode = document.getElementById("tableMode");
-			var cardMode = document.getElementById("cardMode");
-			var displayMode = "<?php echo $display; ?>";
-
-			tableMode.classList.remove("active");
-			cardMode.classList.remove("active");
-
-			switch (displayMode) {
-				case "card":
-					cardMode.classList.add("active");
-					break;
-				case "table":
-				default:
-					tableMode.classList.add("active");
-					break;
-
-			}
-
-			//pagination disabled
-			var prevPage = document.getElementById("prevPage");
-			var nextPage = document.getElementById("nextPage");
-
-			var page = <?php echo $page ?> ;
-			var totalPage = <?php echo $pageCount ?> ;
-			//console.log(page, totalPage);
-			prevPage.classList.remove("disabled");
-			nextPage.classList.remove("disabled");
-			if (page === totalPage) {
-				nextPage.classList.add("disabled");
-
-			}
-			if (page === 1) {
-				prevPage.classList.add("disabled");
-			}
-
+<script defer>
+	document.addEventListener("DOMContentLoaded", function() {
+		var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+		var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
+			return new bootstrap.Popover(popoverTriggerEl);
 		});
 
-		//search filter
-		//get from database
-		var list = document.getElementById("search-list");
-		Req_SearchResult("../Process/event_process.php?searchBarList=1")
-			.then(dataset => {
-				document.getElementById("FilterSearch")
-					.addEventListener("input", (element) => {
-						list.innerHTML = "";
-						dataset
-							.forEach(listData => {
-								if (listData.toLowerCase().includes(element.target.value.toLowerCase()) &&
-									element.target.value.length >= 2) {
-									var listItem = document.createElement("a");
-									listItem.href = "#";
-									listItem.classList.add("list-group-item", "list-group-item-action",
-										"dataList");
-									listItem.style.border = "none";
-									listItem.value = listData;
-									listItem.innerText = listData;
-									list.appendChild(listItem);
-								}
-							});
-						displayInput();
-						displayCount();
-						Array.from(document.getElementsByClassName("dataList")).forEach(child => {
-							child.addEventListener("click", () => {
-								document.getElementById("FilterSearch").value = child.textContent;
-								displayInput();
-								displayCount();
-								list.innerHTML = "";
-							});
+		//display mode active
+		var tableMode = document.getElementById("tableMode");
+		var cardMode = document.getElementById("cardMode");
+		var displayMode = "<?php echo $display; ?>";
+
+		tableMode.classList.remove("active");
+		cardMode.classList.remove("active");
+
+		switch (displayMode) {
+			case "card":
+				cardMode.classList.add("active");
+				break;
+			case "table":
+			default:
+				tableMode.classList.add("active");
+				break;
+
+		}
+
+		//pagination disabled
+		var prevPage = document.getElementById("prevPage");
+		var nextPage = document.getElementById("nextPage");
+
+		var page = <?php echo $page ?> ;
+		var totalPage = <?php echo $pageCount ?> ;
+		//console.log(page, totalPage);
+		prevPage.classList.remove("disabled");
+		nextPage.classList.remove("disabled");
+		if (page === totalPage) {
+			nextPage.classList.add("disabled");
+
+		}
+		if (page === 1) {
+			prevPage.classList.add("disabled");
+		}
+
+	});
+
+	//search filter
+	//get from database
+	var list = document.getElementById("search-list");
+	Req_SearchResult("../Process/event_process.php?searchBarList=1")
+		.then(dataset => {
+			document.getElementById("FilterSearch")
+				.addEventListener("input", (element) => {
+					list.innerHTML = "";
+					dataset
+						.forEach(listData => {
+							if (listData.toLowerCase().includes(element.target.value.toLowerCase()) &&
+								element.target.value.length >= 2) {
+								var listItem = document.createElement("a");
+								listItem.href = "#";
+								listItem.classList.add("list-group-item", "list-group-item-action",
+									"dataList");
+								listItem.style.border = "none";
+								listItem.value = listData;
+								listItem.innerText = listData;
+								list.appendChild(listItem);
+							}
+						});
+					displayInput();
+					displayCount();
+					Array.from(document.getElementsByClassName("dataList")).forEach(child => {
+						child.addEventListener("click", () => {
+							document.getElementById("FilterSearch").value = child.textContent;
+							displayInput();
+							displayCount();
+							list.innerHTML = "";
 						});
 					});
-			});
-
-
-
-
-
-		function displayInput() {
-			var searchInput = document.getElementById("searchInput");
-			searchInput.innerText = `${document.getElementById("FilterSearch").value}`;
-		}
-
-		function displayCount() {
-			var searchCount = document.getElementById("searchCount");
-			searchCount.innerText = document.getElementById("search-list").children.length;
-		}
-
-		// Path: Process/event_process.js
-		function Req_SearchResult(path) {
-			return fetch(path)
-				.then((res) => {
-					return res.json();
-				})
-				.then((data) => {
-					console.log(data);
-					return data;
 				});
+		});
+
+
+
+
+
+	function displayInput() {
+		var searchInput = document.getElementById("searchInput");
+		searchInput.innerText = `${document.getElementById("FilterSearch").value}`;
+	}
+
+	function displayCount() {
+		var searchCount = document.getElementById("searchCount");
+		searchCount.innerText = document.getElementById("search-list").children.length;
+	}
+
+	// Path: Process/event_process.js
+	function Req_SearchResult(path) {
+		return fetch(path)
+			.then((res) => {
+				return res.json();
+			})
+			.then((data) => {
+				console.log(data);
+				return data;
+			});
+	}
+
+	//date filter validation
+	function inputValidation() {
+		const startDate = document.querySelector('input[name="startDate"]')[1].value;
+		const endDate = document.querySelector('input[name="endDate"]')[1].value;
+		if (!startDate || !endDate) {
+			event.preventDefault();
+			alert('Please select both start and end dates.');
+			return;
 		}
-
-		//date filter validation
-		function inputValidation() {
-			const startDate = document.querySelector('input[name="startDate"]')[1].value;
-			const endDate = document.querySelector('input[name="endDate"]')[1].value;
-			if (!startDate || !endDate) {
-				event.preventDefault();
-				alert('Please select both start and end dates.');
-				return;
-			}
-			if (endDate < startDate) {
-				event.preventDefault();
-				alert('End date must be later than start date.');
-				return;
-			}
+		if (endDate < startDate) {
+			event.preventDefault();
+			alert('End date must be later than start date.');
+			return;
 		}
+	}
 
-		//pagination
-		Array.from(document.getElementsByClassName("event_id"))
-			.forEach(element => element.addEventListener("click", (
-				event) => {
-				const eventId = event.currentTarget.getAttribute('data-event-id');
-				if (eventId) {
-					window.location.href = "event_details.php?event_id=" + eventId;
-				}
-				console.log(eventId);
-			}));
+	//pagination
+	Array.from(document.getElementsByClassName("event_id"))
+		.forEach(element => element.addEventListener("click", (
+			event) => {
+			const eventId = event.currentTarget.getAttribute('data-event-id');
+			if (eventId) {
+				window.location.href = "event_details.php?event_id=" + eventId;
+			}
+			console.log(eventId);
+		}));
 
-		//filter
-	</script>
+	//confirm Delete
+	function confirmDelete() {
+            // Get the selected member's name
+            var eventName = document.getElementById("event_name").options[document.getElementById("event_name").selectedIndex].text;
+
+            // Display a confirmation dialog with the member's name
+            var result = confirm("Are you sure you want to delete " + eventName + "?");
+            
+            // If user confirms, submit the form
+            if (result) {
+                document.getElementById("delete_booking").submit();
+            }else{
+				event.preventDefault();
+			}
+    }
+</script>
 
 </html>
