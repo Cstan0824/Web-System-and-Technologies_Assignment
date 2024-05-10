@@ -163,8 +163,6 @@
 			</div>
 		</div>
 
-
-
 		<?php
 	if (isset($_SESSION['error'])) {
 	    echo "<script>alert('" . $_SESSION['error'] . "');</script>";
@@ -175,7 +173,6 @@
 	    unset($_SESSION['success']);
 	}
 	?>
-
 		<script>
 			startCountdown();
 			const inputs = document.querySelectorAll('.otp-field > input');
