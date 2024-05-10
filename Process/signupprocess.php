@@ -1,4 +1,5 @@
 <?php
+
 // Include your database connection file
 include('../Root/connect-db.php');
 
@@ -6,15 +7,16 @@ include('../Root/connect-db.php');
 session_start();
 date_default_timezone_set('Asia/Kuala_Lumpur');
 
+function validate($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
 // Check if the form is submitted
 if (isset($_POST['user']) && isset($_POST['name']) && isset($_POST['pass']) && isset($_POST['email'])) {
-    function validate($data) {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
-    }
-
     // Retrieve form data and validate
     $member_id = validate($_POST['user']);
     $name = validate($_POST['name']);
@@ -39,6 +41,10 @@ if (isset($_POST['user']) && isset($_POST['name']) && isset($_POST['pass']) && i
         header("Location: ../View/login_signup.php");
         exit();
     } else {
+        //OTP verification
+        //include("OPTverification.php");
+
+
         // Insert data into the database
         $regisDate = date("Y/m/d");
         $sql = "INSERT INTO t_member (Member_id, Member_name, Member_password, Member_email, Member_regisdate) VALUES ('$member_id', '$name', '$password', '$email', '$regisDate')";
@@ -62,4 +68,3 @@ if (isset($_POST['user']) && isset($_POST['name']) && isset($_POST['pass']) && i
     header("Location: ../View/login_signup.php");
     exit();
 }
-
