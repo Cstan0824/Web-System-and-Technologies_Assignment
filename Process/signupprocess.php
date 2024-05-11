@@ -51,7 +51,7 @@ if (isset($_POST['user']) && isset($_POST['name']) && isset($_POST['pass']) && i
             echo "<script>window.location.href='../View/login_signup.php';</script>";
 
         } else {
-
+            unset($_SESSION['otp']);
             // Insert data into the database
             $regisDate = date("Y/m/d");
             $sql = "INSERT INTO t_member (Member_id, Member_name, Member_password, Member_email, Member_regisdate) 
@@ -64,6 +64,7 @@ if (isset($_POST['user']) && isset($_POST['name']) && isset($_POST['pass']) && i
                 session_destroy();
                 echo "<script>alert('Registration successful');</script>";
                 echo "<script>window.location.href='../View/login_signup.php';</script>";
+                include("../Process/pushbooking_notification.php");
             } else {
                 $_SESSION['error'] = "Error: " . $sql . "<br>" . mysqli_error($conn);
                 session_destroy();

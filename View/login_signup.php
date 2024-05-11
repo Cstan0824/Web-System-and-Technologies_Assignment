@@ -45,9 +45,9 @@ include('../Root/connect-db.php');
 							<input id="signInPass" name="pass" type="password" class="input" data-type="password"
 								placeholder="Password" required>
 						</div>
+
 						<div class="group">
-							<input id="check" name="signedin" type="checkbox" class="check" checked>
-							<label for="check" name="signedin"><span class="icon"></span> Keep me signed in</label>
+							<a href="../View/password_recovery.php" class="forgot-password">Forgot Password?</a>
 						</div>
 						<div class="group">
 							<input type="submit" class="button" value="Sign In">
@@ -88,6 +88,9 @@ include('../Root/connect-db.php');
 					</div>
 				</div>
 				<div id="otp-form" hidden>
+					<div class="label" onclick="backToPrev()" alt="back to previous page">
+						<i class="fa-solid fa-left-long" style="font-size:2em;cursor:pointer;color:#1161EE;"></i>
+					</div>
 					<div class="group">
 						<label for="otp" class="label">OTP</label>
 						<input id="otp" name="otp" type="text" class="input" placeholder="XXXXXX">
@@ -113,25 +116,11 @@ include('../Root/connect-db.php');
 	}
 	?>
 	<script defer>
-		const inputs = document.querySelectorAll('.otp-field > input');
-		Array.from(inputs).forEach((input) => {
-			input.addEventListener('input', function(e) {
-				const index = Array.from(inputs).indexOf(input);
-				if (e.data === null) {
-					if (index !== 0) {
-						inputs[index - 1].focus();
-					}
-				} else {
-					if (index + 1 < inputs.length) {
-						inputs[index + 1].focus();
-					}
-				}
-			});
-		});
+		var otpForm = document.getElementById('otp-form');
+		var signUpForm = document.getElementById('sign-up-form');
 
 		function generateOTP() {
-			var otpForm = document.getElementById('otp-form');
-			var signUpForm = document.getElementById('sign-up-form');
+
 			//if the input form is empty, the otp will not be generated
 			if (document.getElementById('email').value == "" || document.getElementById('signUpName').value == "" || document
 				.getElementById('signUpUser').value == "" || document.getElementById('signUpPass').value == "") {
@@ -158,6 +147,11 @@ include('../Root/connect-db.php');
 					console.error('Error:', error);
 				});
 
+		}
+
+		function backToPrev() {
+			signUpForm.hidden = false;
+			otpForm.hidden = true;
 		}
 	</script>
 </body>

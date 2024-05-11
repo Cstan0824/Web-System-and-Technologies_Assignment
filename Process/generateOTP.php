@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 //references: https://www.youtube.com/watch?v=9tD8lA9foxw
 use PHPMailer\PHPMailer\PHPMailer;
@@ -10,7 +11,7 @@ require '../PhpMailSender/src/SMTP.php';
 
 $mail = new PHPMailer(true);
 $email = $_POST['email'];
-$name = $_POST['name'];
+$name = $_POST['name'] ?? "User";
 if(isset($email) && isset($name)) {
 
     try {
@@ -49,7 +50,6 @@ if(isset($email) && isset($name)) {
     }
 
 }
-
 
 function generateOTP()
 {
