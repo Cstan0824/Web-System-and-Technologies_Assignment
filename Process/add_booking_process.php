@@ -20,6 +20,9 @@ $sql_booking = "INSERT INTO t_booking (Member_id, Event_id, Booking_date) VALUES
 $execute_booking = mysqli_query($connect_db, $sql_booking);
 $newBookingID = mysqli_insert_id($connect_db);
 $connect_db->close();
+
 include('pushbooking_notification.php');
 
-header("Location: ../View/event_details.php?event_id=$eventID");
+// redirect use js
+echo "<script>window.location.href='../View/event_details.php?event_id=$eventID';</script>";
+//header("Location: ../View/event_details.php?event_id=$eventID");

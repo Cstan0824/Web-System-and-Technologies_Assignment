@@ -1,4 +1,3 @@
-
 <style>
     .popup {
         position: fixed;
@@ -284,7 +283,7 @@
         text-align: center;
         background: #c02a28;
         padding: 10px 5px 10px 0px;
-        margin: 10px 0 0 10px;
+        margin: 10px 0 0 0px;
         font: 900 16px/1 'Montserrat';
         letter-spacing: 1.5px;
         grid-column: 1 / span 1;
@@ -342,10 +341,22 @@
         text-align: center;
     }
 </style>
-
+<div>
+    <?php
+    $eventDetails =
+    array(
+        'Member_name' => 'John Doe',
+        'Event_type' => 'Movie',
+        'Event_name' => 'The Dark Knight',
+        'Event_date' => '2021-09-01',
+        'Start_time' => '10:00 AM',
+        'Event_location' => 'Theater',
+        'Event_hoster' => 'John Doe',
+        'Event_address' => '1234, ABC Street, XYZ City');
+    echo "
     <div id='ticketPopup' class='popup'>
-    <div class='popup-content'>
-        <div class='main-content'>
+        <div class='popup-content'>
+            <div class='main-content'>
             <div class='ticket'>
                 <div class='ticket__main'>
                     <div class='header'>Activities Details</div>
@@ -426,7 +437,8 @@
                     </div>
                 </div>
             </div>
+            </div>
         </div>
     </div>
-    </div>
-
+</div>";
+    ?>

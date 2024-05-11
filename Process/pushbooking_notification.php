@@ -286,7 +286,7 @@ $styles = "<style>
         text-align: center;
         background: #c02a28;
         padding: 10px 5px 10px 0px;
-        margin: 10px 0 0 10px;
+        margin: 10px 0 0 0px;
         font: 900 16px/1 'Montserrat';
         letter-spacing: 1.5px;
         grid-column: 1 / span 1;
@@ -364,7 +364,7 @@ if($row = $result->fetch_assoc()) {
     $eventDetails['Member_email'] = $row['Member_email'];
     $eventDetails['Event_date'] = $row['Event_date'];
     $eventDetails['Event_type'] = $row['Event_type'];
-    $eventDetails['Event_Location'] = $row['Location'];
+    $eventDetails['Event_location'] = $row['Location'];
     $eventDetails['Event_address'] = $row['Address'];
     $eventDetails['Start_time'] = $row['Start_time'];
     $eventDetails['Event_hoster'] = $row['Event_hoster'];
@@ -387,7 +387,7 @@ require_once '../dompdf/autoload.inc.php';
 
 
 $ticketContent = "
-    <div id='ticketPopup' class='popup'>
+<div id='ticketPopup' class='popup'>
     <div class='popup-content'>
         <div class='main-content'>
             <div class='ticket'>
@@ -443,36 +443,11 @@ $ticketContent = "
                         <div class='barcode__id'>001256733</div>
                     </div>
                 </div>
-                <div class='ticket__side'>
-                    <div class='logo'>
-                        <p>MOVIE SOCIETY</p>
-                    </div>
-                    <div class='info side-arrive'>
-                        <div class='info__item'>Hoster</div>
-                        <div class='info__detail'>".$eventDetails['Event_hoster']."</div>
-                    </div>
-                    <div class='info side-depart'>
-                        <div class='info__item'>Member Name</div>
-                        <div class='info__detail'>".$eventDetails['Member_name']."</div>
-                    </div>
-                    <div class='info side-date'>
-                        <div class='info__item'>Date</div>
-                        <div class='info__detail'>".$eventDetails['Event_date']."</div>
-                    </div>
-                    <div class='info side-time'>
-                        <div class='info__item'>Time</div>
-                        <div class='info__detail'>".$eventDetails['Start_time']."</div>
-                    </div>
-                    <div class='barcode'>
-                        <div class='barcode__scan'></div>
-                        <div class='barcode__id'>001256733</div>
-
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
-    </div>
+</div>
         ";
 
 
@@ -496,31 +471,27 @@ try {
     // Email sender and recipient
     $mail->setFrom('tarumtmoviesociety@gmail.com', 'TARUMT Movie Society');// sender
     $mail->addAddress($eventDetails['Member_email'], $eventDetails['Member_name']); // recipient
-    //get from database instead of session
 
     //Content
     $mail->isHTML(true);
 
-
     $html = $styles.$ticketContent;
-    //$html = "<div style='background-color:green;position:relative;'><h4 style='color:red;position:absolute;top:40px;right:20px;'>Dear ".$eventDetails['Member_name'].",<br /></h4></div>";
+
     //Convert HTML to PDF
     $dompdf->loadHtml($html);
-    $dompdf->setPaper('legal', 'portrait');
+    $dompdf->setPaper('A4', 'portrait');
     $dompdf->render();
 
-    //$eventDetails['Member_id'].'-booking-'.$eventDetails['Booking_date'].'
-    //$dompdf->stream('ticket.pdf', array('Attachment' => 0));
     $pdf = $dompdf->output();
-    file_put_contents($eventDetails['Member_id'].'-booking-'.$eventDetails['Booking_date'].'.pdf', $pdf);
-    //$mail->addAttachment($pdf, 'ticket.pdf');
+    file_put_contents('../Image/ticket_pdf/'.$eventDetails['Member_id'].'-booking-'.$eventDetails['Event_name'].'-'.$eventDetails['Booking_date'].'.pdf', $pdf);
+    $mail->addAttachment('../Image/ticket_pdf/'.$eventDetails['Member_id'].'-booking-'.$eventDetails['Event_name'].'-'.$eventDetails['Booking_date'].'.pdf');
 
     $mail->Subject = "TARUMT Movie Society: Booking Confirmed";
     $mail->Body = "<h4>Dear ".$eventDetails['Member_name'].",<br />
     Your Booking <b>\"".$eventDetails['Event_name']."\"</b> has been confirmed since of "
         .$eventDetails["Event_date"]."
-    <br /><br /> Please contact us for further information. Thank you.
-</h4>";
+    <br /> Please contact us for further information. Thank you.
+    </h4>";
 
     // Send email
     $mail->send();
