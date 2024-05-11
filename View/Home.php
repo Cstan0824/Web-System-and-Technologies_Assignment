@@ -63,7 +63,6 @@ $connect_db->close();
 
 <body>
 	<?php include('header.php');
-		include('../Process/pushupcomingevent_notification.php');
 ?>
 
 
