@@ -1,7 +1,6 @@
 <?php
 
 include("../Root/connect-db.php");
-session_start();
 $eventID = $_GET['event_id'];
 
 $sql_event = "SELECT * FROM t_event WHERE Event_id='$eventID'";

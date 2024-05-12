@@ -17,14 +17,14 @@
 	#event-pic,
 	#imagePreview {
 		width: 500px;
-		height: 700px;
+		height: 500px;
 	}
 </style>
 
 <body>
 	<?php include("../Root/link.php");
 	include("../Root/connect-db.php");
-	include("../Root/getEventDetails.php");
+	include("../Process/getEventDetails.php");
 	include("header.php");
 	date_default_timezone_set('Asia/Kuala_Lumpur');
 	?>
@@ -49,7 +49,7 @@
 		<section id="portfolio-details" class="portfolio-details">
 			<div class="container">
 				<div class="row gy-4">
-					<div class="col-lg-8">
+					<div class="col-lg-5">
 						<div class="portfolio-details-slider swiper">
 							<div class="swiper-wrapper align-items-center">
 
@@ -67,7 +67,7 @@
 						</div>
 					</div>
 
-					<div class="col-lg-4">
+					<div class="col-lg-7">
 
 						<div class="portfolio-info rounded-sm">
 							<h3>Event Details</h3>
@@ -79,11 +79,10 @@
 									<input type="text" id="eventName" class="form-control" placeholder="Event Name"
 										name="eventName"
 										value="<?php echo $event_name; ?>"
-										type="text">
+										type="text" require minlength="3" maxlength="50">
 								</div>
 								<!-- Category -->
 								<div class="input-group my-4">
-
 									<span class="input-group-text">Event Type</span>
 									<select class="form-select" id="eventType" name="eventType" required>
 										<?php
@@ -102,7 +101,8 @@
 								<div class="input-group my-4">
 									<span class="input-group-text">Date</span>
 									<input class="form-control" name="eventDate" type="date"
-										value="<?php echo $event_date;?>" />
+										value="<?php echo $event_date;?>"
+										require />
 								</div>
 								<!-- Location -->
 								<div class="input-group my-4">
@@ -126,28 +126,31 @@
 									<span class="input-group-text">Hoster</span>
 									<input type="text" class="form-control" placeholder="Hoster" name="eventHoster"
 										value="<?php echo $event_hoster; ?>"
-										type="text">
+										type="text" require maxlength="50">
 								</div>
 
 								<!-- Start Time -->
-								<div class="input-group my-4">
+								<div class=" input-group my-4">
 									<span class="input-group-text">Start Time</span>
 									<input class="form-control" name="startTime" type="time"
-										value="<?php echo $start_time;?>" />
+										value="<?php echo $start_time;?>"
+										require />
 								</div>
 
 								<!-- End Time -->
 								<div class="input-group my-4">
 									<span class="input-group-text">End Time &nbsp;</span>
 									<input class="form-control" name="endTime" type="time"
-										value="<?php echo $end_time;?>" />
+										value="<?php echo $end_time;?>"
+										require />
 								</div>
 
 								<!-- Max User -->
 								<div class="input-group my-4">
 									<span class="input-group-text">Max User</span>
 									<input class="form-control" type="number" name="maxUser"
-										value="<?php echo $max_user;?>" />
+										value="<?php echo $max_user;?>"
+										require minlength="1" maxlength="60" />
 								</div>
 								<div class="input-group my-4">
 									<span class="input-group-text">Photo</span>
@@ -171,7 +174,8 @@
 								<label class="col-lg-12 control-label" for="eventDesc">Event Description</label>
 								<div class="col-lg-12">
 									<textarea style="resize:none;" class="form-control" name="eventDesc" id="eventDesc"
-										rows="5"><?php echo $event_desc; ?></textarea>
+										rows="5"
+										maxlength="1000"><?php echo $event_desc; ?></textarea>
 								</div>
 							</div>
 							<!-- Save -->
@@ -179,10 +183,12 @@
 								<label class="col-md-3 control-label"></label>
 								<div class="col-md-8">
 									<button class="btn btn-primary" name="editEvent" type="submit"
-										value="<?php echo $eventID; ?>" onclick="confirmEdit();">Save Changes</button>
+										value="<?php echo $eventID; ?>"
+										onclick="confirmEdit();">Save Changes</button>
 									</form>
 									<span></span>
-									<a href="event_details.php?event_id=<?php echo $eventID; ?>">
+									<a
+										href="event_details.php?event_id=<?php echo $eventID; ?>">
 										<button class="btn btn-danger" name="back">Cancel</button></a>
 								</div>
 							</div>
@@ -216,7 +222,8 @@
 	}
 
 	function confirmEdit() {
-		var eventName = document.getElementById("eventName").options[document.getElementById("eventName").selectedIndex].text;
+		var eventName = document.getElementById("eventName").options[document.getElementById("eventName").selectedIndex]
+			.text;
 		// Display a confirmation dialog with the member's name 
 		var result = confirm("Are you sure the entered details for" + eventName + "are correct?");
 		// If user confirms, submit the form 
@@ -226,6 +233,21 @@
 			event.preventDefault();
 		}
 	}
+	document.getElementById('editEvent').addEventListener('submit', function(event) {
+		var eventNameInput = document.getElementById('eventName').value;
+		var regex = /^[a-zA-Z0-9\s]*$/; 
+		if (!regex.test(eventNameInput)) {
+			event.preventDefault(); 
+			alert('Event name can only contain letters, numbers, and spaces.');
+		}
+		var eventDateInput = document.getElementById('eventDate').value;
+		var today = new Date(); 
+
+		if (eventDateInput <= today) {
+			event.preventDefault(); 
+			alert('Please select a date in the future.');
+		}
+	});
 </script>
 
 </script>

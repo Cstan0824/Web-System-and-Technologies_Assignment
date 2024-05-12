@@ -557,7 +557,9 @@
 															</td>
 															<?php
 														        if(isset($_SESSION['role']) && $_SESSION['role'] == "Staff") {
-														            ?>
+														            if($data[$i]["Event_date"] > date("Y-m-d")) {
+
+														                ?>
 															<td>
 																<a class='edit-button'
 																	href='edit-event.php?event_id=<?php echo $data[$i]["Event_id"]; ?>'><i
@@ -573,7 +575,12 @@
 																		<i class='fa-regular fa-trash-can'></i></button>
 																</td>
 															</form>
-															<?php }; ?>
+															<?php
+														            } else {
+														                echo "<td></td>";
+														                echo "<td></td>";
+														            }
+														        }; ?>
 
 														</tr>
 														<?php endfor ?>

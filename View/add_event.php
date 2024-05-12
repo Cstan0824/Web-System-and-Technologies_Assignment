@@ -96,13 +96,13 @@
 
 						<div class="portfolio-info rounded-sm">
 							<h3>New Event Details</h3>
-							<form id="editEvent" action="../Process/add_edit_event.php" method="POST"
+							<form id="addEvent" action="../Process/add_edit_event.php" method="POST"
 								class="form-horizontal" role="form" enctype="multipart/form-data">
 								<!-- Name -->
 								<div class="input-group my-4">
 									<span class="input-group-text">Name</span>
 									<input type="text" id="eventName" class="form-control" placeholder="Event Name"
-										name="eventName" value="" type="text">
+										name="eventName" value="" type="text" minlength="3" maxlength="50" require>
 								</div>
 								<!-- Category -->
 								<div class="input-group my-4">
@@ -121,7 +121,8 @@
 								<div class="input-group my-4">
 									<span class="input-group-text">Date</span>
 									<input class="form-control" name="eventDate" type="date"
-										value="<?php echo date('Y-m-d'); ?>" />
+										value="<?php echo date('Y-m-d'); ?>"
+										require />
 								</div>
 								<!-- Location -->
 								<div class="input-group my-4">
@@ -130,9 +131,9 @@
 									<select class="form-select" id="location" name="location" required>
 										<option value="" selected disabled>Select Location</option>
 										<?php
-											for ($i = 1; $i < count($event_location_ID); $i++){
-	                                        	echo "<option value='".$event_location_ID[$i]."'>".$address_db[$i]." (".$OI[$i].") </option>";
-											}	?>
+	                                        for ($i = 1; $i < count($event_location_ID); $i++) {
+	                                            echo "<option value='".$event_location_ID[$i]."'>".$address_db[$i]." (".$OI[$i].") </option>";
+	                                        }	?>
 									</select>
 
 								</div>
@@ -140,26 +141,26 @@
 								<div class="input-group my-4">
 									<span class="input-group-text">Hoster</span>
 									<input type="text" class="form-control" placeholder="Hoster" name="eventHoster"
-										type="text">
+										type="text" required>
 								</div>
 
 								<!-- Start Time -->
 								<div class="input-group my-4">
 									<span class="input-group-text">Start Time</span>
-									<input class="form-control" name="startTime" type="time"/>
+									<input class="form-control" name="startTime" type="time" required />
 								</div>
 
 								<!-- End Time -->
 								<div class="input-group my-4">
 									<span class="input-group-text">End Time &nbsp;</span>
-									<input class="form-control" name="endTime" type="time"/>
+									<input class="form-control" name="endTime" type="time" required />
 								</div>
 
 								<!-- Max User -->
 								<div class="input-group my-4">
 									<span class="input-group-text">Max User</span>
-									<input class="form-control" type="number" name="maxUser"
-										value="30" />
+									<input class="form-control" type="number" name="maxUser" value="30" required
+										minlength="1" maxlength="60" />
 								</div>
 								<div class="input-group my-4">
 									<span class="input-group-text">Photo</span>
@@ -168,7 +169,7 @@
 								</div>
 								<input type="hidden" name="eventUplFileName"
 									value="HD-wallpaper-film-making-film-making.jpg">
-									<!-- default image -->
+								<!-- default image -->
 								<input type="hidden" name="eventUplPath"
 									value="../Image/HD-wallpaper-film-making-film-making.jpg">
 								<input type="hidden" name="actionType" value="addEvent">
@@ -179,7 +180,6 @@
 					<!-- Desc -->
 					<div class="col-sm-12">
 						<div class="portfolio-info rounded-sm">
-
 							<div class="form-group my-2">
 								<label class="col-lg-12 control-label" for="eventDesc">Event Description</label>
 								<div class="col-lg-12">
@@ -243,6 +243,22 @@
 			event.preventDefault();
 		}
 	}
+	document.getElementById('addEvent').addEventListener('submit', function(event) {
+		//validation for name where no special character is allowed
+		var eventNameInput = document.getElementById('eventName').value;
+		var eventNamePattern = /^[a-zA-Z0-9 ]+$/;
+		if (!eventNamePattern.test(eventNameInput)) {
+			alert("Event name must not contain special characters");
+			event.preventDefault();
+		}
+		//validation for date where date must be greater than or equal to current date
+		var eventDateInput = new Date(document.getElementById('eventDate').value);
+		var today = new Date(); // Get today's date in YYYY-MM-DD format
+		if (eventDateInput.getDate < today.getDate) {
+			alert("Event date must be greater than or equal to current date");
+			event.preventDefault();
+		}
+	});
 </script>
 
 
