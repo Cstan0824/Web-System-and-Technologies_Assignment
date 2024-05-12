@@ -35,11 +35,18 @@
 
           <div class="col-lg-2 col-md-6 footer-links">
             <h4>Our Activities</h4>
+            <form action="Event.php" method="post">
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="Home.php#services">Famous Actor Meeting</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="Home.php#services">Movie Sharing Session</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="Home.php#services">Movie Premiere</a></li>
+              <li><i class="bx bx-chevron-right"></i><button style="text-align:left; text-decoration:none;color:white;" 
+              type="submit" name="filterByCategory" value="Famous Actor Meeting" class="btn btn-link btn-link-event">Famous Actor Meeting</button></li>
+              <li><i class="bx bx-chevron-right"></i> <button style="text-align:left; text-decoration:none;
+color:white;
+" type="submit" name="filterByCategory" value="Movie Sharing Session" class="btn btn-link btn-link-event">Movie Sharing Session</button></li>
+              <li><i class="bx bx-chevron-right"></i> <button style="text-align:left; text-decoration:none;
+color:white;
+" type="submit" name="filterByCategory" value="Movie Premiere" class="btn btn-link btn-link-event">Movie Premiere</button></li>
             </ul>
+             </form>
           </div>
 
         </div>
