@@ -80,7 +80,7 @@ include('../Root/connect-db.php');
 					</div>
 
 					<div class="group">
-						<input type="button" class="button" onclick="generateOTP();" value="Sign Up" />
+						<input type="button" class="button" onclick="memberIDValidate();" value="Sign Up" />
 					</div>
 					<div class="hr"></div>
 					<div class="foot-lnk">
@@ -122,11 +122,6 @@ include('../Root/connect-db.php');
 		function generateOTP() {
 
 			//if the input form is empty, the otp will not be generated
-			if (document.getElementById('email').value == "" || document.getElementById('signUpName').value == "" || document
-				.getElementById('signUpUser').value == "" || document.getElementById('signUpPass').value == "") {
-				alert(" Please fill in the required fields.");
-				return;
-			}
 			signUpForm.hidden = true;
 			otpForm.hidden = false;
 			console.log("Generating OTP");
@@ -147,6 +142,35 @@ include('../Root/connect-db.php');
 					console.error('Error:', error);
 				});
 
+		}
+
+		function memberIDValidate() {
+			if (document.getElementById('email').value == "" || document.getElementById('signUpName').value == "" || document
+				.getElementById('signUpUser').value == "" || document.getElementById('signUpPass').value == "") {
+				alert(" Please fill in the required fields.");
+				return;
+			}
+			var formData = new FormData();
+			formData.append('email',
+				document.getElementById('email').value);
+			formData.append('user',
+				document.getElementById('signUpUser').value);
+			fetch('../Process/validateMemberID.php', {
+					method: 'POST',
+					body: formData
+				}).then(response => response.text())
+				.then(data => {
+					console.log(data);
+					if (data.includes("Failed")) {
+						alert(data);
+					} else {
+						generateOTP();
+						alert("The OTP will be sent to your email. Please check your email.");
+					}
+				})
+				.catch((error) => {
+					console.error('Error:', error);
+				});
 		}
 
 		function backToPrev() {
