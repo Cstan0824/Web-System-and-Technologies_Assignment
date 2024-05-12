@@ -55,7 +55,7 @@ include('../Root/connect-db.php');
 			</form>
 			<div class="hr"></div>
 			<div class="foot-lnk">
-				<label for="tab-2">Not a member?</a>
+				<label style="color: white;" for="tab-2">Not a member?</a>
 			</div>
 		</div>
 		<div class="sign-up-htm">
@@ -63,7 +63,7 @@ include('../Root/connect-db.php');
 				<div id="sign-up-form">
 					<div class="group">
 						<label for="signUpUser" class="label">Member ID</label>
-						<input id="signUpUser" name="user" type="text" class="input" placeholder="12 to 20 characters">
+						<input id="signUpUser" name="user" type="text" class="input" placeholder="7 to 20 characters">
 					</div>
 					<div class="group">
 						<label for="signUpName" class="label">Name</label>
@@ -84,7 +84,7 @@ include('../Root/connect-db.php');
 					</div>
 					<div class="hr"></div>
 					<div class="foot-lnk">
-						<label for="tab-1">Already member?</a>
+						<label style="color: white;" for="tab-1">Already member?</a>
 					</div>
 				</div>
 				<div id="otp-form" hidden>
@@ -145,11 +145,40 @@ include('../Root/connect-db.php');
 		}
 
 		function memberIDValidate() {
+
+			
+
 			if (document.getElementById('email').value == "" || document.getElementById('signUpName').value == "" || document
 				.getElementById('signUpUser').value == "" || document.getElementById('signUpPass').value == "") {
 				alert(" Please fill in the required fields.");
 				return;
 			}
+
+			var memberID = document.getElementById("signUpUser").value.trim();
+			var name = document.getElementById("signUpName").value.trim();
+			var password = document.getElementById("signUpPass").value.trim();
+			var email = document.getElementById("email").value.trim();
+
+			// Member ID validation
+			if (memberID.length < 7 || memberID.length > 20 || /\s/.test(memberID)) {
+				alert("Member ID must be 7 to 20 characters long without spaces.");
+				return;
+			}
+
+			// Name validation
+			if (name.length < 3 || name.length > 50) {
+				alert("Name must be between 3 and 50 characters long.");
+				return;
+			}
+
+			// Password validation
+			if (password.length < 8 || password.length > 16 || /\s/.test(password)) {
+				alert("Password must be 8 to 16 characters long without spaces.");
+				return;
+			}
+
+
+			
 			var formData = new FormData();
 			formData.append('email',
 				document.getElementById('email').value);
@@ -177,6 +206,9 @@ include('../Root/connect-db.php');
 			signUpForm.hidden = false;
 			otpForm.hidden = true;
 		}
+
+		
+
 	</script>
 </body>
 
