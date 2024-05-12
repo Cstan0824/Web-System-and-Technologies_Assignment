@@ -17,6 +17,9 @@
         <li class="nav-item"><a class="nav-link scrollto" href="Home.php#team">About Us</a></li>
         <li class="nav-item"><a class="nav-link scrollto" href="Home.php#contact">Contact</a></li>
         <li class="nav-item"><a class="nav-link scrollto" href="Event.php">Events</a></li>
+        <?php if($_SESSION['role'] == "Staff"): ?>
+        <li class="nav-item"><a class="nav-link scrollto" href="member_list.php">Members</a></li>
+        <?php endif ?>
         <li class="nav-item dropdown">
           <a class="nav-text scrollto dropdown-toggle" href="#" data-bs-toggle="dropdown">Profiles</a>
           <ul class="dropdown-menu dropdown-menu-end ">

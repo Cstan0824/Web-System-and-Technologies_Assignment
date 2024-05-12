@@ -119,6 +119,7 @@
 	<?php
 	include('header.php');
 
+
 	$FilterSearch = $_POST["FilterSearch"] ?? "";
 
 	$searchSql = !empty($FilterSearch) ? "WHERE Member_name LIKE '%$FilterSearch%'" : "";
@@ -138,10 +139,8 @@
 	    );
 	}
 
-	$display = isset($_POST['display']) ? $_POST['display'] : "table";
-	$page = isset($_POST['page']) ? $_POST['page'] : 1;
+	$page = $_POST['page'] ?? 1;
 	$numberOfResults = isset($memberDB) ? count($memberDB) : 0;
-
 	$pageCount = (int)$numberOfResults != 0 ? ceil(((int)$numberOfResults / 6)) : 1;
 	?>
 
@@ -296,30 +295,32 @@
 											<?php endif ?>
 											<!-- BEGIN PAGINATION -->
 
-
-											<ul class="pagination">
-												<li class="page-item">
-													<button id="prevPage" class="page-link disabled" type="submit"
-														<?php echo "name='page' value='" .max($page - 1, 1). "'" ?>>
-														Previous
-													</button>
-												</li>
-												<?php for ($i = 1; $i <= $pageCount; $i++): ?>
-												<li class="page-item">
-													<button
-														class="page-link <?php echo ($page == $i) ? "disabled bg-muted" : ""; ?>"
-														type="submit"
-														<?php echo "name='page' value='$i'" ?>><?php echo $i ?></button>
-												</li>
-												<?php endfor ?>
-												<li class="page-item">
-													<button id="nextPage" class="page-link disabled" type="submit"
-														<?php echo "name='page' value='".min($page + 1, $pageCount). "'" ?>>
-														Next
-													</button>
-												</li>
-											</ul>
-
+											<form
+												action="<?php echo $_SERVER["PHP_SELF"]; ?>"
+												method="post">
+												<ul class="pagination">
+													<li class="page-item">
+														<button id="prevPage" class="page-link disabled" type="submit"
+															<?php echo "name='page' value='" .max($page - 1, 1). "'" ?>>
+															Previous
+														</button>
+													</li>
+													<?php for ($i = 1; $i <= $pageCount; $i++): ?>
+													<li class="page-item">
+														<button
+															class="page-link <?php echo ($page == $i) ? "disabled bg-muted" : ""; ?>"
+															type="submit"
+															<?php echo "name='page' value='$i'" ?>><?php echo $i ?></button>
+													</li>
+													<?php endfor ?>
+													<li class="page-item">
+														<button id="nextPage" class="page-link disabled" type="submit"
+															<?php echo "name='page' value='".min($page + 1, $pageCount). "'" ?>>
+															Next
+														</button>
+													</li>
+												</ul>
+											</form>
 
 											<!-- END PAGINATION -->
 										</div>
@@ -359,7 +360,7 @@
 
 		var page = <?php echo $page ?> ;
 		var totalPage = <?php echo $pageCount ?> ;
-		//console.log(page, totalPage);
+		console.log(page, totalPage);
 		prevPage.classList.remove("disabled");
 		nextPage.classList.remove("disabled");
 		if (page === totalPage) {
