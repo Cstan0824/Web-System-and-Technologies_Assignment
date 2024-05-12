@@ -24,7 +24,7 @@ WHERE Member_id = '$user_id' AND Member_email = '$email'";
 $result = $connect_db->query($sql);
 $row = $result->fetch_assoc();
 if ($row['NumOfMember'] == 0) {
-    echo "failed";
+    echo "No user found with the given email and user id. Please try again.";
     exit();
 }
 include("generateOTP.php");
