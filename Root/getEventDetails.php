@@ -58,7 +58,8 @@
 	    $end_time = $row_event['End_time'];
 	    $movie_details = $row_event['Event_desc'];
 	    $event_upl_path = $row_event['Event_upl_path'];
-	    $event_availability = $row_event['Max_User'] - $row_availability['num_bookings'] . " / " . $row_event['Max_User'] ;
+		$leftover = $row_event['Max_User'] - $row_availability['num_bookings'];
+	    $event_availability = $leftover . " / " . $row_event['Max_User'] ;
 	    $max_user = $row_event['Max_User'];
         $event_hoster = $row_event['Event_hoster'];
 	    $event_upl_file_name = $row_event['Event_upl_file_name'];

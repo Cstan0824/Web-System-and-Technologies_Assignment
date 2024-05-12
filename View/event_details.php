@@ -118,32 +118,41 @@
 										<?php echo $end_time;?>
 									</li>
 									<li><strong>Event Availability</strong>:
-										<?php echo $event_availability;?>
+										<?php 
+										if ($leftover == 0) {
+											echo "Fully Booked";
+										} else {
+											echo $event_availability;
+										}
+										?>
 									</li>
 									<li><strong>Movie Details</strong>:
 										<br /><?php echo $movie_details;?>...
 									</li>
 								</ul>
-								<?php if($_SESSION['role'] == 'Member') {
+								<?php 
+									if($_SESSION['role'] == 'Member' && $leftover > 0) {
 								    echo '
 									<form id="memberAddBooking" action="../Process/add_booking_process.php" method="post">
 									<button id="member-booking" name="member-booking" type="submit" onclick="confirmBooking();" class="button-19" value="'.$eventID.'">Book Ticket</button>
 									</form>
 									';
-								}
-	?>
+									}
+								?>
 								<?php if(isset($_SESSION['role']) && $_SESSION['role'] == 'Staff') { ?>
 								<a
 									href="../View/edit-event.php?event_id=<?php echo $eventID; ?>">
 									<button id="edit-event" class="button-19 my-3" name="editEvent">Edit
 										Event</button></a>
 
+								<?php if ($leftover > 0) { ?>
 								<form id="addBooking" action="staff_add_booking.php" method="POST">
 									<button id="add-bookingbutton" class="button-19 my-3" type="submit"
 										name="addBooking"
 										value="<?php echo $eventID; ?>">Add
 										Member Booking</button>
 								</form>
+								<?php } ?>
 								<form id="deleteEvent" action="../Process/delete_event.php" method="POST">
 									<button id="delete-event" class="button-19 my-3" type="submit" name="delete"
 										value="<?php echo $eventID; ?>"
@@ -162,11 +171,10 @@
 			<section id="booking-details" class="portfolio-details">
 				<div class="container portfolio-info">
 					<div class="section-title">
-						<h2>Member Details</h2>
+						<h2>Booking Details</h2>
 					</div>
 					<div class="table-responsive" data-aos="fade-up">
 						<?php
-
 	                        $sql_booking = "SELECT M.Member_id, M.Member_name, M.Member_email, B.Booking_date, B.Booking_id 
 							FROM t_booking B 
 							JOIN t_member M ON M.Member_id = B.Member_id
@@ -200,7 +208,12 @@
 								<th class='text-info'>Member Name</th>
 								<th class='text-info'>Member Email</th>
 								<th class='text-info'>Booking Date</th>
-								<th class='text-info'><button id='add-booking' type='submit' name='addBooking' value='".$eventID."'<i class='fa-solid fa-user-plus'></i></button</th>
+								<th class='text-info'>";
+								if ($leftover > 0){
+									echo "<button id='add-booking' type='submit' name='addBooking' value='".$eventID."'<i class='fa-solid fa-user-plus'></i></button>";
+								};
+								echo "
+								</th>
 								</tr>
 								</form>
 								</thead>
