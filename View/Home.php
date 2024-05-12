@@ -37,9 +37,9 @@ while($row = $result->fetch_assoc()) {
 }
 
 //Get Member Details
-$sql = "SELECT Member_name, Member_comment,Member_upl_path, Member_upl_file_name
+$sql = "SELECT DISTINCT Member_name, Member_comment,Member_upl_path, Member_upl_file_name
 			FROM T_Member M
-			WHERE Member_id < 6";
+			WHERE Member_id < 6 AND Member_comment IS NOT NULL;";
 $memberData = array();
 $result = $connect_db->query($sql);
 while($row = $result->fetch_assoc()) {
@@ -90,7 +90,8 @@ $connect_db->close();
 				</div>
 
 				<div class="row">
-					<div class="col-md-4 col-lg-4 d-flex align-items-stretch mb-5 mb-lg-0">
+					<div class="col-md-4 col-lg-4 d-flex align-items-stretch mb-5 mb-lg-0 event-type"
+						data-event-type="Famous Actor Meeting">
 						<div class="icon-box" data-aos="fade-up">
 							<div class="icon"><i class="bx bxl-dribbble"></i></div>
 							<h4 class="title"><a href="">Famous Actor Meeting</a></h4>
@@ -100,16 +101,18 @@ $connect_db->close();
 					</div>
 
 					<div class="col-md-4 col-lg-4 d-flex align-items-stretch mb-5 mb-lg-0">
-						<div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+						<div class="icon-box event-type" data-aos="fade-up" data-aos-delay="100"
+							data-event-type="Movie Sharing Session">
 							<div class="icon"><i class="bx bx-file"></i></div>
-							<h4 class="title"><a href="">Movie Review Sharing Session</a></h4>
+							<h4 class="title"><a href="">Movie Sharing Session</a></h4>
 							<p class="description">The club will irregularly hold after-viewing sessions to share the
 								contents of the films with the members of the club</p>
 						</div>
 					</div>
 
 					<div class="col-md-4 col-lg-4 d-flex align-items-stretch mb-5 mb-lg-0">
-						<div class="icon-box" data-aos="fade-up" data-aos-delay="200">
+						<div class="icon-box event-type" data-aos="fade-up" data-aos-delay="200"
+							data-event-type="Movie Premiere">
 							<div class="icon"><i class="bx bx-tachometer"></i></div>
 							<h4 class="title"><a href="">Movie Premiere</a></h4>
 							<p class="description">The club oftenly organises trips to film premieres.</p>
@@ -186,11 +189,15 @@ $connect_db->close();
 							<div class="testimonial-item">
 								<p>
 									<i class="bx bxs-quote-alt-left quote-icon-left"></i>
-									<?php echo $memberData[$i]["Member_comment"] ?? "what an excellent Society!!"; ?>
+									<?php
+
+						            $comment = mb_strimwidth($memberData[$i]["Member_comment"], 0, 250, "...");
+						    echo $comment;
+						    ?>
 									<i class="bx bxs-quote-alt-right quote-icon-right"></i>
 								</p>
 								<?php
-						            echo "<img src='$imgPath' class='testimonial-img' alt='$imgName' />";
+						    echo "<img src='$imgPath' class='testimonial-img' alt='$imgName' />";
 						    echo "<h3>".$memberData[$i]["Member_name"]."</h3>";
 						    ?>
 								<h4></h4>
@@ -322,5 +329,22 @@ $connect_db->close();
 
 
 </body>
+<script>
+	Array.from(document.getElementsByClassName("event-type")).forEach(element => {
+		element.addEventListener("click", function() {
+			var event_type = element.getAttribute("data-event-type");
+			var form = document.createElement("form");
+			form.setAttribute("method", "post");
+			form.setAttribute("action", "Event.php");
+			var hiddenField = document.createElement("input");
+			hiddenField.setAttribute("type", "hidden");
+			hiddenField.setAttribute("name", "filterByCategory");
+			hiddenField.setAttribute("value", event_type);
+			form.appendChild(hiddenField);
+			document.body.appendChild(form);
+			form.submit();
+		});
+	});
+</script>
 
 </html>

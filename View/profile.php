@@ -92,14 +92,13 @@
 									<a href="#" class="position-relative" onclick="openImageUploader();"
 										data-bs-content="Click to change Profile Picture." title="Profile Picture"
 										data-bs-placement="right" data-bs-toggle="popover" data-bs-trigger="hover">
-										<img src="<?php echo $_SESSION['user_pic_path'] ?? "../Css/assets/img/team/team-1.jpg" ?>"
+										<img src="<?php echo $_SESSION['user_pic_path'] ?? "../Image/profile_picture/Default-ProfilePicture.jpg" ?>"
 											alt="<?php echo $_SESSION['user_pic_file_name'] ?? "default"; ?>" />
 									</a>
 									<?php } elseif ($_SESSION['role'] == "Staff") { ?>
 									<a class="position-relative">
-										<img id="staffPic"
-											src="<?php echo $_SESSION['user_pic_path'] ?? "../Image/profile_picture/Default-ProfilePicture.jpg" ?>"
-											alt="<?php echo $_SESSION['user_pic_file_name'] ?? "default"; ?>" /></a>
+										<img id="staffPic" src="../Image/profile_picture/Default-ProfilePicture.jpg"
+											alt="default" ; ?>" /></a>
 									<?php } ?>
 
 
@@ -129,20 +128,21 @@
 						<div class="profile-info col-md-9">
 							<?php if ($_SESSION['role'] == "Member") { ?>
 							<div class="panel mb-5">
-								<form>
-									<textarea placeholder="Whats in your mind today?" rows="2"
-										class="form-control input-lg p-text-area"
-										style="resize:none;height:115px;"></textarea>
+								<form action="../Process/usercomment_process.php" method="post">
+									<textarea placeholder="Whats in your mind today?"
+										class="form-control input-lg p-text-area" style="resize:none;height:115px;"
+										name="comment" maxlength="1000"></textarea>
+
+									<div class="panel-footer"
+										style="display: flex; justify-content: flex-end; align-items: center; color: white; height: 60px;">
+										<button type="submit" class="btn btn-info"
+											style="background: rgba(103, 207, 255, 0.9); color: white; margin-right: 30px;">Post</button>
+									</div>
 								</form>
-								<footer class="panel-footer"
-									style="display: flex; justify-content: flex-end; align-items: center; color: white; height: 60px;">
-									<button class="btn btn-info"
-										style="background: rgba(103, 207, 255, 0.9); color: white; margin-right: 30px;">Post</button>
-								</footer>
 							</div>
 							<div class="panel bg-light">
 								<div class="bio-graph-heading">
-									<?php echo $_SESSION['user_comment']; ?>
+									<?php echo mb_strimwidth($_SESSION['user_comment'], 0, 350, "..."); ?>
 								</div>
 							</div>
 							<?php } ?>
@@ -150,7 +150,8 @@
 								<div class="panel-body bio-graph-info row ms-2">
 									<h1 class="mt-2" style="font-weight:bold;">
 										<?php echo $_SESSION['role'];?>
-										Profile</h1>
+										Profile
+									</h1>
 									<div class="ms-3">
 										<div class="bio-row">
 											<p><span>ID </span>:
@@ -179,6 +180,7 @@
 								</div>
 							</div>
 							<div>
+
 								<br>
 								<h4>
 									<?php
@@ -302,7 +304,6 @@
 
 	<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
 			class="bi bi-arrow-up-short"></i></a>
-	<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 

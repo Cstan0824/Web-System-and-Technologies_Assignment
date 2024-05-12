@@ -131,7 +131,7 @@
 									</li>
 								</ul>
 								<?php 
-									if($_SESSION['role'] == 'Member' && $leftover > 0) {
+									if($_SESSION['role'] == 'Member' && $leftover > 0 && $isBooked == false) {
 								    echo '
 									<form id="memberAddBooking" action="../Process/add_booking_process.php" method="post">
 									<button id="member-booking" name="member-booking" type="submit" onclick="confirmBooking();" class="button-19" value="'.$eventID.'">Book Ticket</button>
