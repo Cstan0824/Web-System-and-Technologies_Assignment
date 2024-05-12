@@ -24,7 +24,8 @@
 			color: rgba(0, 147, 0, 1);
 		}
 
-		#delete-event:hover, #delete-booking:hover {
+		#delete-event:hover,
+		#delete-booking:hover {
 			color: red;
 		}
 
@@ -50,6 +51,9 @@
     session_start();
 	include("header.php");
 	date_default_timezone_set('Asia/Kuala_Lumpur');
+
+	$page = $_GET['page'] ?? 1;
+
 	?>
 	<main id="main">
 
@@ -129,17 +133,21 @@
 								}
 	?>
 								<?php if(isset($_SESSION['role']) && $_SESSION['role'] == 'Staff') { ?>
-								<a href="../View/edit-event.php?event_id=<?php echo $eventID; ?>">
-								<button id="edit-event" class="button-19 my-3" name="editEvent">Edit Event</button></a>
+								<a
+									href="../View/edit-event.php?event_id=<?php echo $eventID; ?>">
+									<button id="edit-event" class="button-19 my-3" name="editEvent">Edit
+										Event</button></a>
 
 								<form id="addBooking" action="staff_add_booking.php" method="POST">
-									<button id="add-bookingbutton" class="button-19 my-3" type="submit"  name="addBooking"
+									<button id="add-bookingbutton" class="button-19 my-3" type="submit"
+										name="addBooking"
 										value="<?php echo $eventID; ?>">Add
 										Member Booking</button>
 								</form>
 								<form id="deleteEvent" action="../Process/delete_event.php" method="POST">
 									<button id="delete-event" class="button-19 my-3" type="submit" name="delete"
-										value="<?php echo $eventID; ?>" onclick="deleteEvent();">Delete Event</button>
+										value="<?php echo $eventID; ?>"
+										onclick="deleteEvent();">Delete Event</button>
 								</form>
 
 								<?php }?>
@@ -151,8 +159,11 @@
 			</section><!-- End Portfolio Details Section -->
 			<?php if(isset($_SESSION['role']) && $_SESSION['role'] == 'Staff') { ?>
 			<!-- ======= Booking Details Section ======= -->
-			<section id="booking-details" class="booking-details">
-				<div class="container">
+			<section id="booking-details" class="portfolio-details">
+				<div class="container portfolio-info">
+					<div class="section-title">
+						<h2>Member Details</h2>
+					</div>
 					<div class="table-responsive" data-aos="fade-up">
 						<?php
 
@@ -164,8 +175,20 @@
 							ORDER BY B.Booking_date ASC;";
 
 			    $result_booking = mysqli_query($connect_db, $sql_booking);
-
+			    $pageCount = ceil(mysqli_num_rows($result_booking) / 5);
+			    $memberDetails = array();
 			    if (mysqli_num_rows($result_booking) > 0) {
+			        while($row_booking = mysqli_fetch_assoc($result_booking)) {
+			            //store the data to nested array
+			            $memberDetails[] = array(
+			                "Member_id" => $row_booking["Member_id"],
+			                "Member_name" => $row_booking["Member_name"],
+			                "Member_email" => $row_booking["Member_email"],
+			                "Booking_date" => $row_booking["Booking_date"],
+			                "Booking_id" => $row_booking["Booking_id"]
+			            );
+
+			        }
 			        echo "
 						
 								<table class='table table-hover'>
@@ -179,27 +202,60 @@
 								<th class='text-info'>Booking Date</th>
 								<th class='text-info'><button id='add-booking' type='submit' name='addBooking' value='".$eventID."'<i class='fa-solid fa-user-plus'></i></button</th>
 								</tr>
-								</thead>
 								</form>
+								</thead>
+								<tbody>
 								<form id='deleteBooking' action='../Process/delete_booking.php' method='POST'>
-								<tbody>";
+								";
 
-			        for ($i = 1; $row_booking = mysqli_fetch_assoc($result_booking); $i++) {
-			            echo"
-											<tr data-bs-trigger='hover'>
-											<td>".$i."</td>
-											<td>".$row_booking['Member_id']."</td>
-											<td id='member'>".$row_booking['Member_name']."</td>
-											<td>".$row_booking['Member_email']."</td>
-											<td>".$row_booking['Booking_date']."</td>";?>
-											<td><button id='delete-booking' type='submit' name='delete' value='<?php echo $row_booking['Booking_id'];?>' onclick='deleteBooking();' ><i class='fa-regular fa-trash-can'></i></button></td>
-											</tr>
-											<?php
+			        for ($i = ($page - 1) * 5; $i < count($memberDetails) && $i <= $page * 5; $i++) {
+			            echo "
+							<tr data-bs-trigger='hover'>
+								<td>".($i + 1)."</td>
+								<td>".$memberDetails[$i]['Member_id']."</td>
+								<td id='member'>".$memberDetails[$i]['Member_name']."</td>
+								<td>".$memberDetails[$i]['Member_email']."</td>
+								<td>".$memberDetails[$i]['Booking_date']."</td>
+								<td><button id='delete-booking' type='submit' name='delete' value='".$memberDetails[$i]['Booking_id']."' onclick='deleteBooking();'><i class='fa-regular fa-trash-can'></i></button></td>
+							</tr>";
 			        }
-			        echo "</tbody></form></table>";
+			        echo "</form></tbody></table>";
 			    }
 			}?>
+
 					</div>
+					<form
+						action="<?php echo $_SERVER["PHP_SELF"]; ?>"
+						method="get">
+						<input type="hidden"
+							value="<?php echo $eventID ?>"
+							name="event_id" />
+						<ul class="pagination">
+							<li class="page-item" hidden></li>
+							<li class="page-item">
+								<button id="prevPage" class="page-link disabled" type="submit"
+									<?php echo "name='page' value='" .max($page - 1, 1). "'" ?>>
+									Previous
+								</button>
+							</li>
+							<?php for ($i = 1; $i <= $pageCount; $i++): ?>
+							<li class="page-item">
+								<button
+									class="page-link <?php echo ($page == $i) ? "disabled bg-muted" : ""; ?>"
+									type="submit"
+									<?php echo "name='page' value='$i'" ?>><?php echo $i ?></button>
+							</li>
+							<?php endfor ?>
+							<li class="page-item">
+								<button id="nextPage" class="page-link disabled" type="submit"
+									<?php echo "name='page' value='".min($page + 1, $pageCount). "'" ?>>
+									Next
+								</button>
+							</li>
+						</ul>
+					</form>
+				</div>
+
 			</section>
 			<!-- ======= End Booking Details Section ======= -->
 
@@ -216,6 +272,26 @@
 	<!-- Template Main JS File -->
 	<script src="../Css/assets/js/main.js"></script>
 	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+
+			//pagination disabled
+			var prevPage = document.getElementById("prevPage");
+			var nextPage = document.getElementById("nextPage");
+
+			var page = <?php echo $page ?> ;
+			var totalPage = <?php echo $pageCount ?> ;
+			//console.log(page, totalPage);
+			prevPage.classList.remove("disabled");
+			nextPage.classList.remove("disabled");
+			if (page === totalPage) {
+				nextPage.classList.add("disabled");
+
+			}
+			if (page === 1) {
+				prevPage.classList.add("disabled");
+			}
+		});
+
 		function confirmBooking() {
 			// Display a confirmation dialog with the member's name
 			var result = confirm("Are you sure you want to book for this event?");
@@ -223,34 +299,35 @@
 			if (result == 1) {
 				document.getElementById("memberAddBooking").submit();
 			} else {
-				event.preventDefault(); 
-			}
-		}
-		function deleteEvent() {
-            var result = confirm("Are you sure you want to delete this event?");
-            
-            // If user confirms, submit the form
-            if (result == 1) {
-                document.getElementById("deleteEvent").submit();
-            }else{
 				event.preventDefault();
 			}
 		}
+
+		function deleteEvent() {
+			var result = confirm("Are you sure you want to delete this event?");
+
+			// If user confirms, submit the form
+			if (result == 1) {
+				document.getElementById("deleteEvent").submit();
+			} else {
+				event.preventDefault();
+			}
+		}
+
 		function deleteBooking() {
-           	// Get the selected member's name
-		   	var memberName = document.getElementById("member").options[document.getElementById("member").selectedIndex].text;
+			// Get the selected member's name
+			var memberName = document.getElementById("member").options[document.getElementById("member").selectedIndex].text;
 
 			// Display a confirmation dialog with the member's name
 			var result = confirm("Are you sure you want to delete booking for " + memberName + "?");
-            
-            // If user confirms, submit the form
-            if (result == 1) {
-                document.getElementById("deleteBooking").submit();
-            }else{
+
+			// If user confirms, submit the form
+			if (result == 1) {
+				document.getElementById("deleteBooking").submit();
+			} else {
 				event.preventDefault();
 			}
 		}
-
 	</script>
 
 
