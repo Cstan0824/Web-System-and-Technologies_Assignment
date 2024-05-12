@@ -121,7 +121,7 @@
 										<?php echo $event_availability;?>
 									</li>
 									<li><strong>Movie Details</strong>:
-										<br /><?php echo $movie_details;?>
+										<br /><?php echo $movie_details;?>...
 									</li>
 								</ul>
 								<?php if($_SESSION['role'] == 'Member') {
