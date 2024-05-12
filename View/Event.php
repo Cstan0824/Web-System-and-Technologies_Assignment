@@ -96,10 +96,11 @@
 			height: 330px;
 		}
 
-		#myPieChart {
+		#myPieChart, #myBarChart{
 		width: 700px;
 		height: 700px;
 		}
+
 	</style>
 
 </head>
@@ -209,8 +210,6 @@
 	$labelForPieChart = array("Movie Sharing Session", "Movie Premiere", "Famous Actor Meeting");
 	$event_type_data = array(0, 0, 0);
 
-
-
 	$result_count_event = $connect_db->query($sql_count_event);
 	while($row = $result_count_event->fetch_assoc()) {
 	    if ($row["EventType"] == "MOVIE SHARING SESSION") {
@@ -247,6 +246,28 @@
 	//check data
 	echo "<script>console.log('movieSharringSession: ".$event_type_data[0].", moviePremiere: ".$event_type_data[1].", famousActorMeeting: ".$event_type_data[2].", total:".$sum_event_booking."')</script>";
 
+	//data for bar chart
+	$sql_get_numOfBookingPerMonth = "SELECT IFNULL(COUNT(B.Booking_id), 0) AS NumOfBooking, all_months.Month
+	FROM (
+		SELECT 1 AS Month UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL
+		SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9 UNION ALL SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12
+	) AS all_months
+	LEFT JOIN T_Booking B ON MONTH(B.Booking_date) = all_months.Month
+	LEFT JOIN T_Event E ON B.Event_id = E.Event_id
+	LEFT JOIN T_Event_Cancellation EC ON E.Event_id = EC.Event_id
+	LEFT JOIN T_Booking_Cancellation BC ON B.Booking_id = BC.Booking_id
+	WHERE EC.Event_id IS NULL AND BC.Booking_id IS NULL
+	GROUP BY all_months.Month;
+	";
+
+	$result_get_numOfBookingPerMonth = $connect_db->query($sql_get_numOfBookingPerMonth);
+	$labelForBarChart = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+	$numOfBookingPerMonth = array_fill(0, 12, 0);
+	while($row = $result_get_numOfBookingPerMonth->fetch_assoc()) {
+	    $numOfBookingPerMonth[$row["Month"] - 1] = $row["NumOfBooking"];
+	}
+
+
 	?>
 	<?php include("header.php") ?>
 	<main id="main">
@@ -270,6 +291,21 @@
 			method="POST">
 			<section class="inner-page">
 				<div class="container">
+					<?php if($_SESSION['role'] == "Staff") { ?>
+						<!-- BEGIN STATISTICS -->
+							<div class="row">
+								<div class="grid search">
+								<h2><strong><i class="fa-solid fa-square-poll-vertical"></i> STATISTICS</strong></h2>
+								<div class="col-md-9">
+									<canvas id="myBarChart"></canvas>
+								</div>
+								<div class="col-md-3">
+									<canvas id="myPieChart"></canvas>
+								</div>
+								</div>
+							</div>
+						<!-- END STATISTICS -->
+					<?php } ?>
 					<div class="row">
 
 						<!-- BEGIN SEARCH FILTER -->
@@ -362,17 +398,7 @@
 											<br />
 											<!-- END FILTER BY OTHERS -->
 											<br />
-											<?php if($_SESSION['role'] == "Staff") { ?>
-											<hr />
-											<!-- BEGIN STATISTICS -->
-											<h2><strong><i class="fa-solid fa-square-poll-vertical"></i> STATISTICS</strong></h2>
-											<br />
-											<div class="d-flex flex-wrap">
-												<canvas id="myPieChart"></canvas>
-											</div>
-											<br />
-											<!-- END STATISTICS -->
-											<?php } ?>
+											
 										</div>
 
 										<!-- END FILTERS -->
@@ -468,7 +494,7 @@
 														    ?>
 														<tr title="Click for more!" data-bs-toggle="popover"
 															data-bs-trigger="hover"
-															data-bs-content="<?php echo $data[$i]["Event_desc"]; ?>"
+															data-bs-content="<?php echo $data[$i]["Event_desc"]; ?>..."
 															data-bs-placement="top" data-event-id=<?php echo $data[$i]["Event_id"];?>
 															class="event_id">
 															<td class="number text-center">
@@ -768,7 +794,7 @@
 		}
 	}
 
-	//statistics (chart.js)
+	//statistics pie chart (chart.js)
 	var percentageData = <?php echo json_encode($percentage_data); ?>;
     var ctx = document.getElementById('myPieChart').getContext('2d');
     var myPieChart = new Chart(ctx, {
@@ -819,6 +845,75 @@
             }
         }
     });
+
+	//statistics bar chart (chart.js)
+	var labelForBarChart = <?php echo json_encode($labelForBarChart); ?>;
+        var numOfBookingPerMonth = <?php echo json_encode($numOfBookingPerMonth); ?>;
+
+        // Define colors for each month
+        var backgroundColors = [
+            'rgba(54, 162, 235, 0.6)', // January
+            'rgba(255, 99, 132, 0.6)', // February
+            'rgba(255, 206, 86, 0.6)', // March
+            'rgba(75, 192, 192, 0.6)', // April
+            'rgba(153, 102, 255, 0.6)', // May
+            'rgba(255, 159, 64, 0.6)', // June
+            'rgba(54, 235, 166, 0.6)', // July
+            'rgba(235, 54, 116, 0.6)', // August
+            'rgba(54, 235, 121, 0.6)', // September
+            'rgba(162, 54, 235, 0.6)', // October
+            'rgba(235, 158, 54, 0.6)', // November
+            'rgba(235, 54, 196, 0.6)' // December
+        ];
+
+        var borderColors = [
+            'rgba(54, 162, 235, 1)', // January
+            'rgba(255, 99, 132, 1)', // February
+            'rgba(255, 206, 86, 1)', // March
+            'rgba(75, 192, 192, 1)', // April
+            'rgba(153, 102, 255, 1)', // May
+            'rgba(255, 159, 64, 1)', // June
+            'rgba(54, 235, 166, 1)', // July
+            'rgba(235, 54, 116, 1)', // August
+            'rgba(54, 235, 121, 1)', // September
+            'rgba(162, 54, 235, 1)', // October
+            'rgba(235, 158, 54, 1)', // November
+            'rgba(235, 54, 196, 1)' // December
+        ];
+
+        var ctx = document.getElementById('myBarChart').getContext('2d');
+        var myBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labelForBarChart,
+                datasets: [{
+                    label: 'Number of Bookings',
+                    data: numOfBookingPerMonth,
+                    backgroundColor: backgroundColors,
+                    borderColor: borderColors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Number of Bookings Per Month',
+                    fontSize: 16
+                }
+            }
+        });
 </script>
 
 

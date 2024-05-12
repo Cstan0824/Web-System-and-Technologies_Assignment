@@ -162,7 +162,7 @@
 			<section id="booking-details" class="portfolio-details">
 				<div class="container portfolio-info">
 					<div class="section-title">
-						<h2>Member Details</h2>
+						<h2>Booking Details</h2>
 					</div>
 					<div class="table-responsive" data-aos="fade-up">
 						<?php
