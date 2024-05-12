@@ -124,7 +124,7 @@
 								<!-- Hoster -->
 								<div class="input-group my-4">
 									<span class="input-group-text">Hoster</span>
-									<input type="text" class="form-control" placeholder="Hoster" name="eventHoster"
+									<input type="text" class="form-control" placeholder="Hoster" name="eventHoster" id="eventHoster"
 										value="<?php echo $event_hoster; ?>"
 										type="text" require maxlength="50">
 								</div>
@@ -148,7 +148,7 @@
 								<!-- Max User -->
 								<div class="input-group my-4">
 									<span class="input-group-text">Max User</span>
-									<input class="form-control" type="number" name="maxUser"
+									<input class="form-control" type="number" name="maxUser" id="maxUser"
 										value="<?php echo $max_user;?>"
 										require minlength="1" maxlength="60" />
 								</div>
@@ -235,14 +235,27 @@
 	}
 	document.getElementById('editEvent').addEventListener('submit', function(event) {
 		var eventNameInput = document.getElementById('eventName').value;
+		var eventHoster = document.getElementById('eventHoster').value;
+		var maxUser = document.getElementById('maxUser').value;
 		var regex = /^[a-zA-Z0-9\s]*$/; 
+		if (eventNameInput.length == 0 || eventNameInput.length > 50) {
+			event.preventDefault(); 
+			alert('Event name must be between 3 and 50 characters.');
+		}
 		if (!regex.test(eventNameInput)) {
 			event.preventDefault(); 
 			alert('Event name can only contain letters, numbers, and spaces.');
 		}
+		if (eventHoster.length == 3 || eventHoster.length > 50) {
+			event.preventDefault(); 
+			alert('Hoster name must be between 1 and 50 characters.');
+		}
+		if (maxUser == 0 || maxUser > 60) {
+			event.preventDefault(); 
+			alert('Max user must be between 1 and 60.');
+		}
 		var eventDateInput = document.getElementById('eventDate').value;
 		var today = new Date(); 
-
 		if (eventDateInput <= today) {
 			event.preventDefault(); 
 			alert('Please select a date in the future.');

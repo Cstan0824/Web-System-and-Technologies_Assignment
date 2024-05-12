@@ -93,8 +93,7 @@
                                                 ID:</label>
                                             <div class="col-lg-8">
                                                 <input class="form-control user-id" name="user_ID" type="text"
-                                                    value="<?php echo $_SESSION['user_id'];?>"
-                                                    readonly>
+                                                    value="<?php echo $_SESSION['user_id'];?>" readonly>
                                             </div>
                                         </div>
                                         <div class="bio-row">
@@ -102,7 +101,7 @@
                                                 name="user_name"><?php echo $_SESSION['role'];?>
                                                 name:</label>
                                             <div class="col-lg-8">
-                                                <input class="form-control user-name" name="user_name" type="text"
+                                                <input class="form-control user-name" id="user_name" name="user_name" type="text"
                                                     value="<?php echo $_SESSION['user_name'];?>">
                                             </div>
                                         </div>
@@ -120,10 +119,10 @@
                                                 name="Member_password">Password:</label>
                                             <div class="col-lg-8">
                                                 <!-- haven't implement password change because of OTP -->
-                                                <input class="form-control user-password" name="user_password"
+                                                <input id="user_password" class="form-control user-password" name="user_password"
                                                     type="password"
                                                     value="<?php echo $_SESSION['user_pass'];?>"
-                                                    readonly>
+                                                    >
                                             </div>
                                         </div>
                                         <div class="bio-row">
@@ -210,6 +209,24 @@
     }
 
     function confirmEditProfile() {
+
+        var name = document.getElementById("user_name").value.trim();
+        var password = document.getElementById("user_password").value.trim();
+
+        // Name validation
+        if (name.length < 3 || name.length > 50) {
+            alert("Name must be between 3 and 50 characters long.");
+            event.preventDefault();
+            return;
+        }
+
+        // Password validation
+        if (password.length < 8 || password.length > 16 || /\s/.test(password)) {
+            alert("Password must be 8 to 16 characters long without spaces.");
+            event.preventDefault();
+            return;
+        }
+
         // Display a confirmation dialog with the member's name
         var result = confirm("Are you sure the entered details are correct?");
 
