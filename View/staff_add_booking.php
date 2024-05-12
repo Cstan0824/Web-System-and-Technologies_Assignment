@@ -124,7 +124,6 @@
 						<li>Add Booking</li>
 					</ol>
 				</div>
-
 			</div>
 			<!-- ======= Portfolio Details Section ======= -->
 			<section id="portfolio-details" class="portfolio-details">
@@ -138,7 +137,7 @@
 
 									<div class="swiper-slide">
 										<img id="event-pic" class="rounded"
-											src="<?php echo $event_upl_path; ?>"
+											src="<?php echo $event_upl_path ?? "../Image/event_picture/Default-EventPicture.jpg"; ?>"
 											alt="photo">
 									</div>
 
@@ -193,46 +192,49 @@
 		<!-- ======= Add Booking Section ======= -->
 		<section id="add-booking" class="add-booking">
 			<div class="container">
-				<form id="addBooking" class="needs-validation" action="../Process/add_booking_process.php" method="post">
+				<form id="addBooking" class="needs-validation" action="../Process/add_booking_process.php"
+					method="post">
 					<div class="row g-3">
 
 						<!-- ======= select member ======= -->
 						<div class="col-md-5">
 							<?php
-							
-							//get member id and name from db
-	                        $sql_member = "SELECT * FROM t_member";
-							$result_member = mysqli_query($connect_db, $sql_member);
-							if (mysqli_num_rows($result_member) > 0) {
-							    $member_ID = array("");
-							    $member_name = array("");
-							    for($i = 1; $row_member = mysqli_fetch_assoc($result_member); $i++) {
-							        $member_ID[$i] = $row_member['Member_id'];
-							        $member_name[$i] = $row_member['Member_name'];
-							    }
 
-							}?>
+	                        //get member id and name from db
+	                        $sql_member = "SELECT M.Member_id, M.Member_name FROM t_member M
+							LEFT JOIN T_BOOKING B ON M.Member_id = B.Member_id
+							WHERE B.Member_id IS NULL;";
+	$result_member = mysqli_query($connect_db, $sql_member);
+	if (mysqli_num_rows($result_member) > 0) {
+	    $member_ID = array("");
+	    $member_name = array("");
+	    for($i = 0; $row_member = mysqli_fetch_assoc($result_member); $i++) {
+	        $member_ID[$i] = $row_member['Member_id'];
+	        $member_name[$i] = $row_member['Member_name'];
+	    }
 
-							
+	}?>
+
+
 							<label for="member" class="form-label">Member</label>
 							<div class="input-group has-validation">
 								<select class="form-select" id="member" name="member" required>
 									<option value="">--Select One--</option>
 									<?php
-									for ($i = 1; $i < count($member_ID); $i++) {
-									    echo "<option value='".$member_ID[$i]."'>".$member_name[$i]."</option>";
-									}
-									?>
+	        for ($i = 0; $i < count($member_ID); $i++) {
+	            echo "<option value='".$member_ID[$i]."'>".$member_name[$i]."</option>";
+	        }
+	?>
 								</select>
-							
+
 							</div>
 						</div>
-						
+
 						<!-- ======= display current date ======= -->
 						<div class="col-md-4">
 							<label for="date" class="form-label">Booking Date</label>
 							<div class="input-group has-validation">
-								<input type="date" class="form-control" id="date" name="date"
+								<input type="date" class="form-control disabled" id="date" name="date"
 									<?php echo 'value="' . date('Y-m-d') . '"'; ?>
 								readonly>
 							</div>
@@ -240,7 +242,9 @@
 
 						<div class="col-md-3">
 							<label for="addBooking" class="form-label"></label>
-							<button class="w-100 btn btn-primary btn-lg"  value='<?php echo $eventID; ?>' name="addBooking" type="submit" onclick="confirmBooking();">Add Booking</button>
+							<button class="w-100 btn btn-primary btn-lg"
+								value='<?php echo $eventID; ?>'
+								name="addBooking" type="submit" onclick="confirmBooking();">Add Booking</button>
 						</div>
 					</div>
 				</form>
@@ -261,20 +265,20 @@
 	<!-- Template Main JS File -->
 	<script src="../Css/assets/js/main.js"></script>
 	<script>
-		 function confirmBooking() {
-            // Get the selected member's name
-            var memberName = document.getElementById("member").options[document.getElementById("member").selectedIndex].text;
+		function confirmBooking() {
+			// Get the selected member's name
+			var memberName = document.getElementById("member").options[document.getElementById("member").selectedIndex].text;
 
-            // Display a confirmation dialog with the member's name
-            var result = confirm("Are you sure you want to add booking for " + memberName + "?");
-            
-            // If user confirms, submit the form
-            if (result == 1) {
-                document.getElementById("addBooking").submit();
-            }else{
+			// Display a confirmation dialog with the member's name
+			var result = confirm("Are you sure you want to add booking for " + memberName + "?");
+
+			// If user confirms, submit the form
+			if (result == 1) {
+				document.getElementById("addBooking").submit();
+			} else {
 				event.preventDefault();
 			}
-        }
+		}
 	</script>
 
 </body>

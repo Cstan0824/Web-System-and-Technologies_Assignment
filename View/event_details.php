@@ -31,7 +31,7 @@
 
 		#event-pic {
 			width: 500px;
-			height: 700px;
+			height: 500px;
 		}
 
 		#movie-info {
@@ -41,15 +41,14 @@
 
 	<?php include("../Root/link.php") ?>
 	<?php include("../Root/connect-db.php") ?>
-	<?php include("../Root/getEventDetails.php") ?>
+	<?php include("../Process/getEventDetails.php") ?>
 
 
 </head>
 
 <body>
 	<?php
-    session_start();
-	include("header.php");
+    include("header.php");
 	date_default_timezone_set('Asia/Kuala_Lumpur');
 
 	$page = $_GET['page'] ?? 1;
@@ -83,7 +82,7 @@
 
 									<div class="swiper-slide">
 										<img id="event-pic" class="rounded"
-											src="<?php echo $event_upl_path; ?>"
+											src="<?php echo $event_upl_path ?? "../Image/event_picture/Default-EventPicture.jpg"; ?>"
 											alt="photo">
 									</div>
 
@@ -118,27 +117,27 @@
 										<?php echo $end_time;?>
 									</li>
 									<li><strong>Event Availability</strong>:
-										<?php 
-										if ($leftover == 0) {
-											echo "Fully Booked";
-										} else {
-											echo $event_availability;
-										}
-										?>
+										<?php
+	                                    if ($leftover == 0) {
+	                                        echo "Fully Booked";
+	                                    } else {
+	                                        echo $event_availability;
+	                                    }
+	?>
 									</li>
 									<li><strong>Movie Details</strong>:
 										<br /><?php echo $movie_details;?>...
 									</li>
 								</ul>
-								<?php 
-									if($_SESSION['role'] == 'Member' && $leftover > 0 && $isBooked == false) {
-								    echo '
+								<?php
+	                                if($_SESSION['role'] == 'Member' && $leftover > 0 && $isBooked == false) {
+	                                    echo '
 									<form id="memberAddBooking" action="../Process/add_booking_process.php" method="post">
 									<button id="member-booking" name="member-booking" type="submit" onclick="confirmBooking();" class="button-19" value="'.$eventID.'">Book Ticket</button>
 									</form>
 									';
-									}
-								?>
+	                                }
+	?>
 								<?php if(isset($_SESSION['role']) && $_SESSION['role'] == 'Staff') { ?>
 								<a
 									href="../View/edit-event.php?event_id=<?php echo $eventID; ?>">
@@ -209,10 +208,10 @@
 								<th class='text-info'>Member Email</th>
 								<th class='text-info'>Booking Date</th>
 								<th class='text-info'>";
-								if ($leftover > 0){
-									echo "<button id='add-booking' type='submit' name='addBooking' value='".$eventID."'<i class='fa-solid fa-user-plus'></i></button>";
-								};
-								echo "
+			        if ($leftover > 0) {
+			            echo "<button id='add-booking' type='submit' name='addBooking' value='".$eventID."'<i class='fa-solid fa-user-plus'></i></button>";
+			        };
+			        echo "
 								</th>
 								</tr>
 								</form>
