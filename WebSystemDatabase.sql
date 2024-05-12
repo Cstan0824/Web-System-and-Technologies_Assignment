@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 02, 2024 at 05:54 PM
+-- Generation Time: May 12, 2024 at 05:26 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `movie_society`
 --
-CREATE DATABASE IF NOT EXISTS `movie_society` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `movie_society`;
 
 -- --------------------------------------------------------
 
@@ -33,7 +31,6 @@ CREATE TABLE `t_booking` (
   `Booking_id` int(11) NOT NULL,
   `Member_id` varchar(20) NOT NULL,
   `Event_id` int(11) NOT NULL,
-  `Booking_cancellation_id` int(11) DEFAULT NULL,
   `Booking_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -41,9 +38,20 @@ CREATE TABLE `t_booking` (
 -- Dumping data for table `t_booking`
 --
 
-INSERT INTO `t_booking` (`Booking_id`, `Member_id`, `Event_id`, `Booking_cancellation_id`, `Booking_date`) VALUES
-(1, 'Cstan_0000', 1, 1, '2024-03-31'),
-(2, 'Cstan_0000', 1, NULL, '2024-03-31');
+INSERT INTO `t_booking` (`Booking_id`, `Member_id`, `Event_id`, `Booking_date`) VALUES
+(1, 'Cstan_0000', 1, '2024-03-31'),
+(2, 'Cstan_0000', 1, '2024-03-31'),
+(3, 'Charmine2023', 1, '2024-05-06'),
+(4, 'Gregorius0000', 2, '2024-05-06'),
+(5, 'Lsanderson2', 3, '2024-05-06'),
+(6, 'tallBen0000', 4, '2024-05-06'),
+(7, 'GianHelloWorld', 5, '2024-05-06'),
+(8, 'Charmine2023', 6, '2024-05-06'),
+(9, 'Gregorius0000', 7, '2024-05-06'),
+(10, 'Lsanderson2', 8, '2024-05-06'),
+(11, 'tallBen0000', 9, '2024-05-06'),
+(12, 'GianHelloWorld', 10, '2024-05-06'),
+(13, 'Jeremy_1234', 1, '2024-05-09');
 
 -- --------------------------------------------------------
 
@@ -54,15 +62,17 @@ INSERT INTO `t_booking` (`Booking_id`, `Member_id`, `Event_id`, `Booking_cancell
 CREATE TABLE `t_booking_cancellation` (
   `Booking_Cancellation_id` int(11) NOT NULL,
   `Booking_Cancelled_By` varchar(20) NOT NULL,
-  `Booking_Cancel_Date` date NOT NULL
+  `Booking_Cancel_Date` date NOT NULL,
+  `Booking_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_booking_cancellation`
 --
 
-INSERT INTO `t_booking_cancellation` (`Booking_Cancellation_id`, `Booking_Cancelled_By`, `Booking_Cancel_Date`) VALUES
-(1, 'Cstan_0000', '2024-03-31');
+INSERT INTO `t_booking_cancellation` (`Booking_Cancellation_id`, `Booking_Cancelled_By`, `Booking_Cancel_Date`, `Booking_id`) VALUES
+(1, 'Cstan_0000', '2024-03-31', 1);
+
 
 -- --------------------------------------------------------
 
@@ -76,24 +86,56 @@ CREATE TABLE `t_event` (
   `Event_location_id` int(11) NOT NULL,
   `Event_type_id` int(11) NOT NULL,
   `Event_name` varchar(50) NOT NULL,
-  `Event_Rating_Avg` decimal(4,2) DEFAULT NULL,
   `Max_User` int(11) NOT NULL,
   `Event_upl_file_name` varchar(50) DEFAULT NULL,
   `Event_upl_path` varchar(50) DEFAULT NULL,
   `Event_date` date NOT NULL,
   `Event_desc` varchar(2000) DEFAULT NULL,
-  `ViewCount` int(11) DEFAULT NULL,
   `Start_time` time DEFAULT NULL,
   `End_time` time DEFAULT NULL,
   `Event_hoster` varchar(50) DEFAULT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_event`
 --
 
-INSERT INTO `t_event` (`Event_id`, `Staff_id`, `Event_location_id`, `Event_type_id`, `Event_name`, `Event_Rating_Avg`, `Max_User`, `Event_upl_file_name`, `Event_upl_path`, `Event_date`, `Event_desc`, `ViewCount`, `Start_time`, `End_time`, `Event_hoster`) VALUES
-(1, 'Admin0000', 1, 1, 'my AI Rakyat', 4.30, 32, 'AI Aware', 'Image/asdfasdvfcvdrg.jpeg', '0000-00-00', 'Got to know more about AI!', 0, '15:00:00', '17:00:00', 'Jeremy');
+INSERT INTO `t_event` (`Event_id`, `Staff_id`, `Event_location_id`, `Event_type_id`, `Event_name`, `Max_User`, `Event_upl_file_name`, `Event_upl_path`, `Event_date`, `Event_desc`, `Start_time`, `End_time`, `Event_hoster`) VALUES
+(1, 'Admin0000', 1, 1, 'my AI Rakyat', 32, 'AI Aware', '../Image/event_picture/663cabe3e077a2.39793900.jpg', '2024-05-12', 'Got to know more about AI!', '15:00:00', '17:00:00', 'Jeremy'),
+(2, 'BayardSunShine', 1, 1, 'Zemlak Inc', 36, NULL, NULL, '2025-01-19', 'Explore the filmography of a renowned director such as Alfred Hitchcock, Stanley Kubrick, or Quentin Tarantino by screening and discussing their iconic movies.', '20:00:00', '22:00:00', 'Rene Diglin'),
+(3, 'BrockPen00', 3, 2, 'Russel Group', 31, NULL, NULL, '2023-10-06', 'Celebrate the rich diversity of world cinema with a festival showcasing acclaimed films from various countries, offering subtitles for accessibility.', '15:00:00', '17:00:00', 'Denney Gerretsen'),
+(4, 'BrockPen00', 1, 3, 'Blick, Rau and Ortiz', 32, NULL, NULL, '2024-04-08', 'Pit different film genres against each other in a friendly competition, allowing members to vote on their favorite genre and watch the top picks together.', '23:00:00', '00:00:00', 'Alisander Currin'),
+(5, 'BayardSunShine', 1, 1, 'Zemlak Inc', 36, NULL, NULL, '2024-01-19', 'Explore the filmography of a renowned director such as Alfred Hitchcock, Stanley Kubrick, or Quentin Tarantino by screening and discussing their iconic movies.', '20:00:00', '22:00:00', 'Rene Diglin'),
+(6, 'BrockPen00', 3, 2, 'Russel Group', 31, NULL, NULL, '2023-10-06', 'Celebrate the rich diversity of world cinema with a festival showcasing acclaimed films from various countries, offering subtitles for accessibility.', '15:00:00', '17:00:00', 'Denney Gerretsen'),
+(7, 'BrockPen00', 1, 3, 'Blick, Rau and Ortiz', 32, NULL, NULL, '2024-04-08', 'Pit different film genres against each other in a friendly competition, allowing members to vote on their favorite genre and watch the top picks together.', '23:00:00', '00:00:00', 'Alisander Currin'),
+(8, 'BrockPen00', 3, 1, 'Gislason-Grimes', 44, NULL, NULL, '2024-03-24', 'Engage members in a hands-on workshop where they learn the basics of filmmaking, from scriptwriting to editing, and showcase their creations afterward.', '18:30:00', '20:30:00', 'Astrix Boddam'),
+(9, 'BuddyJada', 1, 1, 'Gusikowski, Jakubowski and Lakin', 41, NULL, NULL, '2023-11-12', 'Test your knowledge of film trivia with a themed trivia night, covering topics like 80s classics, Oscar winners, or specific film franchises.', '17:00:00', '19:00:00', 'Obediah Tapsfield'),
+(10, 'LemonTeaNoLemon', 2, 2, 'Casper-Jacobi', 42, NULL, NULL, '2024-04-15', ' Experience films in a whole new way with interactive screenings that incorporate props, costumes, and audience participation, enhancing the viewing experience.', '22:10:00', '23:30:00', 'Emmalyn Seeger'),
+(11, 'BrockPen00', 3, 3, 'Rohan LLC', 32, NULL, NULL, '2024-04-17', 'Binge-watch acclaimed TV mini-series or limited series like Chernobyl, Band of Brothers, or The Queen\'s Gambit,\' followed by discussions on storytelling and production.', '17:30:00', '19:30:00', 'Mic Romushkin'),
+(12, 'BuddyJada', 3, 1, 'Mueller, Jacobson and Bruen', 37, NULL, NULL, '2024-06-05', 'Celebrate the artistry of animation with a marathon featuring animated classics, modern masterpieces, and lesser-known gems from around the world.', '22:00:00', '23:00:00', 'Mahala Obbard'),
+(13, 'BayardSunShine', 2, 1, 'Rosenbaum and Sons', 31, NULL, NULL, '2023-11-24', 'Transport audiences back in time with a screening of silent films accompanied by live musical performances, enhancing the immersive experience.', '14:00:00', '16:00:00', 'Dina Lacknor'),
+(14, 'BrockPen00', 1, 1, 'Schimmel-Quigley', 36, NULL, NULL, '2025-03-11', 'Pair up complementary films for a double feature night, offering a diverse cinematic experience with two movies that share thematic or stylistic similarities.', '21:00:00', '23:00:00', 'Gerek Timny'),
+(15, 'Admin0000', 1, 1, 'aasd', 30, 'HD-wallpaper-film-making-film-making.jpg', '../Image/HD-wallpaper-film-making-film-making.jpg', '2024-05-12', '', '00:00:00', '00:00:00', ''),
+(16, 'Admin0000', 1, 1, 'aasd', 30, 'HD-wallpaper-film-making-film-making.jpg', '../Image/HD-wallpaper-film-making-film-making.jpg', '2024-05-12', '', '00:00:00', '00:00:00', ''),
+(17, 'Admin0000', 1, 1, 'aasd', 30, 'HD-wallpaper-film-making-film-making.jpg', '../Image/HD-wallpaper-film-making-film-making.jpg', '2024-05-12', '', '00:00:00', '00:00:00', ''),
+(18, 'Admin0000', 1, 1, 'aasd', 30, 'HD-wallpaper-film-making-film-making.jpg', '../Image/HD-wallpaper-film-making-film-making.jpg', '2024-05-12', '', '01:20:00', '01:19:00', 'zxc'),
+(19, 'Admin0000', 1, 1, 'aasd', 30, 'HD-wallpaper-film-making-film-making.jpg', '../Image/HD-wallpaper-film-making-film-making.jpg', '2024-05-11', '', '01:20:00', '01:19:00', 'zxc'),
+(20, 'Admin0000', 2, 1, 'sdads', 30, 'HD-wallpaper-film-making-film-making.jpg', '../Image/HD-wallpaper-film-making-film-making.jpg', '2024-05-11', '', '12:12:00', '12:13:00', '1212'),
+(21, 'Admin0000', 1, 1, 'asassd', 30, 'HD-wallpaper-film-making-film-making.jpg', '../Image/HD-wallpaper-film-making-film-making.jpg', '2024-05-12', '', '12:12:00', '12:12:00', 'asdasd'),
+(22, 'Admin0000', 5, 1, 'asdasd', 30, 'HD-wallpaper-film-making-film-making.jpg', '../Image/HD-wallpaper-film-making-film-making.jpg', '2024-05-01', '', '12:12:00', '12:13:00', 'adsasd');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_event_cancellation`
+--
+
+CREATE TABLE `t_event_cancellation` (
+  `Event_cancellation_id` int(11) NOT NULL,
+  `Event_cancelled_by` varchar(255) NOT NULL,
+  `Event_id` int(11) NOT NULL,
+  `Cancel_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -105,34 +147,26 @@ CREATE TABLE `t_event_location` (
   `Event_location_id` int(11) NOT NULL,
   `Address` varchar(350) DEFAULT NULL,
   `Location` char(1) NOT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_event_location`
 --
 
 INSERT INTO `t_event_location` (`Event_location_id`, `Address`, `Location`) VALUES
-(1, 'KUALA LUMPUR, SETAPAK', 'O');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `t_event_member`
---
-
-CREATE TABLE `t_event_member` (
-  `Event_id` int(11) NOT NULL,
-  `Member_id` varchar(20) NOT NULL,
-  `Feedback_desc` varchar(2000) DEFAULT NULL,
-  `Event_Rating` decimal(4,2) DEFAULT NULL
-) ;
-
---
--- Dumping data for table `t_event_member`
---
-
-INSERT INTO `t_event_member` (`Event_id`, `Member_id`, `Feedback_desc`, `Event_Rating`) VALUES
-(1, 'Cstan_0000', 'This is an Amazing Event with brand new experience!', NULL);
+(1, 'KUALA LUMPUR, SETAPAK', 'O'),
+(2, '123 Main Street, Cityville', 'O'),
+(3, '456 Oak Avenue, Townburg', 'O'),
+(4, '789 Maple Lane, Villagetown', 'O'),
+(5, 'DK A, DK Buildings, TARUMT', 'I'),
+(6, 'DK B, DK Buildings, TARUMT', 'I'),
+(7, 'DK C, DK Buildings, TARUMT', 'I'),
+(8, 'DK D, DK Buildings, TARUMT', 'I'),
+(9, 'DK W, DK Buildings, TARUMT', 'I'),
+(10, 'DK X, DK Buildings, TARUMT', 'I'),
+(11, 'DK Y, DK Buildings, TARUMT', 'I'),
+(12, 'DK Z, DK Buildings, TARUMT', 'I'),
+(13, 'Sport Complex, TARUMT', 'I');
 
 -- --------------------------------------------------------
 
@@ -165,15 +199,29 @@ CREATE TABLE `t_member` (
   `Member_name` varchar(50) NOT NULL,
   `Member_email` varchar(50) NOT NULL,
   `Member_password` varchar(20) NOT NULL,
-  `Member_regisdate` date NOT NULL
-) ;
+  `Member_regisdate` date NOT NULL,
+  `Member_upl_file_name` varchar(50) DEFAULT NULL,
+  `Member_upl_path` varchar(50) DEFAULT NULL,
+  `Member_comment` varchar(1000) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_member`
 --
 
-INSERT INTO `t_member` (`Member_id`, `Member_name`, `Member_email`, `Member_password`, `Member_regisdate`) VALUES
-('Cstan_0000', 'Tan Choon Shen', 'tancs804@tarumt.my', '0000Cstan', '2024-03-31');
+INSERT INTO `t_member` (`Member_id`, `Member_name`, `Member_email`, `Member_password`, `Member_regisdate`, `Member_upl_file_name`, `Member_upl_path`, `Member_comment`) VALUES
+('asdasdaasd', 'Tan Choon Shen', 'tancs8803@gmail.com', 'asdasdasdads', '2024-05-11', NULL, NULL, NULL),
+('Charmine2023', 'Charmine Baughen', 'cbaughen0@virginia.edu', 'ChaB0519', '2023-05-19', NULL, NULL, 'Society is a cinematic rollercoaster that takes you on a wild ride through the bizarre and twisted. From its eerie atmosphere to its mind-bending plot twists, this movie keeps you guessing until the very end. Buckle up for a journey into the depths of societal horror like you''ve never experienced before.😂'),
+('Cstanishere', 'Cstan', 'tancs8803@gmail.com', 'Cstantan', '2024-05-10', NULL, NULL, NULL),
+('Cstantanishere', 'Tan Choon Shen', 'tancs8803@gmail.com', 'asdasdasdad', '2024-05-11', NULL, NULL, NULL),
+('Cstan_0000', 'Tan Choon Shen', 'tancs804@tarumt.my', '0000Cstan', '2024-03-31', NULL, NULL, 'hello world'),
+('GianHelloWorld', 'Esme Gianiello', 'egianiello4@tinypic.com', 'Ess@0808g', '2023-08-08', NULL, NULL, 'With its blend of gruesome visuals and subversive storytelling, Society is a cult classic that challenges the norms of both horror and society itself. It''s a fever dream of paranoia and body horror that will leave you questioning the reality you thought you knew.'),
+('Gregorius0000', 'Gregorius Tomaszkiewicz', 'gtomaszkiewicz1@paginegialle.it', 'G23_Tomas0111', '2023-11-10', NULL, NULL, 'Society isn''t just a movie, it''s an experience that plunges you into a world where reality warps and societal norms unravel. Brace yourself for a twisted journey that explores the darkest corners of human nature, all wrapped up in a package of unforgettable horror.'),
+('Jeremy_123', 'Tan Choon Shen', 'tancs8803@gmail.com', 'asdasdasdads', '2024-05-12', NULL, NULL, NULL),
+('Jeremy_1234', 'Jerremy Chin', 'tancs8803@gmail.com', 'Jeremy_1234', '2024-04-03', NULL, NULL, 'asdasdadasdasdasdsaIn Society, director Brian Yuzna crafts a twisted tale that''s part horror, part satire, and all-around unforgettable. With its jaw-dropping practical effects and dark humor, this film stands as a testament to the power of genre-bending storytelling. Dive into the madness and let Society consume you.In Society, director Brian Yuzna cra...asdasdasdsaIn Society, director Brian Yuzna crafts a twisted tale that''s part horror, part satire, and all-around unforgettable. With its jaw-dropping practical effects and dark humor, this film stands as a testament to the power of genre-bending storytelling. Dive into the madness and let Society consume you.In Society, director Brian Yuzna cra...asdasdasdsaIn Society, director Brian Yuzna crafts a twisted tale that''s part horror,
+ part satire, and all-around unforgettable. With its jaw-dropping practical effects and dark humor, this film stands as a testament to the power of genre-bending storytelling. Dive into the madness and let S'),
+('Lsanderson2', 'Lennard Sanderson', 'lsanderson2@yellowbook.com', 'Len@derson202', '2023-08-21', NULL, NULL, 'Society isn''t just a movie; it''s a mind-bending exploration of class divide and societal decay wrapped in a cloak of grotesque horror. Prepare to be both disturbed and enthralled as you navigate through its nightmarish landscape of privilege and perversion.'),
+('tallBen0000', 'Fancy Bentall', 'fbentall3@diigo.com', 'Ben_tall123', '2023-08-22', NULL, NULL, 'Step into the twisted world of Society, where the boundaries between the elite and the ''other'' blur in a nightmarish tableau of body horror and social commentary. It''s a film that shocks, provokes, and ultimately challenges our perceptions of power and belonging in society.');
 
 -- --------------------------------------------------------
 
@@ -187,14 +235,18 @@ CREATE TABLE `t_staff` (
   `Staff_email` varchar(50) NOT NULL,
   `Staff_password` varchar(20) NOT NULL,
   `Staff_joindate` date NOT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_staff`
 --
 
 INSERT INTO `t_staff` (`Staff_id`, `Staff_name`, `Staff_email`, `Staff_password`, `Staff_joindate`) VALUES
-('Admin0000', 'LiauOrangUtan', 'liau162@tarumt.my', 'admin1234', '2024-03-31');
+('Admin0000', 'LiauOrangUtan', 'liau162@tarumt.my', 'admin1234', '2024-03-31'),
+('BayardSunShine', 'Bayard Klasen', 'bklasen0@umich.edu', 'YouAreMySunShine', '2024-03-05'),
+('BrockPen00', 'Brock Pentycost', 'bpentycost1@census.gov', 'vtrxQ620#', '2024-03-05'),
+('BuddyJada', 'Buddy Tejada', 'btejada2@gmail.com', 'zoohE946xctnK', '2024-04-25'),
+('LemonTeaNoLemon', 'Andria Jendrach', 'ajendrach4@patch.com', 'mmqrR816BSp', '2023-12-07');
 
 --
 -- Indexes for dumped tables
@@ -206,14 +258,14 @@ INSERT INTO `t_staff` (`Staff_id`, `Staff_name`, `Staff_email`, `Staff_password`
 ALTER TABLE `t_booking`
   ADD PRIMARY KEY (`Booking_id`),
   ADD KEY `Member_id` (`Member_id`),
-  ADD KEY `Event_id` (`Event_id`),
-  ADD KEY `Booking_cancellation_id` (`Booking_cancellation_id`);
+  ADD KEY `Event_id` (`Event_id`);
 
 --
 -- Indexes for table `t_booking_cancellation`
 --
 ALTER TABLE `t_booking_cancellation`
-  ADD PRIMARY KEY (`Booking_Cancellation_id`);
+  ADD PRIMARY KEY (`Booking_Cancellation_id`),
+  ADD KEY `FK_BOOKING_ID` (`Booking_id`);
 
 --
 -- Indexes for table `t_event`
@@ -225,17 +277,17 @@ ALTER TABLE `t_event`
   ADD KEY `Staff_id` (`Staff_id`);
 
 --
+-- Indexes for table `t_event_cancellation`
+--
+ALTER TABLE `t_event_cancellation`
+  ADD PRIMARY KEY (`Event_cancellation_id`),
+  ADD KEY `Event_id` (`Event_id`);
+
+--
 -- Indexes for table `t_event_location`
 --
 ALTER TABLE `t_event_location`
   ADD PRIMARY KEY (`Event_location_id`);
-
---
--- Indexes for table `t_event_member`
---
-ALTER TABLE `t_event_member`
-  ADD PRIMARY KEY (`Event_id`,`Member_id`),
-  ADD KEY `Member_id` (`Member_id`);
 
 --
 -- Indexes for table `t_event_type`
@@ -263,19 +315,31 @@ ALTER TABLE `t_staff`
 -- AUTO_INCREMENT for table `t_booking`
 --
 ALTER TABLE `t_booking`
-  MODIFY `Booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+
+--
+-- AUTO_INCREMENT for table `t_booking_cancellation`
+--
+ALTER TABLE `t_booking_cancellation`
+  MODIFY `Booking_Cancellation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `t_event`
 --
 ALTER TABLE `t_event`
-  MODIFY `Event_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `t_event_cancellation`
+--
+ALTER TABLE `t_event_cancellation`
+  MODIFY `Event_cancellation_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `t_event_location`
 --
 ALTER TABLE `t_event_location`
-  MODIFY `Event_location_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Event_location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `t_event_type`
@@ -292,8 +356,13 @@ ALTER TABLE `t_event_type`
 --
 ALTER TABLE `t_booking`
   ADD CONSTRAINT `t_booking_ibfk_1` FOREIGN KEY (`Member_id`) REFERENCES `t_member` (`Member_id`),
-  ADD CONSTRAINT `t_booking_ibfk_2` FOREIGN KEY (`Event_id`) REFERENCES `t_event` (`Event_id`),
-  ADD CONSTRAINT `t_booking_ibfk_3` FOREIGN KEY (`Booking_cancellation_id`) REFERENCES `t_booking_cancellation` (`Booking_Cancellation_id`);
+  ADD CONSTRAINT `t_booking_ibfk_2` FOREIGN KEY (`Event_id`) REFERENCES `t_event` (`Event_id`);
+
+--
+-- Constraints for table `t_booking_cancellation`
+--
+ALTER TABLE `t_booking_cancellation`
+  ADD CONSTRAINT `FK_BOOKING_ID` FOREIGN KEY (`Booking_id`) REFERENCES `t_booking` (`Booking_id`);
 
 --
 -- Constraints for table `t_event`
@@ -304,472 +373,10 @@ ALTER TABLE `t_event`
   ADD CONSTRAINT `t_event_ibfk_3` FOREIGN KEY (`Staff_id`) REFERENCES `t_staff` (`Staff_id`);
 
 --
--- Constraints for table `t_event_member`
+-- Constraints for table `t_event_cancellation`
 --
-ALTER TABLE `t_event_member`
-  ADD CONSTRAINT `t_event_member_ibfk_1` FOREIGN KEY (`Member_id`) REFERENCES `t_member` (`Member_id`),
-  ADD CONSTRAINT `t_event_member_ibfk_2` FOREIGN KEY (`Event_id`) REFERENCES `t_event` (`Event_id`);
---
--- Database: `p4`
---
-CREATE DATABASE IF NOT EXISTS `p4` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `p4`;
---
--- Database: `phpmyadmin`
---
-CREATE DATABASE IF NOT EXISTS `phpmyadmin` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
-USE `phpmyadmin`;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__bookmark`
---
-
-CREATE TABLE `pma__bookmark` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `dbase` varchar(255) NOT NULL DEFAULT '',
-  `user` varchar(255) NOT NULL DEFAULT '',
-  `label` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `query` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Bookmarks';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__central_columns`
---
-
-CREATE TABLE `pma__central_columns` (
-  `db_name` varchar(64) NOT NULL,
-  `col_name` varchar(64) NOT NULL,
-  `col_type` varchar(64) NOT NULL,
-  `col_length` text DEFAULT NULL,
-  `col_collation` varchar(64) NOT NULL,
-  `col_isNull` tinyint(1) NOT NULL,
-  `col_extra` varchar(255) DEFAULT '',
-  `col_default` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Central list of columns';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__column_info`
---
-
-CREATE TABLE `pma__column_info` (
-  `id` int(5) UNSIGNED NOT NULL,
-  `db_name` varchar(64) NOT NULL DEFAULT '',
-  `table_name` varchar(64) NOT NULL DEFAULT '',
-  `column_name` varchar(64) NOT NULL DEFAULT '',
-  `comment` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `mimetype` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `transformation` varchar(255) NOT NULL DEFAULT '',
-  `transformation_options` varchar(255) NOT NULL DEFAULT '',
-  `input_transformation` varchar(255) NOT NULL DEFAULT '',
-  `input_transformation_options` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Column information for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__designer_settings`
---
-
-CREATE TABLE `pma__designer_settings` (
-  `username` varchar(64) NOT NULL,
-  `settings_data` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Settings related to Designer';
-
---
--- Dumping data for table `pma__designer_settings`
---
-
-INSERT INTO `pma__designer_settings` (`username`, `settings_data`) VALUES
-('root', '{\"angular_direct\":\"direct\",\"snap_to_grid\":\"off\",\"relation_lines\":\"true\"}');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__export_templates`
---
-
-CREATE TABLE `pma__export_templates` (
-  `id` int(5) UNSIGNED NOT NULL,
-  `username` varchar(64) NOT NULL,
-  `export_type` varchar(10) NOT NULL,
-  `template_name` varchar(64) NOT NULL,
-  `template_data` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Saved export templates';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__favorite`
---
-
-CREATE TABLE `pma__favorite` (
-  `username` varchar(64) NOT NULL,
-  `tables` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Favorite tables';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__history`
---
-
-CREATE TABLE `pma__history` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `username` varchar(64) NOT NULL DEFAULT '',
-  `db` varchar(64) NOT NULL DEFAULT '',
-  `table` varchar(64) NOT NULL DEFAULT '',
-  `timevalue` timestamp NOT NULL DEFAULT current_timestamp(),
-  `sqlquery` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='SQL history for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__navigationhiding`
---
-
-CREATE TABLE `pma__navigationhiding` (
-  `username` varchar(64) NOT NULL,
-  `item_name` varchar(64) NOT NULL,
-  `item_type` varchar(64) NOT NULL,
-  `db_name` varchar(64) NOT NULL,
-  `table_name` varchar(64) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hidden items of navigation tree';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__pdf_pages`
---
-
-CREATE TABLE `pma__pdf_pages` (
-  `db_name` varchar(64) NOT NULL DEFAULT '',
-  `page_nr` int(10) UNSIGNED NOT NULL,
-  `page_descr` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='PDF relation pages for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__recent`
---
-
-CREATE TABLE `pma__recent` (
-  `username` varchar(64) NOT NULL,
-  `tables` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Recently accessed tables';
-
---
--- Dumping data for table `pma__recent`
---
-
-INSERT INTO `pma__recent` (`username`, `tables`) VALUES
-('root', '[{\"db\":\"movie_society\",\"table\":\"t_staff\"},{\"db\":\"movie_society\",\"table\":\"t_member\"},{\"db\":\"movie_society\",\"table\":\"t_event_type\"},{\"db\":\"movie_society\",\"table\":\"t_event_member\"},{\"db\":\"movie_society\",\"table\":\"t_event_location\"},{\"db\":\"movie_society\",\"table\":\"t_event\"},{\"db\":\"movie_society\",\"table\":\"t_booking_cancellation\"},{\"db\":\"movie_society\",\"table\":\"t_booking\"}]');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__relation`
---
-
-CREATE TABLE `pma__relation` (
-  `master_db` varchar(64) NOT NULL DEFAULT '',
-  `master_table` varchar(64) NOT NULL DEFAULT '',
-  `master_field` varchar(64) NOT NULL DEFAULT '',
-  `foreign_db` varchar(64) NOT NULL DEFAULT '',
-  `foreign_table` varchar(64) NOT NULL DEFAULT '',
-  `foreign_field` varchar(64) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Relation table';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__savedsearches`
---
-
-CREATE TABLE `pma__savedsearches` (
-  `id` int(5) UNSIGNED NOT NULL,
-  `username` varchar(64) NOT NULL DEFAULT '',
-  `db_name` varchar(64) NOT NULL DEFAULT '',
-  `search_name` varchar(64) NOT NULL DEFAULT '',
-  `search_data` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Saved searches';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__table_coords`
---
-
-CREATE TABLE `pma__table_coords` (
-  `db_name` varchar(64) NOT NULL DEFAULT '',
-  `table_name` varchar(64) NOT NULL DEFAULT '',
-  `pdf_page_number` int(11) NOT NULL DEFAULT 0,
-  `x` float UNSIGNED NOT NULL DEFAULT 0,
-  `y` float UNSIGNED NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table coordinates for phpMyAdmin PDF output';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__table_info`
---
-
-CREATE TABLE `pma__table_info` (
-  `db_name` varchar(64) NOT NULL DEFAULT '',
-  `table_name` varchar(64) NOT NULL DEFAULT '',
-  `display_field` varchar(64) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table information for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__table_uiprefs`
---
-
-CREATE TABLE `pma__table_uiprefs` (
-  `username` varchar(64) NOT NULL,
-  `db_name` varchar(64) NOT NULL,
-  `table_name` varchar(64) NOT NULL,
-  `prefs` text NOT NULL,
-  `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Tables'' UI preferences';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__tracking`
---
-
-CREATE TABLE `pma__tracking` (
-  `db_name` varchar(64) NOT NULL,
-  `table_name` varchar(64) NOT NULL,
-  `version` int(10) UNSIGNED NOT NULL,
-  `date_created` datetime NOT NULL,
-  `date_updated` datetime NOT NULL,
-  `schema_snapshot` text NOT NULL,
-  `schema_sql` text DEFAULT NULL,
-  `data_sql` longtext DEFAULT NULL,
-  `tracking` set('UPDATE','REPLACE','INSERT','DELETE','TRUNCATE','CREATE DATABASE','ALTER DATABASE','DROP DATABASE','CREATE TABLE','ALTER TABLE','RENAME TABLE','DROP TABLE','CREATE INDEX','DROP INDEX','CREATE VIEW','ALTER VIEW','DROP VIEW') DEFAULT NULL,
-  `tracking_active` int(1) UNSIGNED NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Database changes tracking for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__userconfig`
---
-
-CREATE TABLE `pma__userconfig` (
-  `username` varchar(64) NOT NULL,
-  `timevalue` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `config_data` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='User preferences storage for phpMyAdmin';
-
---
--- Dumping data for table `pma__userconfig`
---
-
-INSERT INTO `pma__userconfig` (`username`, `timevalue`, `config_data`) VALUES
-('root', '2024-03-31 15:28:28', '{\"Console\\/Mode\":\"show\",\"NavigationWidth\":0}');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__usergroups`
---
-
-CREATE TABLE `pma__usergroups` (
-  `usergroup` varchar(64) NOT NULL,
-  `tab` varchar(64) NOT NULL,
-  `allowed` enum('Y','N') NOT NULL DEFAULT 'N'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='User groups with configured menu items';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__users`
---
-
-CREATE TABLE `pma__users` (
-  `username` varchar(64) NOT NULL,
-  `usergroup` varchar(64) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Users and their assignments to user groups';
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `pma__bookmark`
---
-ALTER TABLE `pma__bookmark`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `pma__central_columns`
---
-ALTER TABLE `pma__central_columns`
-  ADD PRIMARY KEY (`db_name`,`col_name`);
-
---
--- Indexes for table `pma__column_info`
---
-ALTER TABLE `pma__column_info`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `db_name` (`db_name`,`table_name`,`column_name`);
-
---
--- Indexes for table `pma__designer_settings`
---
-ALTER TABLE `pma__designer_settings`
-  ADD PRIMARY KEY (`username`);
-
---
--- Indexes for table `pma__export_templates`
---
-ALTER TABLE `pma__export_templates`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `u_user_type_template` (`username`,`export_type`,`template_name`);
-
---
--- Indexes for table `pma__favorite`
---
-ALTER TABLE `pma__favorite`
-  ADD PRIMARY KEY (`username`);
-
---
--- Indexes for table `pma__history`
---
-ALTER TABLE `pma__history`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `username` (`username`,`db`,`table`,`timevalue`);
-
---
--- Indexes for table `pma__navigationhiding`
---
-ALTER TABLE `pma__navigationhiding`
-  ADD PRIMARY KEY (`username`,`item_name`,`item_type`,`db_name`,`table_name`);
-
---
--- Indexes for table `pma__pdf_pages`
---
-ALTER TABLE `pma__pdf_pages`
-  ADD PRIMARY KEY (`page_nr`),
-  ADD KEY `db_name` (`db_name`);
-
---
--- Indexes for table `pma__recent`
---
-ALTER TABLE `pma__recent`
-  ADD PRIMARY KEY (`username`);
-
---
--- Indexes for table `pma__relation`
---
-ALTER TABLE `pma__relation`
-  ADD PRIMARY KEY (`master_db`,`master_table`,`master_field`),
-  ADD KEY `foreign_field` (`foreign_db`,`foreign_table`);
-
---
--- Indexes for table `pma__savedsearches`
---
-ALTER TABLE `pma__savedsearches`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `u_savedsearches_username_dbname` (`username`,`db_name`,`search_name`);
-
---
--- Indexes for table `pma__table_coords`
---
-ALTER TABLE `pma__table_coords`
-  ADD PRIMARY KEY (`db_name`,`table_name`,`pdf_page_number`);
-
---
--- Indexes for table `pma__table_info`
---
-ALTER TABLE `pma__table_info`
-  ADD PRIMARY KEY (`db_name`,`table_name`);
-
---
--- Indexes for table `pma__table_uiprefs`
---
-ALTER TABLE `pma__table_uiprefs`
-  ADD PRIMARY KEY (`username`,`db_name`,`table_name`);
-
---
--- Indexes for table `pma__tracking`
---
-ALTER TABLE `pma__tracking`
-  ADD PRIMARY KEY (`db_name`,`table_name`,`version`);
-
---
--- Indexes for table `pma__userconfig`
---
-ALTER TABLE `pma__userconfig`
-  ADD PRIMARY KEY (`username`);
-
---
--- Indexes for table `pma__usergroups`
---
-ALTER TABLE `pma__usergroups`
-  ADD PRIMARY KEY (`usergroup`,`tab`,`allowed`);
-
---
--- Indexes for table `pma__users`
---
-ALTER TABLE `pma__users`
-  ADD PRIMARY KEY (`username`,`usergroup`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `pma__bookmark`
---
-ALTER TABLE `pma__bookmark`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `pma__column_info`
---
-ALTER TABLE `pma__column_info`
-  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `pma__export_templates`
---
-ALTER TABLE `pma__export_templates`
-  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `pma__history`
---
-ALTER TABLE `pma__history`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `pma__pdf_pages`
---
-ALTER TABLE `pma__pdf_pages`
-  MODIFY `page_nr` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `pma__savedsearches`
---
-ALTER TABLE `pma__savedsearches`
-  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- Database: `test`
---
-CREATE DATABASE IF NOT EXISTS `test` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `test`;
+ALTER TABLE `t_event_cancellation`
+  ADD CONSTRAINT `t_event_cancellation_ibfk_1` FOREIGN KEY (`Event_id`) REFERENCES `t_event` (`Event_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
