@@ -28,10 +28,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             $filePath = strtolower(end($fileExtension));
             $event_upl_file_name = basename($file);
             $event_upl_path = $target_dir . uniqid('', true).".".$filePath;
-
             
 
-            if($_FILES["eventPic"]["size"] > 1048576) {
+            if($_FILES["eventPic"]["size"] > 1073741824) {
+                echo "<script> console.log(".$_FILES["eventPic"]["size"]."); </script>";
                 echo "error when uploading file. File is too large.";
                 $dataValidated = 0;
             } elseif(!in_array($filePath, $fileType)) {
@@ -39,6 +39,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                 $dataValidated = 0;
             } else {
                 move_uploaded_file($_FILES["eventPic"]["tmp_name"], $event_upl_path);
+                $old_event_upl_path = $_POST['eventUplPath'];
+                unlink($old_event_upl_path);
 
             };
         }   else {

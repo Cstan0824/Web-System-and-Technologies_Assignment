@@ -122,7 +122,7 @@
                                                 Date:</label>
                                             <div class="col-lg-8">
                                                 <input class="form-control user-regisdate" name="user_regisdate"
-                                                    type="text" value="<?php echo $_SESSION['user_date'];?>" readonly>
+                                                    type="date" value="<?php echo $_SESSION['user_date'];?>" readonly>
                                                     <?php if ($_SESSION['role'] == "Member") { ?>
                                                     <input type="hidden" name="actionType" value="editMember">
                                                     <?php } else if ($_SESSION['role'] == "Staff") { ?>
@@ -161,6 +161,12 @@
 </body>
 
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+		var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+		var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
+			return new bootstrap.Popover(popoverTriggerEl);
+		});
+    });
 	function openImageUploader() {
 		var input = document.createElement('input');
 		input.type = 'file';

@@ -8,7 +8,6 @@
 	<title>Event Details</title>
 	<meta content="" name="description">
 	<meta content="" name="keywords">
-	<link href="../Css/assets/css/event_booking_ticket.css" rel="stylesheet">
 	<style>
 		#add-booking,
 		#delete-booking {
@@ -21,13 +20,17 @@
 			color: rgba(0, 255, 0);
 		}
 
+		#add-bookingbutton:hover {
+			color: rgba(0, 147, 0, 1);
+		}
+
 		#delete-event:hover, #delete-booking:hover {
 			color: red;
 		}
 
 		#event-pic {
-			width: 80%;
-			height: 90%
+			width: 500px;
+			height: 700px;
 		}
 
 		#movie-info {
@@ -129,8 +132,8 @@
 								<a href="../View/edit-event.php?event_id=<?php echo $eventID; ?>">
 								<button id="edit-event" class="button-19 my-3" name="editEvent">Edit Event</button></a>
 
-								<form id="addEvent" action="staff_add_booking.php" method="POST">
-									<button id="add-booking" class="button-19 my-3" type="submit"  name="addBooking"
+								<form id="addBooking" action="staff_add_booking.php" method="POST">
+									<button id="add-bookingbutton" class="button-19 my-3" type="submit"  name="addBooking"
 										value="<?php echo $eventID; ?>">Add
 										Member Booking</button>
 								</form>
