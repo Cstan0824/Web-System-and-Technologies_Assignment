@@ -7,6 +7,13 @@ echo "<script>console.log('Connected to database');</script>";
 session_start();
 date_default_timezone_set('Asia/Kuala_Lumpur');
 
+$sql_getMemberID = "SELECT * FROM t_member";
+$execute_getMemberID = mysqli_query($connect_db, $sql_getMemberID);
+$memberIDinDB = array("");
+for ($i = 1; $row_memberID = mysqli_fetch_assoc($execute_getMemberID); $i++) {
+    $memberIDinDB[$i] = $row_memberID['Member_id'];
+}
+
 function validate($data)
 {
     $data = trim($data);
@@ -29,7 +36,16 @@ if (isset($_POST['user']) && isset($_POST['name']) && isset($_POST['pass']) && i
         $_SESSION['error'] = "Member ID is required";
         header("Location: ../View/login_signup.php");
         exit();
-    } elseif (empty($name)) {
+    }else {
+        for ($i = 1; $i < count($memberIDinDB); $i++) {
+            if ($member_id == $memberIDinDB[$i]) {
+                $_SESSION['error'] = "Member ID already exists";
+                header("Location: ../View/login_signup.php");
+                exit();
+            }
+        }
+    }
+    if (empty($name)) {
         $_SESSION['error'] = "Name is required";
         header("Location: ../View/login_signup.php");
         exit();
