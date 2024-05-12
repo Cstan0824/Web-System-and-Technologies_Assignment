@@ -96,11 +96,11 @@
 			height: 330px;
 		}
 
-		#myPieChart, #myBarChart{
-		width: 700px;
-		height: 700px;
+		#myPieChart,
+		#myBarChart {
+			width: 500px;
+			height: 500px;
 		}
-
 	</style>
 
 </head>
@@ -232,15 +232,15 @@
 	$result_sum_event_booking = $connect_db->query($sql_sum_event_booking);
 	if(!$result_sum_event_booking) {
 	    echo $connect_db->error;
-	}else{
-	$row = $result_sum_event_booking->fetch_assoc();
-	$sum_event_booking = $row["NumOfBooking"];
+	} else {
+	    $row = $result_sum_event_booking->fetch_assoc();
+	    $sum_event_booking = $row["NumOfBooking"];
 	}
 
 	$percentage_data = array();
 	foreach ($event_type_data as $count) {
-		$percentage = ($count / $sum_event_booking) * 100;
-		$percentage_data[] = number_format($percentage, 2); // Round to 2 decimal places
+	    $percentage = ($count / $sum_event_booking) * 100;
+	    $percentage_data[] = number_format($percentage, 2); // Round to 2 decimal places
 	}
 
 	//check data
@@ -290,21 +290,45 @@
 			action="<?php echo $_SERVER["PHP_SELF"]; ?>"
 			method="POST">
 			<section class="inner-page">
+
 				<div class="container">
 					<?php if($_SESSION['role'] == "Staff") { ?>
-						<!-- BEGIN STATISTICS -->
-							<div class="row">
-								<div class="grid search">
-								<h2><strong><i class="fa-solid fa-square-poll-vertical"></i> STATISTICS</strong></h2>
-								<div class="col-md-9">
-									<canvas id="myBarChart"></canvas>
+					<!-- BEGIN STATISTICS -->
+					<div class="grid search">
+						<div class="grid-body">
+							<h2 class="mb-3"><strong><i class="fa-solid fa-square-poll-vertical"></i> STATISTICS</strong></h2>
+							<hr />
+							<div class="row mt-2">
+								<div class="col-md-8">
+									<div class="grid search bg-light shadow">
+										<div class="grid-body">
+											<div class="row">
+												<div class="col-md">
+													<canvas id="myBarChart"></canvas>
+												</div>
+											</div>
+										</div>
+
+									</div>
 								</div>
-								<div class="col-md-3">
-									<canvas id="myPieChart"></canvas>
-								</div>
+								<div class="col-md-4">
+									<div class="grid search bg-light shadow">
+										<div class="grid-body">
+											<div class="row">
+												<div class="col-md">
+													<canvas id="myPieChart"></canvas>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
-						<!-- END STATISTICS -->
+						</div>
+					</div>
+
+
+
+					<!-- END STATISTICS -->
 					<?php } ?>
 					<div class="row">
 
@@ -398,7 +422,7 @@
 											<br />
 											<!-- END FILTER BY OTHERS -->
 											<br />
-											
+
 										</div>
 
 										<!-- END FILTERS -->
@@ -460,8 +484,6 @@
 											</p>
 
 											<!-- BEGIN DISPLAY MODE -->
-
-
 											<div class="row">
 												<div class="col-md text-left">
 													<div class="btn-group">
@@ -795,125 +817,127 @@
 	}
 
 	//statistics pie chart (chart.js)
-	var percentageData = <?php echo json_encode($percentage_data); ?>;
-    var ctx = document.getElementById('myPieChart').getContext('2d');
-    var myPieChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: <?php echo json_encode($labelForPieChart); ?>,
-            datasets: [{
-                data: <?php echo json_encode($event_type_data); ?>,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)',
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            legend: {
-                position: 'bottom'
-            },
-            title: {
-                display: true,
-                text: 'Booking Percentage by Event Type',
-                fontSize: 13,
-                fontColor: '#333',
-                fontStyle: 'bold',
-                padding: 20
-            },
-            tooltips: {
-                callbacks: {
-                    label: function(tooltipItem, data) {
-                        var dataset = data.datasets[tooltipItem.datasetIndex];
-                        var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
-                            return previousValue + currentValue;
-                        });
-                        var currentValue = dataset.data[tooltipItem.index];
-                        var percentage = parseFloat(((currentValue / total) * 100).toFixed(2));
-                        return data.labels[tooltipItem.index] + ' (' +  percentageData[tooltipItem.index] + '%)';
-                    }
-                }
-            }
-        }
-    });
+	var percentageData = <?php echo json_encode($percentage_data); ?> ;
+	var ctx = document.getElementById('myPieChart').getContext('2d');
+	var myPieChart = new Chart(ctx, {
+		type: 'doughnut',
+		data: {
+			labels: <?php echo json_encode($labelForPieChart); ?> ,
+			datasets: [{
+				data: <?php echo json_encode($event_type_data); ?> ,
+				backgroundColor: [
+					'rgba(255, 99, 132, 0.6)',
+					'rgba(54, 162, 235, 0.6)',
+					'rgba(255, 206, 86, 0.6)',
+				],
+				borderColor: [
+					'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(255, 206, 86, 1)',
+				],
+				borderWidth: 1
+			}]
+		},
+		options: {
+			responsive: true,
+			maintainAspectRatio: false,
+			legend: {
+				position: 'left'
+			},
+			title: {
+				display: true,
+				text: 'Booking Percentage by Event Type',
+				fontSize: 20,
+				fontColor: '#333',
+				fontStyle: 'bold',
+				padding: 20
+			},
+			tooltips: {
+				callbacks: {
+					label: function(tooltipItem, data) {
+						var dataset = data.datasets[tooltipItem.datasetIndex];
+						var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex,
+							array) {
+							return previousValue + currentValue;
+						});
+						var currentValue = dataset.data[tooltipItem.index];
+						var percentage = parseFloat(((currentValue / total) * 100).toFixed(2));
+						return data.labels[tooltipItem.index] + ' (' + percentageData[tooltipItem.index] +
+							'%)';
+					}
+				}
+			}
+		}
+	});
 
 	//statistics bar chart (chart.js)
-	var labelForBarChart = <?php echo json_encode($labelForBarChart); ?>;
-        var numOfBookingPerMonth = <?php echo json_encode($numOfBookingPerMonth); ?>;
+	var labelForBarChart = <?php echo json_encode($labelForBarChart); ?> ;
+	var numOfBookingPerMonth = <?php echo json_encode($numOfBookingPerMonth); ?> ;
 
-        // Define colors for each month
-        var backgroundColors = [
-            'rgba(54, 162, 235, 0.6)', // January
-            'rgba(255, 99, 132, 0.6)', // February
-            'rgba(255, 206, 86, 0.6)', // March
-            'rgba(75, 192, 192, 0.6)', // April
-            'rgba(153, 102, 255, 0.6)', // May
-            'rgba(255, 159, 64, 0.6)', // June
-            'rgba(54, 235, 166, 0.6)', // July
-            'rgba(235, 54, 116, 0.6)', // August
-            'rgba(54, 235, 121, 0.6)', // September
-            'rgba(162, 54, 235, 0.6)', // October
-            'rgba(235, 158, 54, 0.6)', // November
-            'rgba(235, 54, 196, 0.6)' // December
-        ];
+	// Define colors for each month
+	var backgroundColors = [
+		'rgba(54, 162, 235, 0.6)', // January
+		'rgba(255, 99, 132, 0.6)', // February
+		'rgba(255, 206, 86, 0.6)', // March
+		'rgba(75, 192, 192, 0.6)', // April
+		'rgba(153, 102, 255, 0.6)', // May
+		'rgba(255, 159, 64, 0.6)', // June
+		'rgba(54, 235, 166, 0.6)', // July
+		'rgba(235, 54, 116, 0.6)', // August
+		'rgba(54, 235, 121, 0.6)', // September
+		'rgba(162, 54, 235, 0.6)', // October
+		'rgba(235, 158, 54, 0.6)', // November
+		'rgba(235, 54, 196, 0.6)' // December
+	];
 
-        var borderColors = [
-            'rgba(54, 162, 235, 1)', // January
-            'rgba(255, 99, 132, 1)', // February
-            'rgba(255, 206, 86, 1)', // March
-            'rgba(75, 192, 192, 1)', // April
-            'rgba(153, 102, 255, 1)', // May
-            'rgba(255, 159, 64, 1)', // June
-            'rgba(54, 235, 166, 1)', // July
-            'rgba(235, 54, 116, 1)', // August
-            'rgba(54, 235, 121, 1)', // September
-            'rgba(162, 54, 235, 1)', // October
-            'rgba(235, 158, 54, 1)', // November
-            'rgba(235, 54, 196, 1)' // December
-        ];
+	var borderColors = [
+		'rgba(54, 162, 235, 1)', // January
+		'rgba(255, 99, 132, 1)', // February
+		'rgba(255, 206, 86, 1)', // March
+		'rgba(75, 192, 192, 1)', // April
+		'rgba(153, 102, 255, 1)', // May
+		'rgba(255, 159, 64, 1)', // June
+		'rgba(54, 235, 166, 1)', // July
+		'rgba(235, 54, 116, 1)', // August
+		'rgba(54, 235, 121, 1)', // September
+		'rgba(162, 54, 235, 1)', // October
+		'rgba(235, 158, 54, 1)', // November
+		'rgba(235, 54, 196, 1)' // December
+	];
 
-        var ctx = document.getElementById('myBarChart').getContext('2d');
-        var myBarChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labelForBarChart,
-                datasets: [{
-                    label: 'Number of Bookings',
-                    data: numOfBookingPerMonth,
-                    backgroundColor: backgroundColors,
-                    borderColor: borderColors,
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                },
-                legend: {
-                    display: false
-                },
-                title: {
-                    display: true,
-                    text: 'Number of Bookings Per Month',
-                    fontSize: 16
-                }
-            }
-        });
+	var ctx = document.getElementById('myBarChart').getContext('2d');
+	var myBarChart = new Chart(ctx, {
+		type: 'line',
+		data: {
+			labels: labelForBarChart,
+			datasets: [{
+				label: 'Number of Bookings',
+				data: numOfBookingPerMonth,
+				backgroundColor: backgroundColors,
+				borderColor: borderColors,
+				borderWidth: 1
+			}]
+		},
+		options: {
+			responsive: true,
+			maintainAspectRatio: false,
+			scales: {
+				yAxes: [{
+					ticks: {
+						beginAtZero: true
+					}
+				}]
+			},
+			legend: {
+				display: false
+			},
+			title: {
+				display: true,
+				text: 'Number of Bookings Per Month',
+				fontSize: 20
+			}
+		}
+	});
 </script>
 
 
