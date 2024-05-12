@@ -36,10 +36,10 @@
     WHERE B.Member_id = '".$_SESSION['Member_id']."' AND BC.Booking_id IS NULL AND E.Event_date < CURDATE()
     ORDER BY Event_date DESC;";
 
-	$upcoming_event = array();
+	$past_event = array();
 	$result = $connect_db->query($sql);
 	while($row = $result->fetch_assoc()) {
-	    $upcoming_event[] = array(
+	    $past_event[] = array(
 	        "Booking_id" => $row["Booking_id"] ?? 0,
 	        "Event_id" => $row["Event_id"],
 	        "Event_name" => $row["Event_name"],
@@ -54,7 +54,7 @@
 	$connect_db->close();
 
 	$page = $_POST['page'] ?? 1;
-	$pageCount = ceil(count($upcoming_event) / 4);
+	$pageCount = ceil(count($past_event) / 4);
 	?>
 
 	<main id="main">
@@ -86,7 +86,7 @@
 										data-bs-content="Click to change Profile Picture." title="Profile Picture"
 										data-bs-placement="right" data-bs-toggle="popover" data-bs-trigger="hover">
 										<img id="old-profilepic"
-											src="<?php echo $_SESSION['user_pic_path'] ?? "../Css/assets/img/team/team-1.jpg" ?>"
+											src="<?php echo $_SESSION['user_pic_path'] ?? "../Image/profile_picture/Default-ProfilePicture.jpg" ?>"
 											alt="<?php echo $_SESSION['user_pic_file_name'] ?? "default"; ?>" />
 									</a>
 
@@ -118,21 +118,14 @@
 								<br>
 								<h4>Past Events</h4>
 								<br>
-
-								<?php if(count($upcoming_event) != 0) {?>
+								<?php if(count($past_event) != 0) {?>
 								<div class="row justify-content-between">
-									<?php for($i = ($page - 1) * 4; $i < $page * 4 && $i < count($upcoming_event);$i++): ?>
+									<?php for($i = ($page - 1) * 4; $i < $page * 4 && $i < count($past_event);$i++): ?>
 									<?php
-	                                $submitValue = $_SESSION['role'] == "Member"
-	                                ?
-	                                $upcoming_event[$i]["Booking_id"]
-	                                :
-	                                $upcoming_event[$i]["Event_id"];
-
-									    $imgName = $upcoming_event[$i]["Event_upl_file_name"] ?? "default";
-									    $imgPath = $upcoming_event[$i]["Event_upl_path"] ?? "../Image/AI Aware.jpg";
-									    $dayPastOrFuture = $upcoming_event[$i]["DateCountDown"] < 0 ? "ago" : "left";
-									    $color = $upcoming_event[$i]["DateCountDown"] > 0 ? "text-success" : "text-danger";
+									$imgName = $past_event[$i]["Event_upl_file_name"] ?? "default";
+									$imgPath = $past_event[$i]["Event_upl_path"] ?? "../Image/AI Aware.jpg";
+									$dayPastOrFuture = $past_event[$i]["DateCountDown"] < 0 ? "ago" : "left";
+									$color = $past_event[$i]["DateCountDown"] > 0 ? "text-success" : "text-danger";
 									    ?>
 									<div class="panel col-md-5 col-sm-12 p-2 m-2 border bg-light text-left rounded ">
 										<div class="panel-body d-flex flex-warp">
@@ -141,30 +134,30 @@
 													<img class="upcoming-event-img img-thumbnail event_id"
 														<?php echo "src='$imgPath' alt='$imgName'"?>
 													data-bs-trigger="hover"
-													data-bs-content="<?php echo $upcoming_event[$i]["Event_desc"]; ?>"
+													data-bs-content="<?php echo $past_event[$i]["Event_desc"]; ?>"
 													data-bs-placement="top" data-bs-toggle="popover" title="Click to see
 													more!"
-													data-event-id="<?php echo $upcoming_event[$i]["Event_id"]; ?>"/>
+													data-event-id="<?php echo $past_event[$i]["Event_id"]; ?>"/>
 												</div>
 											</div>
 											<div class="bio-desk ps-3">
 												<h4 class="text-info" style="font-size:1.2em;">
 													<strong>
-														<?php echo $upcoming_event[$i]["Event_name"] ?>
+														<?php echo $past_event[$i]["Event_name"] ?>
 													</strong>
 
 												</h4>
 												<p><i class="fas fa-calendar" style="color:#898B9B;"></i>
-													<?php echo $upcoming_event[$i]["Event_date"] ?>
+													<?php echo $past_event[$i]["Event_date"] ?>
 												</p>
 												<p><i class="fas fa-hourglass-start <?php echo $color; ?>"
 														style="color:#898B9B;"></i>
-													<?php echo abs($upcoming_event[$i]["DateCountDown"]).
+													<?php echo abs($past_event[$i]["DateCountDown"]).
 									                "days $dayPastOrFuture"; ?>
 												</p>
 												</p>
 												<p><i class="far fa-clock" style="color:#898B9B;"></i>
-													<?php echo $upcoming_event[$i]["Start_time"]; ?>
+													<?php echo $past_event[$i]["Start_time"]; ?>
 												</p>
 											</div>
 
@@ -197,11 +190,12 @@
 											</li>
 										</ul>
 									</form>
-								</div>
-							</div>
-							<?php } else {
+									<?php } else {
 							    echo "<h5>No past events found.</h5>";
 							}?>
+								</div>
+							</div>
+							
 					</div>
 				</div>
 			</div>
