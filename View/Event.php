@@ -74,7 +74,8 @@
 			left: 0;
 		}
 
-		.edit-button, .delete-button{
+		.edit-button,
+		.delete-button {
 			text-decoration: none;
 			background-color: transparent;
 			border: none;
@@ -93,6 +94,11 @@
 		.image-adjustment {
 			width: 100%;
 			height: 330px;
+		}
+
+		#myPieChart {
+		width: 700px;
+		height: 700px;
 		}
 	</style>
 
@@ -190,7 +196,7 @@
 	}
 
 	//count data for pie chart
-	$sql_count_event = 
+	$sql_count_event =
 	"SELECT COUNT(*) AS NumOfBooking, ET.Event_type AS 'EventType' 
 	FROM T_Booking B 
 	JOIN T_Event E ON B.Event_id = E.Event_id 
@@ -203,15 +209,15 @@
 	$labelForPieChart = array("Movie Sharing Session", "Movie Premiere", "Famous Actor Meeting");
 	$event_type_data = array(0, 0, 0);
 
-	
+
 
 	$result_count_event = $connect_db->query($sql_count_event);
 	while($row = $result_count_event->fetch_assoc()) {
 	    if ($row["EventType"] == "MOVIE SHARING SESSION") {
 	        $event_type_data[0] = $row["NumOfBooking"];
-	    } else if ($row["EventType"] == "MOVIE PREMIERE") {
+	    } elseif ($row["EventType"] == "MOVIE PREMIERE") {
 	        $event_type_data[1] = $row["NumOfBooking"];
-	    } else if ($row["EventType"] == "FAMOUS ACTOR MEETING") {
+	    } elseif ($row["EventType"] == "FAMOUS ACTOR MEETING") {
 	        $event_type_data[2] = $row["NumOfBooking"];
 	    }
 	}
@@ -225,10 +231,21 @@
 	";
 
 	$result_sum_event_booking = $connect_db->query($sql_sum_event_booking);
-	$sum_event_booking = $result_sum_event_booking->fetch_assoc();
+	if(!$result_sum_event_booking) {
+	    echo $connect_db->error;
+	}else{
+	$row = $result_sum_event_booking->fetch_assoc();
+	$sum_event_booking = $row["NumOfBooking"];
+	}
+
+	$percentage_data = array();
+	foreach ($event_type_data as $count) {
+		$percentage = ($count / $sum_event_booking) * 100;
+		$percentage_data[] = number_format($percentage, 2); // Round to 2 decimal places
+	}
 
 	//check data
-	echo "<script>console.log('movieSharringSession: ".$event_type_data[0].", moviePremiere: ".$event_type_data[1].", famousActorMeeting: ".$event_type_data[2]."')</script>";
+	echo "<script>console.log('movieSharringSession: ".$event_type_data[0].", moviePremiere: ".$event_type_data[1].", famousActorMeeting: ".$event_type_data[2].", total:".$sum_event_booking."')</script>";
 
 	?>
 	<?php include("header.php") ?>
@@ -290,8 +307,6 @@
 														style="color: #74C0FC;"></i></a>
 											</h2>
 
-
-
 											<hr />
 											<!-- BEGIN FILTER BY CATEGORY -->
 											<h4><strong>Category</strong></h4>
@@ -307,8 +322,7 @@
 													value="Movie Premiere">Movie Premiere</button>
 											</div>
 											<!-- END FILTER BY CATEGORY -->
-											
-											<br />
+
 											<br />
 
 											<!-- BEGIN FILTER BY DATE -->
@@ -331,7 +345,6 @@
 
 											<br />
 											<br />
-
 											<!-- BEGIN FILTER BY OTHERS -->
 											<h4><strong>OTHERS</strong></h4>
 											<div class="btn-group ">
@@ -347,13 +360,19 @@
 													Recently</button>
 											</div>
 											<br />
-											<br />
-											<h4><strong>CHART</strong></h4>
-											<div class="d-flex flex-wrap">
-											<canvas id="myPieChart" width="300" height="300"></canvas>
-											</div>
 											<!-- END FILTER BY OTHERS -->
-
+											<br />
+											<?php if($_SESSION['role'] == "Staff") { ?>
+											<hr />
+											<!-- BEGIN STATISTICS -->
+											<h2><strong><i class="fa-solid fa-square-poll-vertical"></i> STATISTICS</strong></h2>
+											<br />
+											<div class="d-flex flex-wrap">
+												<canvas id="myPieChart"></canvas>
+											</div>
+											<br />
+											<!-- END STATISTICS -->
+											<?php } ?>
 										</div>
 
 										<!-- END FILTERS -->
@@ -370,7 +389,7 @@
 								<div class="grid-body">
 									<div class="row">
 										<!-- BEGIN RESULT -->
-										
+
 										<div class="col-md">
 											<div class="d-flex justify-content-between align-items-center">
 												<h2><i class="fa-solid fa-book"></i> Result</h2>
@@ -489,19 +508,24 @@
 															</td>
 															<?php
 														        if(isset($_SESSION['role']) && $_SESSION['role'] == "Staff") {
-																	?>
-														            <td>
-														            <a class='edit-button' href='edit-event.php?event_id=<?php echo $data[$i]["Event_id"]; ?>'><i class=' fa-regular fa-pen-to-square'></i></a>
-														            </td>
-																	<form id='delete_booking' action='../Process/delete_event.php' method='POST'>
-														            <td>
-																	<button class='delete-button' type='submit' name='delete' value='<?php echo $data[$i]["Event_id"];?>' 
-																	onclick='confirmDelete();'>
-																	<i class='fa-regular fa-trash-can'></i></button>
-														            </td>
-																	</form>
-														        <?php }; ?>
-														    
+														            ?>
+															<td>
+																<a class='edit-button'
+																	href='edit-event.php?event_id=<?php echo $data[$i]["Event_id"]; ?>'><i
+																		class=' fa-regular fa-pen-to-square'></i></a>
+															</td>
+															<form id='delete_booking'
+																action='../Process/delete_event.php' method='POST'>
+																<td>
+																	<button class='delete-button' type='submit'
+																		name='delete'
+																		value='<?php echo $data[$i]["Event_id"];?>'
+																		onclick='confirmDelete();'>
+																		<i class='fa-regular fa-trash-can'></i></button>
+																</td>
+															</form>
+															<?php }; ?>
+
 														</tr>
 														<?php endfor ?>
 													</tbody>
@@ -593,7 +617,7 @@
 	</main>
 	<?php include("footer.php") ?>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 <script defer>
 	document.addEventListener("DOMContentLoaded", function() {
 		var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
@@ -729,76 +753,72 @@
 
 	//confirm Delete
 	function confirmDelete() {
-            // Get the selected member's name
-            var eventName = document.getElementById("event_name").options[document.getElementById("event_name").selectedIndex].text;
+		// Get the selected member's name
+		var eventName = document.getElementById("event_name").options[document.getElementById("event_name").selectedIndex]
+			.text;
 
-            // Display a confirmation dialog with the member's name
-            var result = confirm("Are you sure you want to delete " + eventName + "?");
-            
-            // If user confirms, submit the form
-            if (result) {
-                document.getElementById("delete_booking").submit();
-            }else{
-				event.preventDefault();
-			}
-    }
+		// Display a confirmation dialog with the member's name
+		var result = confirm("Are you sure you want to delete " + eventName + "?");
 
-	// Prepare data for Chart.js
-	var labels = <?php echo json_encode($labelForPieChart); ?>;
-	var data = <?php echo json_encode($event_type_data); ?>;
-
-	// Render the pie chart
-	var ctx = document.getElementById('myPieChart').getContext('2d');
-	var myPieChart = new Chart(ctx, {
-		type: 'doughnut',
-		data: {
-			labels: labels,
-			datasets: [{
-				data: data,
-				backgroundColor: [
-					'rgba(255, 99, 132, 0.6)',
-					'rgba(54, 162, 235, 0.6)',
-					'rgba(255, 206, 86, 0.6)',
-				],
-				borderColor: [
-					'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 206, 86, 1)',
-				],
-				borderWidth: 1
-			}]
-		},
-		options: {
-			responsive: true,
-			maintainAspectRatio: false,
-			legend: {
-				position: 'right'
-			},
-			title: {
-				display: true,
-				text: 'Event Type Booking Percentage',
-				fontSize: 16,
-				fontColor: '#333', // You can customize the color if needed
-				fontStyle: 'bold', // You can specify 'normal', 'italic', or 'bold'
-				padding: 20 // Add some padding to separate the title from the chart
-			},
-			tooltips: {
-				callbacks: {
-					label: function(tooltipItem, data) {
-						var dataset = data.datasets[tooltipItem.datasetIndex];
-						var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
-							return previousValue + currentValue;
-						});
-						var currentValue = dataset.data[tooltipItem.index];
-						var percentage = parseFloat(((currentValue / total) * 100).toFixed(2));  
-						return data.labels[tooltipItem.index] + ': ' + currentValue + ' (' + percentage + '%)';
-					}
-				}
-			}
+		// If user confirms, submit the form
+		if (result) {
+			document.getElementById("delete_booking").submit();
+		} else {
+			event.preventDefault();
 		}
-	});
+	}
 
-
+	//statistics (chart.js)
+	var percentageData = <?php echo json_encode($percentage_data); ?>;
+    var ctx = document.getElementById('myPieChart').getContext('2d');
+    var myPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: <?php echo json_encode($labelForPieChart); ?>,
+            datasets: [{
+                data: <?php echo json_encode($event_type_data); ?>,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 206, 86, 0.6)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                position: 'bottom'
+            },
+            title: {
+                display: true,
+                text: 'Booking Percentage by Event Type',
+                fontSize: 13,
+                fontColor: '#333',
+                fontStyle: 'bold',
+                padding: 20
+            },
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        var dataset = data.datasets[tooltipItem.datasetIndex];
+                        var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                            return previousValue + currentValue;
+                        });
+                        var currentValue = dataset.data[tooltipItem.index];
+                        var percentage = parseFloat(((currentValue / total) * 100).toFixed(2));
+                        return data.labels[tooltipItem.index] + ' (' +  percentageData[tooltipItem.index] + '%)';
+                    }
+                }
+            }
+        }
+    });
 </script>
 
 
