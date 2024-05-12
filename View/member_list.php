@@ -107,7 +107,7 @@
 	include('../Root/connect-db.php');
 
 	session_start();
-	if (!isset($_SESSION['role']) || $_SESSION['role'] == null || $_SESSION['role'] != "Member" &&   $_SESSION['role'] != "Staff") {
+	if (!isset($_SESSION['role']) || $_SESSION['role'] == null ||  $_SESSION['role'] != "Staff") {
 	    session_destroy();
 	    header("Location: login_signup.php");
 	}

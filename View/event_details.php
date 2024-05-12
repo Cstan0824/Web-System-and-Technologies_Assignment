@@ -43,6 +43,10 @@
 	<?php include("../Root/connect-db.php") ?>
 	<?php
 session_start();
+	if (!isset($_SESSION['role']) || $_SESSION['role'] == null || $_SESSION['role'] != "Member" &&   $_SESSION['role'] != "Staff") {
+	    session_destroy();
+	    header("Location: login_signup.php");
+	}
 	include("../Process/getEventDetails.php") ?>
 
 
@@ -139,7 +143,7 @@ session_start();
 									</form>
 									';
 	                                }
-								?>
+	?>
 								<?php if(isset($_SESSION['role']) && $_SESSION['role'] == 'Staff') {
 
 								    if($event_date > date("Y-m-d")) {

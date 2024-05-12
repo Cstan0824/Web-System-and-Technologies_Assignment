@@ -17,7 +17,7 @@
 	$memberID = $_GET["Member_id"];
 
 	session_start();
-	if (!isset($_SESSION['role']) || $_SESSION['role'] == null || $_SESSION['role'] != "Member" &&   $_SESSION['role'] != "Staff") {
+	if (!isset($_SESSION['role']) || $_SESSION['role'] == null || $_SESSION['role'] != "Staff") {
 	    session_destroy();
 	    header("Location: login_signup.php");
 	}
@@ -27,7 +27,7 @@
 	$result = $connect_db->query($sql);
 	$member_details = array();
 	while($row = $result->fetch_assoc()) {
-		$member_details = array(
+	    $member_details = array(
 	        "Member_id" => $row["Member_id"],
 	        "Member_name" => $row["Member_name"],
 	        "Member_email" => $row["Member_email"],
@@ -38,7 +38,7 @@
 	    );
 	}
 
-    //get user upcoming event
+	//get user upcoming event
 	$sql1 = "";
 	$sql1 = "SELECT M.Member_id, M.Member_name, M.Member_email, M.Member_password, M.Member_regisdate, M.Member_upl_file_name, M.Member_upl_path, M.Member_comment, B.Booking_id, E.Event_id, E.Event_name,E.Event_desc, E.Event_date, E.Start_time, E.Event_upl_path, E.Event_upl_file_name
     FROM T_Member M
@@ -152,8 +152,8 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div style="background-color: white;">
-							<h2>Statistics</h2>
-							<canvas id="myPieChart"></canvas>
+								<h2>Statistics</h2>
+								<canvas id="myPieChart"></canvas>
 							</div>
 						</div>
 					</div>
@@ -178,7 +178,7 @@
 								<div class="panel-body">
 									<ul class="profilenav list-group rounded-0"
 										style="list-style-type: none; padding-left: 0px;">
-										
+
 										<a href="staff_edit_memberProfile.php?member_id=<?php echo $member_details['Member_id']; ?>"
 											class="list-group-item list-group-item-action px-2"><i
 												class="fa fa-edit ps-2 pe-3" style="color:#898B9B;"></i> Edit
@@ -188,7 +188,7 @@
 							</div>
 						</div>
 						<div class="profile-info col-md-9">
-							
+
 							<div class="panel bg-light">
 								<div class="bio-graph-heading">
 									<?php echo $member_details['Member_comment']; ?>
@@ -323,8 +323,8 @@
 									</ul>
 								</form>
 								<?php } else {
-							    echo "<h5>No upcoming events found.</h5>";
-							}?>
+								    echo "<h5>No upcoming events found.</h5>";
+								}?>
 							</div>
 							<div>
 								<br>
@@ -335,7 +335,7 @@
 								<div class="row justify-content-between">
 									<?php for($i = ($pageForPast - 1) * 4; $i < $pageForPast * 4 && $i < count($past_event);$i++): ?>
 									<?php
-									$imgName = $past_event[$i]["Event_upl_file_name"] ?? "default";
+								        $imgName = $past_event[$i]["Event_upl_file_name"] ?? "default";
 									    $imgPath = $past_event[$i]["Event_upl_path"] ?? "../Image/AI Aware.jpg";
 									    $dayPastOrFuture = $past_event[$i]["DateCountDown"] < 0 ? "ago" : "left";
 									    $color = $past_event[$i]["DateCountDown"] > 0 ? "text-success" : "text-danger";
@@ -404,11 +404,11 @@
 										</ul>
 									</form>
 									<?php } else {
-							    echo "<h5>No past events found.</h5>";
-							}?>
+									    echo "<h5>No past events found.</h5>";
+									}?>
 								</div>
 							</div>
-							
+
 						</div>
 					</div>
 				</div>
@@ -512,49 +512,53 @@
 
 	var ctx = document.getElementById('myPieChart').getContext('2d');
 	var myPieChart = new Chart(ctx, {
-    type: 'pie',
-    data: {
-        labels: ['<?php echo $member_details['Member_name'];?> Bookings', 'Remaining Events'],
-        datasets: [{
-            data: [<?php echo $bookingPercentage; ?>, <?php echo $eventPercentage; ?>],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.6)', // Red for Bookings
-                'rgba(54, 162, 235, 0.6)'   // Blue for Remaining Events
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        title: {
-            display: true,
-            text: 'Booking Percentage compared to Total Events',
-            fontSize: 15 // Adjust the font size as needed
-        },
-        legend: {
-            display: true,
-            position: 'bottom'
-        },
-        tooltips: {
-            callbacks: {
-                label: function(tooltipItem, data) {
-                    var dataset = data.datasets[tooltipItem.datasetIndex];
-                    var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
-                        return previousValue + currentValue;
-                    });
-                    var currentValue = dataset.data[tooltipItem.index];
-                    var percentage = Math.floor(((currentValue / total) * 100) + 0.5);  
-                    return percentage + '%'; // Add percentage symbol
-                }
-            }
-        }
-    }
-});
+		type: 'pie',
+		data: {
+			labels: [
+				'<?php echo $member_details['Member_name'];?> Bookings',
+				'Remaining Events'
+			],
+			datasets: [{
+				data: [ <?php echo $bookingPercentage; ?> , <?php echo $eventPercentage; ?> ],
+				backgroundColor: [
+					'rgba(255, 99, 132, 0.6)', // Red for Bookings
+					'rgba(54, 162, 235, 0.6)' // Blue for Remaining Events
+				],
+				borderColor: [
+					'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)'
+				],
+				borderWidth: 1
+			}]
+		},
+		options: {
+			responsive: true,
+			maintainAspectRatio: false,
+			title: {
+				display: true,
+				text: 'Booking Percentage compared to Total Events',
+				fontSize: 15 // Adjust the font size as needed
+			},
+			legend: {
+				display: true,
+				position: 'bottom'
+			},
+			tooltips: {
+				callbacks: {
+					label: function(tooltipItem, data) {
+						var dataset = data.datasets[tooltipItem.datasetIndex];
+						var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex,
+							array) {
+							return previousValue + currentValue;
+						});
+						var currentValue = dataset.data[tooltipItem.index];
+						var percentage = Math.floor(((currentValue / total) * 100) + 0.5);
+						return percentage + '%'; // Add percentage symbol
+					}
+				}
+			}
+		}
+	});
 </script>
 
 </html>
