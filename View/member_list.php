@@ -255,19 +255,9 @@
 														            ?>
 															<td id="edit">
 																<a class='edit-button'
-																	href='edit-member.php?Member_id=<?php echo $memberDB[$i]["Member_id"]; ?>'><i
+																	href='staff_edit_memberProfile.php?member_id=<?php echo $memberDB[$i]["Member_id"]; ?>'><i
 																		class=' fa-regular fa-pen-to-square'></i></a>
 															</td>
-															<form id='delete_member'
-																action='../Process/delete_member.php' method='POST'>
-																<td id="delete">
-																	<button class='delete-button' type='submit'
-																		name='delete'
-																		value='<?php echo $memberDB[$i]["Member_id"];?>'
-																		onclick='confirmDelete();'>
-																		<i class='fa-regular fa-trash-can'></i></button>
-																</td>
-															</form>
 															<?php }; ?>
 
 														</tr>

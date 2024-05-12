@@ -512,36 +512,49 @@
 
 	var ctx = document.getElementById('myPieChart').getContext('2d');
 	var myPieChart = new Chart(ctx, {
-		type: 'pie',
-		data: {
-			labels: ['<?php echo $member_details['Member_name'];?> Bookings', 'Remaining Events'],
-			datasets: [{
-				data: [<?php echo $bookingPercentage; ?>, <?php echo $eventPercentage; ?>],
-				backgroundColor: [
-					'rgba(255, 99, 132, 0.6)', // Red for Bookings
-					'rgba(54, 162, 235, 0.6)'   // Blue for Remaining Events
-				],
-				borderColor: [
-					'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)'
-				],
-				borderWidth: 1
-			}]
-		},
-		options: {
-			responsive: true,
-			maintainAspectRatio: false,
-			title: {
-				display: true,
-				text: 'Booking Percentage compared to Total Events',
-				fontSize: 15 // Adjust the font size as needed
-			},
-			legend: {
-				display: true,
-				position: 'bottom'
-			}
-		}
-	});
+    type: 'pie',
+    data: {
+        labels: ['<?php echo $member_details['Member_name'];?> Bookings', 'Remaining Events'],
+        datasets: [{
+            data: [<?php echo $bookingPercentage; ?>, <?php echo $eventPercentage; ?>],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.6)', // Red for Bookings
+                'rgba(54, 162, 235, 0.6)'   // Blue for Remaining Events
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        title: {
+            display: true,
+            text: 'Booking Percentage compared to Total Events',
+            fontSize: 15 // Adjust the font size as needed
+        },
+        legend: {
+            display: true,
+            position: 'bottom'
+        },
+        tooltips: {
+            callbacks: {
+                label: function(tooltipItem, data) {
+                    var dataset = data.datasets[tooltipItem.datasetIndex];
+                    var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                        return previousValue + currentValue;
+                    });
+                    var currentValue = dataset.data[tooltipItem.index];
+                    var percentage = Math.floor(((currentValue / total) * 100) + 0.5);  
+                    return percentage + '%'; // Add percentage symbol
+                }
+            }
+        }
+    }
+});
 </script>
 
 </html>
