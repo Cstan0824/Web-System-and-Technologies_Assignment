@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-	<title>Profile</title>
+	<title>Member List</title>
 	<meta content="" name="description">
 	<meta content="" name="keywords">
 	<link href="../Css/assets/css/profile-style.css" rel="stylesheet" />
@@ -117,8 +117,8 @@
 
 <body style="background-color:#F1F2F7;">
 	<?php
-    include('header.php');
-	
+	include('header.php');
+
 	$FilterSearch = $_POST["FilterSearch"] ?? "";
 
 	$searchSql = !empty($FilterSearch) ? "WHERE Member_name LIKE '%$FilterSearch%'" : "";
@@ -127,15 +127,15 @@
 	$result = $connect_db->query($sqlMember);
 	$memberDB = array();
 	while($row = $result->fetch_assoc()) {
-		$memberDB[] = array(
-			'memberPicName' => $row['Member_upl_file_name'],
-			'memberPicPath' => $row['Member_upl_path'],
-			'Member_id' => $row['Member_id'],
-			'Member_name' => $row['Member_name'],
-			'Member_email' => $row['Member_email'],
-			'Member_comment' => $row['Member_comment'],
-			'Member_joindate' => $row['Member_regisdate']
-		);
+	    $memberDB[] = array(
+	        'memberPicName' => $row['Member_upl_file_name'],
+	        'memberPicPath' => $row['Member_upl_path'],
+	        'Member_id' => $row['Member_id'],
+	        'Member_name' => $row['Member_name'],
+	        'Member_email' => $row['Member_email'],
+	        'Member_comment' => $row['Member_comment'],
+	        'Member_joindate' => $row['Member_regisdate']
+	    );
 	}
 
 	$display = isset($_POST['display']) ? $_POST['display'] : "table";
@@ -167,7 +167,7 @@
 			<div class="container">
 				<div class="container">
 					<div class="row">
-                    <div class="col-md-12">
+						<div class="col-md-12">
 							<div class="grid search">
 								<div class="grid-body">
 									<div class="row">
@@ -215,7 +215,7 @@
 												< <span id="searchCount">0</span> result
 											</p>
 
-					
+
 											<br />
 											<?php if($numberOfResults != 0 || !isset($FilterSearch)): ?>
 
@@ -231,8 +231,8 @@
 														<tr title="Click for more!" data-bs-toggle="popover"
 															data-bs-trigger="hover"
 															data-bs-content="<?php echo $memberDB[$i]["Member_comment"]; ?> ..."
-															data-bs-placement="top" data-event-id=<?php echo $memberDB[$i]["Member_id"];?>
-															class="event_id">
+															data-bs-placement="top" data-member-id=<?php echo $memberDB[$i]["Member_id"];?>
+															class="member_id">
 															<td class="number text-center">
 																<?php echo $i + 1 ?>
 															</td>
@@ -259,7 +259,8 @@
 																	href='edit-member.php?Member_id=<?php echo $memberDB[$i]["Member_id"]; ?>'><i
 																		class=' fa-regular fa-pen-to-square'></i></a>
 															</td>
-															<form id='delete_member' action='../Process/delete_member.php' method='POST'>
+															<form id='delete_member'
+																action='../Process/delete_member.php' method='POST'>
 																<td id="delete">
 																	<button class='delete-button' type='submit'
 																		name='delete'
@@ -329,7 +330,7 @@
 						</div>
 
 
-                    </div>
+					</div>
 				</div>
 			</div>
 		</section>
@@ -347,31 +348,12 @@
 
 </body>
 <script>
-
-document.addEventListener("DOMContentLoaded", function() {
+	document.addEventListener("DOMContentLoaded", function() {
 		var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
 		var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
 			return new bootstrap.Popover(popoverTriggerEl);
 		});
 
-		//display mode active
-		var tableMode = document.getElementById("tableMode");
-		var cardMode = document.getElementById("cardMode");
-		var displayMode = "<?php echo $display; ?>";
-
-		tableMode.classList.remove("active");
-		cardMode.classList.remove("active");
-
-		switch (displayMode) {
-			case "card":
-				cardMode.classList.add("active");
-				break;
-			case "table":
-			default:
-				tableMode.classList.add("active");
-				break;
-
-		}
 
 		//pagination disabled
 		var prevPage = document.getElementById("prevPage");
@@ -455,16 +437,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 	//pagination
-	Array.from(document.getElementsByClassName("Member_id"))
+	Array.from(document.getElementsByClassName("member_id"))
 		.forEach(element => element.addEventListener("click", (
 			event) => {
-			const eventId = event.currentTarget.getAttribute('data-event-id');
-			if (eventId) {
-				window.location.href = "event_details.php?Member_id=" + eventId;
+			const memberID = event.currentTarget.getAttribute('data-member-id');
+			if (memberID) {
+				window.location.href = "member_profile.php?Member_id=" + memberID;
 			}
-			console.log(eventId);
+			console.log(memberID);
 		}));
-
 </script>
 
 </html>

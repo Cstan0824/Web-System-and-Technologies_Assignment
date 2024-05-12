@@ -11,7 +11,7 @@ while($row_memberID = mysqli_fetch_assoc($execute_getMemberID)) {
 }
 
 if (in_array($user_id, $memberIDinDB)) {
-    echo "Sign Up Failed . Member ID already exists";
+    echo "Sign Up Failed. Member ID already exists";
 } else {
     echo "Sign Up Successful.";
 }
