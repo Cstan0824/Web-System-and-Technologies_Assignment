@@ -140,7 +140,7 @@
 								<!-- Hoster -->
 								<div class="input-group my-4">
 									<span class="input-group-text">Hoster</span>
-									<input type="text" class="form-control" placeholder="Hoster" name="eventHoster"
+									<input type="text" class="form-control" placeholder="Hoster" id="eventHoster" name="eventHoster"
 										type="text" required>
 								</div>
 
@@ -159,7 +159,7 @@
 								<!-- Max User -->
 								<div class="input-group my-4">
 									<span class="input-group-text">Max User</span>
-									<input class="form-control" type="number" name="maxUser" value="30" required
+									<input class="form-control" type="number" name="maxUser" id="maxUser" value="1" required
 										minlength="1" maxlength="60" />
 								</div>
 								<div class="input-group my-4">
@@ -244,12 +244,29 @@
 		}
 	}
 	document.getElementById('addEvent').addEventListener('submit', function(event) {
+
+
+
 		//validation for name where no special character is allowed
 		var eventNameInput = document.getElementById('eventName').value;
 		var eventNamePattern = /^[a-zA-Z0-9 ]+$/;
+		var eventHoster = document.getElementById('eventHoster').value;
+		var maxUser = document.getElementById('maxUser').value;
 		if (!eventNamePattern.test(eventNameInput)) {
 			alert("Event name must not contain special characters");
 			event.preventDefault();
+		}
+		if (eventNameInput.length == 0 || eventNameInput.length > 50) {
+			event.preventDefault(); 
+			alert('Event name must be between 3 and 50 characters.');
+		}
+		if (eventHoster.length == 3 || eventHoster.length > 50) {
+			event.preventDefault(); 
+			alert('Hoster name must be between 1 and 50 characters.');
+		}
+		if (maxUser == 0 || maxUser > 60) {
+			event.preventDefault(); 
+			alert('Max user must be between 1 and 60.');
 		}
 		//validation for date where date must be greater than or equal to current date
 		var eventDateInput = new Date(document.getElementById('eventDate').value);

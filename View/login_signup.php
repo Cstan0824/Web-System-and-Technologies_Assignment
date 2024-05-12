@@ -157,7 +157,6 @@ include('../Root/connect-db.php');
 			var memberID = document.getElementById("signUpUser").value.trim();
 			var name = document.getElementById("signUpName").value.trim();
 			var password = document.getElementById("signUpPass").value.trim();
-			var email = document.getElementById("email").value.trim();
 
 			// Member ID validation
 			if (memberID.length < 7 || memberID.length > 20 || /\s/.test(memberID)) {

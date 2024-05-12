@@ -138,8 +138,6 @@ session_start();
 									<button id="member-booking" name="member-booking" type="submit" onclick="confirmBooking();" class="button-19" value="'.$eventID.'">Book Ticket</button>
 									</form>
 									';
-	                                } else {
-	                                    echo "<h3 class='text-warning'>Event is not available for booking</h3>";
 	                                }
 								?>
 								<?php if(isset($_SESSION['role']) && $_SESSION['role'] == 'Staff') {
