@@ -88,13 +88,19 @@
 						<div class="profile-nav col-md-3">
 							<div class="panel panel-default">
 								<div class="user-heading round">
+									<?php if ($_SESSION['role'] == "Member") { ?>
 									<a href="#" class="position-relative" onclick="openImageUploader();"
 										data-bs-content="Click to change Profile Picture." title="Profile Picture"
 										data-bs-placement="right" data-bs-toggle="popover" data-bs-trigger="hover">
-										<img id="old-profilepic"
-											src="<?php echo $_SESSION['user_pic_path'] ?? "../Css/assets/img/team/team-1.jpg" ?>"
+										<img src="<?php echo $_SESSION['user_pic_path'] ?? "../Css/assets/img/team/team-1.jpg" ?>"
 											alt="<?php echo $_SESSION['user_pic_file_name'] ?? "default"; ?>" />
 									</a>
+									<?php } else if ($_SESSION['role'] == "Staff") { ?>
+										<a class="position-relative">
+										<img id="staffPic" src="<?php echo $_SESSION['user_pic_path'] ?? "../Css/assets/img/team/team-1.jpg" ?>"
+											alt="<?php echo $_SESSION['user_pic_file_name'] ?? "default"; ?>" /></a>
+									<?php } ?>
+
 
 									<h1><?php echo $_SESSION['user_name'];?>
 									</h1>

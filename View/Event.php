@@ -188,6 +188,48 @@
 	    session_destroy();
 	    header("Location: login_signup.php");
 	}
+
+	//count data for pie chart
+	$sql_count_event = 
+	"SELECT COUNT(*) AS NumOfBooking, ET.Event_type AS 'EventType' 
+	FROM T_Booking B 
+	JOIN T_Event E ON B.Event_id = E.Event_id 
+	JOIN T_Event_Type ET ON E.Event_type_id = ET.Event_type_id 
+	LEFT JOIN T_Event_Cancellation EC ON E.Event_id = EC.Event_id 
+	LEFT JOIN T_Booking_Cancellation BC ON B.Booking_id = BC.Booking_id
+	WHERE EC.Event_id IS NULL AND BC.Booking_id IS NULL
+	GROUP BY ET.Event_type;";
+
+	$labelForPieChart = array("Movie Sharing Session", "Movie Premiere", "Famous Actor Meeting");
+	$event_type_data = array(0, 0, 0);
+
+	
+
+	$result_count_event = $connect_db->query($sql_count_event);
+	while($row = $result_count_event->fetch_assoc()) {
+	    if ($row["EventType"] == "MOVIE SHARING SESSION") {
+	        $event_type_data[0] = $row["NumOfBooking"];
+	    } else if ($row["EventType"] == "MOVIE PREMIERE") {
+	        $event_type_data[1] = $row["NumOfBooking"];
+	    } else if ($row["EventType"] == "FAMOUS ACTOR MEETING") {
+	        $event_type_data[2] = $row["NumOfBooking"];
+	    }
+	}
+
+	$sql_sum_event_booking = "SELECT COUNT(*) AS NumOfBooking 
+	FROM T_Booking B
+	JOIN T_Event E ON B.Event_id = E.Event_id 
+	LEFT JOIN T_Event_Cancellation EC ON E.Event_id = EC.Event_id 
+	LEFT JOIN T_Booking_Cancellation BC ON B.Booking_id = BC.Booking_id
+	WHERE EC.Event_id IS NULL AND BC.Booking_id IS NULL;
+	";
+
+	$result_sum_event_booking = $connect_db->query($sql_sum_event_booking);
+	$sum_event_booking = $result_sum_event_booking->fetch_assoc();
+
+	//check data
+	echo "<script>console.log('movieSharringSession: ".$event_type_data[0].", moviePremiere: ".$event_type_data[1].", famousActorMeeting: ".$event_type_data[2]."')</script>";
+
 	?>
 	<?php include("header.php") ?>
 	<main id="main">
@@ -196,7 +238,7 @@
 			<div class="container">
 
 				<div class="d-flex justify-content-between align-items-center">
-					<h2>Event</h2>
+					<h2>Events</h2>
 					<ol>
 						<li><a href="Home.php">Home</a></li>
 						<li>Events</li>
@@ -265,7 +307,7 @@
 													value="Movie Premiere">Movie Premiere</button>
 											</div>
 											<!-- END FILTER BY CATEGORY -->
-
+											
 											<br />
 											<br />
 
@@ -304,6 +346,12 @@
 													style="border:solid #E5E5E5 1px;">Most
 													Recently</button>
 											</div>
+											<br />
+											<br />
+											<h4><strong>CHART</strong></h4>
+											<div class="d-flex flex-wrap">
+											<canvas id="myPieChart" width="300" height="300"></canvas>
+											</div>
 											<!-- END FILTER BY OTHERS -->
 
 										</div>
@@ -322,15 +370,18 @@
 								<div class="grid-body">
 									<div class="row">
 										<!-- BEGIN RESULT -->
+										
 										<div class="col-md">
 											<div class="d-flex justify-content-between align-items-center">
 												<h2><i class="fa-solid fa-book"></i> Result</h2>
+												<?php if($_SESSION['role'] == "Staff") {?>
 												<a data-bs-trigger="hover" data-bs-content="Click me to add Event"
 													data-bs-placement="top" data-bs-toggle="popover" title="Add Events"
 													href="add_event.php">
 													<i class="fa-solid fa-calendar-plus"
 														style="color: #74C0FC;font-size:2.3em;"></i>
 												</a>
+												<?php } ?>
 
 											</div>
 
@@ -542,6 +593,7 @@
 	</main>
 	<?php include("footer.php") ?>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script defer>
 	document.addEventListener("DOMContentLoaded", function() {
 		var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
@@ -690,6 +742,64 @@
 				event.preventDefault();
 			}
     }
+
+	// Prepare data for Chart.js
+	var labels = <?php echo json_encode($labelForPieChart); ?>;
+	var data = <?php echo json_encode($event_type_data); ?>;
+
+	// Render the pie chart
+	var ctx = document.getElementById('myPieChart').getContext('2d');
+	var myPieChart = new Chart(ctx, {
+		type: 'doughnut',
+		data: {
+			labels: labels,
+			datasets: [{
+				data: data,
+				backgroundColor: [
+					'rgba(255, 99, 132, 0.6)',
+					'rgba(54, 162, 235, 0.6)',
+					'rgba(255, 206, 86, 0.6)',
+				],
+				borderColor: [
+					'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(255, 206, 86, 1)',
+				],
+				borderWidth: 1
+			}]
+		},
+		options: {
+			responsive: true,
+			maintainAspectRatio: false,
+			legend: {
+				position: 'right'
+			},
+			title: {
+				display: true,
+				text: 'Event Type Booking Percentage',
+				fontSize: 16,
+				fontColor: '#333', // You can customize the color if needed
+				fontStyle: 'bold', // You can specify 'normal', 'italic', or 'bold'
+				padding: 20 // Add some padding to separate the title from the chart
+			},
+			tooltips: {
+				callbacks: {
+					label: function(tooltipItem, data) {
+						var dataset = data.datasets[tooltipItem.datasetIndex];
+						var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+							return previousValue + currentValue;
+						});
+						var currentValue = dataset.data[tooltipItem.index];
+						var percentage = parseFloat(((currentValue / total) * 100).toFixed(2));  
+						return data.labels[tooltipItem.index] + ': ' + currentValue + ' (' + percentage + '%)';
+					}
+				}
+			}
+		}
+	});
+
+
 </script>
+
 
 </html>

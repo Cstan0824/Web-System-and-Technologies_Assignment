@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $member_upl_file_name = uniqid('', true) . "." . $fileExt;
         $member_upl_path = $target_dir . $member_upl_file_name;
 
-        if ($_FILES["profile_picture"]["size"] > 104857600) {
+        if ($_FILES["profile_picture"]["size"] > 1073741824) {
             echo "Error when uploading file. File is too large.";
             $dataValidated = 0;
         } elseif (!in_array($fileExt, $fileType)) {
@@ -44,6 +44,8 @@ if ($dataValidated) {
     $execute_update = mysqli_query($connect_db, $sql_update_profilepic);
 
     if ($execute_update == 1) {
+        $old_profilepic = $_SESSION['user_pic_path'];
+        unlink($old_profilepic);
         $_SESSION['user_pic_path'] = $member_upl_path;
         $_SESSION['user_pic_file_name'] = $member_upl_file_name;
         header("Location: ../View/profile.php");
