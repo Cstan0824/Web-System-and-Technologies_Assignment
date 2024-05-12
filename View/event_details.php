@@ -41,14 +41,16 @@
 
 	<?php include("../Root/link.php") ?>
 	<?php include("../Root/connect-db.php") ?>
-	<?php include("../Process/getEventDetails.php") ?>
+	<?php
+session_start();
+	include("../Process/getEventDetails.php") ?>
 
 
 </head>
 
 <body>
 	<?php
-    include("header.php");
+	    include("header.php");
 	date_default_timezone_set('Asia/Kuala_Lumpur');
 
 	$page = $_GET['page'] ?? 1;
@@ -130,15 +132,20 @@
 									</li>
 								</ul>
 								<?php
-	                                if($_SESSION['role'] == 'Member' && $leftover > 0 && $isBooked == false) {
+	                                if($_SESSION['role'] == 'Member' && $leftover > 0 && $isBooked == false && $event_date > date('Y-m-d')) {
 	                                    echo '
 									<form id="memberAddBooking" action="../Process/add_booking_process.php" method="post">
 									<button id="member-booking" name="member-booking" type="submit" onclick="confirmBooking();" class="button-19" value="'.$eventID.'">Book Ticket</button>
 									</form>
 									';
+	                                } else {
+	                                    echo "<h3 class='text-warning'>Event is not available for booking</h3>";
 	                                }
-	?>
-								<?php if(isset($_SESSION['role']) && $_SESSION['role'] == 'Staff') { ?>
+								?>
+								<?php if(isset($_SESSION['role']) && $_SESSION['role'] == 'Staff') {
+
+								    if($event_date > date("Y-m-d")) {
+								        ?>
 								<a
 									href="../View/edit-event.php?event_id=<?php echo $eventID; ?>">
 									<button id="edit-event" class="button-19 my-3" name="editEvent">Edit
@@ -158,7 +165,10 @@
 										onclick="deleteEvent();">Delete Event</button>
 								</form>
 
-								<?php }?>
+								<?php } else {
+								    echo "<h3 class='text-warning'>Event is not available for booking</h3>";
+								}
+								}?>
 							</div>
 
 						</div>
@@ -174,7 +184,7 @@
 					</div>
 					<div class="table-responsive" data-aos="fade-up">
 						<?php
-	                        $sql_booking = "SELECT M.Member_id, M.Member_name, M.Member_email, B.Booking_date, B.Booking_id 
+								                            $sql_booking = "SELECT M.Member_id, M.Member_name, M.Member_email, B.Booking_date, B.Booking_id 
 							FROM t_booking B 
 							JOIN t_member M ON M.Member_id = B.Member_id
 							LEFT JOIN t_booking_cancellation BC ON BC.Booking_id = B.Booking_id
@@ -207,12 +217,14 @@
 								<th class='text-info'>Member Name</th>
 								<th class='text-info'>Member Email</th>
 								<th class='text-info'>Booking Date</th>
-								<th class='text-info'>";
-			        if ($leftover > 0) {
-			            echo "<button id='add-booking' type='submit' name='addBooking' value='".$eventID."'<i class='fa-solid fa-user-plus'></i></button>";
+								";
+			        if ($leftover > 0 && $event_date > date('Y-m-d')) {
+			            echo "<th class='text-info'>
+						<button id='add-booking' type='submit' name='addBooking' value='".$eventID."'<i class='fa-solid fa-user-plus'></i></button>
+						</th>";
 			        };
 			        echo "
-								</th>
+								
 								</tr>
 								</form>
 								</thead>
@@ -227,9 +239,11 @@
 								<td>".$memberDetails[$i]['Member_id']."</td>
 								<td id='member'>".$memberDetails[$i]['Member_name']."</td>
 								<td>".$memberDetails[$i]['Member_email']."</td>
-								<td>".$memberDetails[$i]['Booking_date']."</td>
-								<td><button id='delete-booking' type='submit' name='delete' value='".$memberDetails[$i]['Booking_id']."' onclick='deleteBooking();'><i class='fa-regular fa-trash-can'></i></button></td>
+								<td>".$memberDetails[$i]['Booking_date']."</td>";
+			            if($event_date > date('Y-m-d')) {
+			                echo "<td><button id='delete-booking' type='submit' name='delete' value='".$memberDetails[$i]['Booking_id']."' onclick='deleteBooking();'><i class='fa-regular fa-trash-can'></i></button></td>
 							</tr>";
+			            }
 			        }
 			        echo "</form></tbody></table>";
 			    }

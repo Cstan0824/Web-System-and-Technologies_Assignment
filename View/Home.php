@@ -192,7 +192,7 @@ $connect_db->close();
 									<?php
 
 						            $comment = mb_strimwidth($memberData[$i]["Member_comment"], 0, 250, "...");
-						    echo $comment;
+						    		echo $comment;
 						    ?>
 									<i class="bx bxs-quote-alt-right quote-icon-right"></i>
 								</p>
