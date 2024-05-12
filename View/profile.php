@@ -98,7 +98,7 @@
 									<?php } elseif ($_SESSION['role'] == "Staff") { ?>
 									<a class="position-relative">
 										<img id="staffPic" src="../Image/profile_picture/Default-ProfilePicture.jpg"
-											alt="default" ; ?>" /></a>
+											alt="default" ; ?></a>
 									<?php } ?>
 
 
