@@ -27,7 +27,7 @@ include('../Root/connect-db.php');
     <h1 class="title">TARUMT MOVIE SOCIETY</h1>
     <div class="login-wrap">
         <div class="login-html" style="display:block;">
-            <form action="" method="POST">
+            <form action="../Process/recoveryprocess.php" method="POST">
                 <input id="tab-1" hidden type="radio" name="tab" class="sign-in" checked><label for="tab-1"
                     class="tab">Password Recovery</label>
                 <input id="tab-2" hidden type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab"></label>

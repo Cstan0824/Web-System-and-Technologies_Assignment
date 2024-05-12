@@ -17,13 +17,17 @@ function validate($data)
     return $data;
 }
 
-if(isset($_POST['otp'])) {
+if(isset($_POST['otp']) && isset($_POST['email']) && isset($_POST['user'])) {
     session_start();
     date_default_timezone_set('Asia/Kuala_Lumpur');
     include('../Root/connect-db.php');
 
     $otp = $_POST['otp'] ;
+    $email = $_POST['email'];
+    $user_id = $_POST['user'];
     $otp = validate($otp);
+    $email = validate($email);
+    $user_id = validate($user_id);
 
     if($otp != $_SESSION['otp']) {
         echo "<script>alert('Invalid OTP');</script>";
@@ -60,22 +64,20 @@ if(isset($_POST['otp'])) {
         // Email sender and recipient
         $mail->setFrom('tarumtmoviesociety@gmail.com', 'TARUMT Movie Society');// sender
 
-        // Loop through the array of event details
-        foreach ($eventDetails as $event) {
-
-            $mail->addAddress($email, $name); // recipient
-            // Get from database instead of session
-            $mail->Subject = "TARUMT Movie Society: Upcoming Event Notification";
-            //show member heis password
-            $mail->Body = "<h4>Dear  ".$name.",<br/><br/>
+        $mail->addAddress($email, $name); // recipient
+        // Get from database instead of session
+        $mail->Subject = "TARUMT Movie Society: Password Recovery";
+        //show member heis password
+        $mail->Body = "<h4>Dear  ".$name.",<br/><br/>
             Your password is: ".$password.".
             <br/> Please contact us for further information. Thank you.</h4><br/>
             Best Regards,<br/>
             <b>TARUMT Movie Society</b><br/>";
 
-            $mail->send();
-            $mail->clearAllRecipients();
-        }
+        $mail->send();
+        $mail->clearAllRecipients();
+        echo "<script>alert('Password sent to your email.');</script>";
+        echo "<script>window.location.href='../View/login_signup.php';</script>";
     } catch (Exception $e) {
         echo "<script>console.log('Email could not be sent. Mailer Error: {$mail->ErrorInfo}');</script>";
     }
