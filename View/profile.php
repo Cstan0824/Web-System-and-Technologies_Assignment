@@ -95,9 +95,10 @@
 										<img src="<?php echo $_SESSION['user_pic_path'] ?? "../Css/assets/img/team/team-1.jpg" ?>"
 											alt="<?php echo $_SESSION['user_pic_file_name'] ?? "default"; ?>" />
 									</a>
-									<?php } else if ($_SESSION['role'] == "Staff") { ?>
-										<a class="position-relative">
-										<img id="staffPic" src="<?php echo $_SESSION['user_pic_path'] ?? "../Css/assets/img/team/team-1.jpg" ?>"
+									<?php } elseif ($_SESSION['role'] == "Staff") { ?>
+									<a class="position-relative">
+										<img id="staffPic"
+											src="<?php echo $_SESSION['user_pic_path'] ?? "../Image/profile_picture/Default-ProfilePicture.jpg" ?>"
 											alt="<?php echo $_SESSION['user_pic_file_name'] ?? "default"; ?>" /></a>
 									<?php } ?>
 
@@ -147,7 +148,9 @@
 							<?php } ?>
 							<div class="panel bg-light">
 								<div class="panel-body bio-graph-info row ms-2">
-									<h1 class="mt-2" style="font-weight:bold;"><?php echo $_SESSION['role'];?> Profile</h1>
+									<h1 class="mt-2" style="font-weight:bold;">
+										<?php echo $_SESSION['role'];?>
+										Profile</h1>
 									<div class="ms-3">
 										<div class="bio-row">
 											<p><span>ID </span>:
@@ -200,7 +203,7 @@
 	                                $upcoming_event[$i]["Event_id"];
 
 									    $imgName = $upcoming_event[$i]["Event_upl_file_name"] ?? "default";
-									    $imgPath = $upcoming_event[$i]["Event_upl_path"] ?? "../Image/AI Aware.jpg";
+									    $imgPath = $upcoming_event[$i]["Event_upl_path"] ?? "../Image/event_picture/Default-EventPicture.jpg";
 									    $dayPastOrFuture = $upcoming_event[$i]["DateCountDown"] < 0 ? "ago" : "left";
 									    $color = $upcoming_event[$i]["DateCountDown"] > 0 ? "text-success" : "text-danger";
 									    ?>
@@ -283,10 +286,10 @@
 							<?php } else {
 							    echo "<h5>No upcoming events found.</h5>";
 							}?>
-						</>
+							</>
+						</div>
 					</div>
 				</div>
-			</div>
 
 
 

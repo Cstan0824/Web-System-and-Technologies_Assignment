@@ -296,7 +296,8 @@
 					<!-- BEGIN STATISTICS -->
 					<div class="grid search">
 						<div class="grid-body">
-							<h2 class="mb-3"><strong><i class="fa-solid fa-square-poll-vertical"></i> STATISTICS</strong></h2>
+							<h2 class="mb-3"><strong><i class="fa-solid fa-square-poll-vertical"></i>
+									STATISTICS</strong></h2>
 							<hr />
 							<div class="row mt-2">
 								<div class="col-md-8">
@@ -511,7 +512,7 @@
 													<tbody>
 														<?php for($i = ($page - 1) * 6; $i < ($page * 6) && $i < $numberOfResults; $i++): ?>
 														<?php
-	                                                    $imgPath = $data[$i]["Event_upl_path"] ?? "https://www.bootdey.com/image/400x300/FF8C00";
+	                                                    $imgPath = $data[$i]["Event_upl_path"] ?? "../Image/event_picture/Default-EventPicture.jpg";
 														    $imgName = $data[$i]["Event_upl_path"] ?? "default";
 														    ?>
 														<tr title="Click for more!" data-bs-toggle="popover"
@@ -599,7 +600,7 @@
 											<div class="row portfolio" data-aos="fade-up">
 												<?php for($i = ($page - 1) * 6; $i < ($page * 6) && $i < $numberOfResults; $i++): ?>
 												<?php
-															$imgPath = $data[$i]["Event_upl_path"] ?? "https://www.bootdey.com/image/400x300/FF8C00";
+															$imgPath = $data[$i]["Event_upl_path"] ?? "../Image/event_picture/Default-EventPicture.jpg";
 												    $imgName = $data[$i]["Event_upl_path"] ?? "default";
 												    ?>
 												<div class="col-sm-6 portfolio-item filter-web mb-3">

@@ -225,7 +225,7 @@
 													<tbody>
 														<?php for($i = ($page - 1) * 6; $i < ($page * 6) && $i < $numberOfResults; $i++): ?>
 														<?php
-	                                                    $imgPath = $memberDB[$i]["memberPicPath"] ?? "https://www.bootdey.com/image/400x300/FF8C00";
+	                                                        $imgPath = $memberDB[$i]["memberPicPath"] ?? "../Image/profile_picture/Default-ProfilePicture.jpg";
 														    $imgName = $memberDB[$i]["memberPicName"] ?? "default";
 														    ?>
 														<tr title="Click for more!" data-bs-toggle="popover"
@@ -328,8 +328,6 @@
 								</div>
 							</div>
 						</div>
-
-
 					</div>
 				</div>
 			</div>

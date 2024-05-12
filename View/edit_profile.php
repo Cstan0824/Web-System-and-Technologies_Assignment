@@ -55,7 +55,7 @@
                                         data-bs-content="Click to change Profile Picture." title="Profile Picture"
                                         data-bs-placement="right" data-bs-toggle="popover" data-bs-trigger="hover">
                                         <img id="old-profilepic"
-                                            src="<?php echo $_SESSION['user_pic_path'] ?? "../Css/assets/img/team/team-1.jpg" ?>"
+                                            src="<?php echo $_SESSION['user_pic_path'] ?? "../Image/profile_picture/Default-ProfilePicture.jpg" ?>"
                                             alt="<?php echo $_SESSION['user_pic_file_name'] ?? "default"; ?>" />
                                     </a>
 

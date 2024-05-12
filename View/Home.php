@@ -146,7 +146,7 @@ $connect_db->close();
 
 					<?php for($i = 0; $i < 6 && $i < count($memberData); $i++): ?>
 					<?php
-                        $imgPath =  $data[$i]["Event_upl_path"] ?? "../Css/assets/img/portfolio/portfolio-1.jpg";
+                        $imgPath =  $data[$i]["Event_upl_path"] ?? "../Image/event_picture/Default-EventPicture.jpg";
 					    $imgName = $data[$i]["Event_upl_file_name"] ?? "default";
 					    ?>
 					<div class="col-lg-4 col-md-6 portfolio-item filter-app">
@@ -179,7 +179,7 @@ $connect_db->close();
 					<div class="swiper-wrapper">
 						<?php for($i = 0; $i < 5 && $i < count($data); $i++): ?>
 						<?php
-					            $imgPath =  $memberData[$i]["Member_upl_path"] ?? "../Css/assets/img/testimonials/testimonials-1.jpg";
+					            $imgPath =  $memberData[$i]["Member_upl_path"] ?? "../Image/profile_picture/Default-ProfilePicture.jpg";
 						    $imgName = $memberData[$i]["Member_upl_file_name"] ?? "default";
 						    ?>
 						<div class="swiper-slide">
