@@ -11,11 +11,7 @@ header('Content-Type: application/json');
 
 if(isset($_GET['searchBarList']) && $_GET['searchBarList'] == 1) {
     //Search Bar
-    $sql = "SELECT E.Event_name 
-    FROM T_Event E
-    LEFT JOIN T_Event_Cancellation EC ON E.Event_id = EC.Event_id
-    WHERE EC.Event_id IS NULL
-    ;";
+    $sql = "SELECT Member_name FROM T_Member;";
 
     $result = $connect_db->query($sql);
     if($result->num_rows <= 0) {
@@ -24,7 +20,7 @@ if(isset($_GET['searchBarList']) && $_GET['searchBarList'] == 1) {
 
     $data = array();
     while($row = $result->fetch_assoc()) {
-        $data[] = $row["Event_name"];
+        $data[] = $row["Member_name"];
     }
     $json_response = json_encode($data);
 

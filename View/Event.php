@@ -98,8 +98,8 @@
 
 		#myPieChart,
 		#myBarChart {
-			width: 700px;
-			height: 700px;
+			width: 500px;
+			height: 500px;
 		}
 	</style>
 
@@ -290,20 +290,44 @@
 			action="<?php echo $_SERVER["PHP_SELF"]; ?>"
 			method="POST">
 			<section class="inner-page">
+
 				<div class="container">
 					<?php if($_SESSION['role'] == "Staff") { ?>
 					<!-- BEGIN STATISTICS -->
-					<div class="row">
-						<div class="grid search">
-							<h2><strong><i class="fa-solid fa-square-poll-vertical"></i> STATISTICS</strong></h2>
-							<div class="col-md-9">
-								<canvas id="myBarChart"></canvas>
-							</div>
-							<div class="col-md-3">
-								<canvas id="myPieChart"></canvas>
+					<div class="grid search">
+						<div class="grid-body">
+							<h2 class="mb-3"><strong><i class="fa-solid fa-square-poll-vertical"></i> STATISTICS</strong></h2>
+							<hr />
+							<div class="row mt-2">
+								<div class="col-md-8">
+									<div class="grid search bg-light shadow">
+										<div class="grid-body">
+											<div class="row">
+												<div class="col-md">
+													<canvas id="myBarChart"></canvas>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="grid search bg-light shadow">
+										<div class="grid-body">
+											<div class="row">
+												<div class="col-md">
+													<canvas id="myPieChart"></canvas>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
+
+
+
 					<!-- END STATISTICS -->
 					<?php } ?>
 					<div class="row">
@@ -460,8 +484,6 @@
 											</p>
 
 											<!-- BEGIN DISPLAY MODE -->
-
-
 											<div class="row">
 												<div class="col-md text-left">
 													<div class="btn-group">
@@ -825,7 +847,7 @@
 			title: {
 				display: true,
 				text: 'Booking Percentage by Event Type',
-				fontSize: 13,
+				fontSize: 20,
 				fontColor: '#333',
 				fontStyle: 'bold',
 				padding: 20
@@ -841,7 +863,7 @@
 						var currentValue = dataset.data[tooltipItem.index];
 						var percentage = parseFloat(((currentValue / total) * 100).toFixed(2));
 						return data.labels[tooltipItem.index] + ' (' + percentageData[tooltipItem.index] +
-						'%)';
+							'%)';
 					}
 				}
 			}
@@ -885,7 +907,7 @@
 
 	var ctx = document.getElementById('myBarChart').getContext('2d');
 	var myBarChart = new Chart(ctx, {
-		type: 'bar',
+		type: 'line',
 		data: {
 			labels: labelForBarChart,
 			datasets: [{
@@ -912,7 +934,7 @@
 			title: {
 				display: true,
 				text: 'Number of Bookings Per Month',
-				fontSize: 16
+				fontSize: 20
 			}
 		}
 	});

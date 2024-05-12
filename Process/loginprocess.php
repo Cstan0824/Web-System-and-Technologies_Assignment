@@ -37,10 +37,6 @@ if (isset($_POST['user']) && isset($_POST['pass'])) {
             if ($row_member['Member_id'] === $memberid && $row_member['Member_password'] === $password) {
                 $_SESSION['role'] = $role;
                 $_SESSION['Member_id'] = $row_member['Member_id'];
-                if (!empty($_POST['signedin'])) {
-                    // Set cookie for "keep me signed in"
-                    setcookie('signedinAs'. $role. '', $row_member['Member_id'], time() + (7 * 24 * 60 * 60), '/');
-                }
                 header("Location: ../View/Home.php");
                 exit();
             } else {
@@ -52,10 +48,6 @@ if (isset($_POST['user']) && isset($_POST['pass'])) {
             if ($row_staff['Staff_id'] === $memberid && $row_staff['Staff_password'] === $password) {
                 $_SESSION['role'] = $role;
                 $_SESSION['Staff_id'] = $row_staff['Staff_id'];
-                if (!empty($_POST['signedin'])) {
-                    // Set cookie for "keep me signed in"
-                    setcookie('signedinAs'. $role. '', $_SESSION['Staff_id'], time() + (7 * 24 * 60 * 60), '/');
-                }
                 header("Location: ../View/Home.php");
                 exit();
             } else {
