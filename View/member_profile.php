@@ -164,8 +164,8 @@
 									<a href="#" class="position-relative" onclick="openImageUploader();"
 										data-bs-content="Click to change Profile Picture." title="Profile Picture"
 										data-bs-placement="right" data-bs-toggle="popover" data-bs-trigger="hover">
-										<img src="<?php echo $_SESSION['user_pic_path'] ?? "../Image/profile_picture/Default-ProfilePicture.jpg" ?>"
-											alt="<?php echo $_SESSION['user_pic_file_name'] ?? "default"; ?>" />
+										<img src="<?php echo $member_details['Member_upl_path'] ?? "../Image/profile_picture/Default-ProfilePicture.jpg" ?>"
+											alt="<?php echo $member_details['Member_upl_file_name'] ?? "default"; ?>" />
 									</a>
 
 

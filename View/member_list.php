@@ -174,14 +174,6 @@
 										<div class="col-md">
 											<div class="d-flex justify-content-between align-items-center">
 												<h2><i class="fa-solid fa-book"></i> Member List</h2>
-												<?php if($_SESSION['role'] == "Staff") {?>
-												<a data-bs-trigger="hover" data-bs-content="Click me to add Member"
-													data-bs-placement="top" data-bs-toggle="popover" title="Add Events"
-													href="add_member.php">
-													<i class="fa-solid fa-user-plus"
-														style="color: #74C0FC;font-size:2.3em;"></i>
-												</a>
-												<?php } ?>
 
 											</div>
 
@@ -271,7 +263,6 @@
 															<th class="rate text-right text-info">Name</th>
 															<th class="text-info">Email</th>
 															<th class="text-info">Join Date</th>
-															<th class='number'></th>
 															<th class='number'></th>
 														</tr>
 													</thead>
