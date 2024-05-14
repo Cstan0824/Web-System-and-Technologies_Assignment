@@ -29,7 +29,7 @@ if (isset($_POST['user']) && isset($_POST['name']) && isset($_POST['pass']) && i
         $_SESSION['error'] = "Member ID is required";
         header("Location: ../View/login_signup.php");
         exit();
-    }else if (empty($name)) {
+    } elseif (empty($name)) {
         $_SESSION['error'] = "Name is required";
         header("Location: ../View/login_signup.php");
         exit();
@@ -64,7 +64,6 @@ if (isset($_POST['user']) && isset($_POST['name']) && isset($_POST['pass']) && i
                 session_destroy();
                 echo "<script>alert('Registration successful');</script>";
                 echo "<script>window.location.href='../View/login_signup.php';</script>";
-                include("../Process/pushbooking_notification.php");
             } else {
                 $_SESSION['error'] = "Error: " . $sql . "<br>" . mysqli_error($conn);
                 session_destroy();

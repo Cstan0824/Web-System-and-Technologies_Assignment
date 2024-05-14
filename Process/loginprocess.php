@@ -1,10 +1,12 @@
 <?php
+
 session_start();
 include('../Root/connect-db.php');
 
 if (isset($_POST['user']) && isset($_POST['pass'])) {
 
-    function validate($data) {
+    function validate($data)
+    {
         $data = trim($data);
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
@@ -37,6 +39,7 @@ if (isset($_POST['user']) && isset($_POST['pass'])) {
             if ($row_member['Member_id'] === $memberid && $row_member['Member_password'] === $password) {
                 $_SESSION['role'] = $role;
                 $_SESSION['Member_id'] = $row_member['Member_id'];
+                include("../Process/pushupcomingevent_notification.php");
                 header("Location: ../View/Home.php");
                 exit();
             } else {
@@ -48,6 +51,7 @@ if (isset($_POST['user']) && isset($_POST['pass'])) {
             if ($row_staff['Staff_id'] === $memberid && $row_staff['Staff_password'] === $password) {
                 $_SESSION['role'] = $role;
                 $_SESSION['Staff_id'] = $row_staff['Staff_id'];
+                include("../Process/pushupcomingevent_notification.php");
                 header("Location: ../View/Home.php");
                 exit();
             } else {
@@ -65,4 +69,3 @@ if (isset($_POST['user']) && isset($_POST['pass'])) {
     header("Location: ../View/login_signup.php");
     exit();
 }
-

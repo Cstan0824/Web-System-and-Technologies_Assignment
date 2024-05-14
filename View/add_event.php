@@ -81,7 +81,7 @@
 
 								<div class="swiper-slide">
 									<img class="rounded" id="event-pic"
-										src="..\Image\HD-wallpaper-film-making-film-making.jpg" alt="photo">
+										src="../Image/event_picture/Default-EventPicture.jpg" alt="photo">
 									<!-- Add an empty <img> tag to display the uploaded image preview -->
 									<img class="rounded" id="imagePreview" src="#" alt="Uploaded Image"
 										style="display: none;">
@@ -140,8 +140,8 @@
 								<!-- Hoster -->
 								<div class="input-group my-4">
 									<span class="input-group-text">Hoster</span>
-									<input type="text" class="form-control" placeholder="Hoster" id="eventHoster" name="eventHoster"
-										type="text" required>
+									<input type="text" class="form-control" placeholder="Hoster" id="eventHoster"
+										name="eventHoster" type="text" required>
 								</div>
 
 								<!-- Start Time -->
@@ -159,19 +159,18 @@
 								<!-- Max User -->
 								<div class="input-group my-4">
 									<span class="input-group-text">Max User</span>
-									<input class="form-control" type="number" name="maxUser" id="maxUser" value="1" required
-										minlength="1" maxlength="60" />
+									<input class="form-control" type="number" name="maxUser" id="maxUser" value="1"
+										required minlength="1" maxlength="60" />
 								</div>
 								<div class="input-group my-4">
 									<span class="input-group-text">Photo</span>
 									<input type="file" name="eventPic" id="eventPic" onchange="previewImage(event)"
 										class="form-control">
 								</div>
-								<input type="hidden" name="eventUplFileName"
-									value="HD-wallpaper-film-making-film-making.jpg">
+								<input type="hidden" name="eventUplFileName" value="Default-EventPicture">
 								<!-- default image -->
-								<input type="hidden" name="eventUplPath"
-									value="../Image/HD-wallpaper-film-making-film-making.jpg">
+								<input type="hidden" name="eventUplPath" value="../Image/event_picture/Default-EventPicture.jpg
+									">
 								<input type="hidden" name="actionType" value="addEvent">
 						</div>
 					</div>
@@ -257,15 +256,15 @@
 			event.preventDefault();
 		}
 		if (eventNameInput.length == 0 || eventNameInput.length > 50) {
-			event.preventDefault(); 
+			event.preventDefault();
 			alert('Event name must be between 3 and 50 characters.');
 		}
 		if (eventHoster.length == 3 || eventHoster.length > 50) {
-			event.preventDefault(); 
+			event.preventDefault();
 			alert('Hoster name must be between 1 and 50 characters.');
 		}
 		if (maxUser == 0 || maxUser > 60) {
-			event.preventDefault(); 
+			event.preventDefault();
 			alert('Max user must be between 1 and 60.');
 		}
 		//validation for date where date must be greater than or equal to current date

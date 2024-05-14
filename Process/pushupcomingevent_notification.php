@@ -35,6 +35,7 @@ require '../PhpMailSender/src/SMTP.php';
 // Create a new PHPMailer instance
 $mail = new PHPMailer(true);
 
+
 if(count($eventDetails) > 0 && !empty($eventDetails)) {
     try {
         // SMTP configuration
